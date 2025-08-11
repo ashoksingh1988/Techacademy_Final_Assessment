@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Selenium Web Automation Regression Test Suite" verbose="1">
+    
+    <parameter name="browser" value="chrome"/>
+    <parameter name="headless" value="false"/>
+    <parameter name="baseUrl" value="https://www.saucedemo.com"/>
+    <parameter name="username" value="standard_user"/>
+    <parameter name="password" value="secret_sauce"/>
+    <parameter name="invalidUsername" value="invalid_user"/>
+    <parameter name="invalidPassword" value="invalid_password"/>
+    
+    <listeners>
+        <listener class-name="com.selenium.listeners.TestExecutionListener"/>
+    </listeners>
+    
+    <test name="Complete SauceDemo Tests" preserve-order="true">
+        <parameter name="browser" value="chrome"/>
+        <parameter name="headless" value="false"/>
+        <parameter name="baseUrl" value="https://www.saucedemo.com"/>
+        <parameter name="username" value="standard_user"/>
+        <parameter name="password" value="secret_sauce"/>
+        <parameter name="invalidUsername" value="invalid_user"/>
+        <parameter name="invalidPassword" value="invalid_password"/>
+        
+        <classes>
+            <class name="com.selenium.tests.SauceDemoTests"/>
+        </classes>
+    </test>
+    
+</suite>

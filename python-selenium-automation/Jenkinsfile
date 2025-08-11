@@ -1,0 +1,427 @@
+pipeline {
+    agent any
+    
+    environment {
+        PYTHON_VERSION = '3.9'
+        SELENIUM_HUB = 'http://localhost:4444'
+        BROWSER = 'chrome'
+        HEADLESS = 'true'
+        PYTHONPATH = "${WORKSPACE}/python-selenium-automation"
+    }
+    
+    parameters {
+        choice(
+            name: 'TEST_SUITE',
+            choices: ['smoke', 'regression', 'cross_browser', 'api'],
+            description: 'Select test suite to execute'
+        )
+        choice(
+            name: 'BROWSER_TYPE',
+            choices: ['chrome', 'firefox', 'edge', 'safari'],
+            description: 'Select browser for testing'
+        )
+        choice(
+            name: 'ENVIRONMENT',
+            choices: ['qa', 'staging', 'production'],
+            description: 'Select environment for testing'
+        )
+        booleanParam(
+            name: 'HEADLESS_MODE',
+            defaultValue: true,
+            description: 'Run tests in headless mode'
+        )
+        booleanParam(
+            name: 'PARALLEL_EXECUTION',
+            defaultValue: false,
+            description: 'Enable parallel test execution'
+        )
+        string(
+            name: 'PYTEST_MARKERS',
+            defaultValue: '',
+            description: 'Pytest markers to filter tests (e.g., "smoke and not slow")'
+        )
+    }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Checking out source code...'
+                checkout scm
+            }
+        }
+        
+        stage('Environment Setup') {
+            steps {
+                echo 'Setting up Python environment...'
+                script {
+                    sh '''
+                        # Create virtual environment
+                        python3 -m venv venv
+                        source venv/bin/activate
+                        
+                        # Upgrade pip
+                        pip install --upgrade pip
+                        
+                        # Install dependencies
+                        cd python-selenium-automation
+                        pip install -r requirements.txt
+                        
+                        # Install additional CI dependencies
+                        pip install pytest-html pytest-xdist pytest-cov allure-pytest
+                        
+                        # Setup WebDrivers
+                        mkdir -p drivers
+                        
+                        # Download ChromeDriver
+                        wget -O drivers/chromedriver.zip https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip
+                        unzip -o drivers/chromedriver.zip -d drivers/
+                        chmod +x drivers/chromedriver
+                        
+                        # Download GeckoDriver
+                        wget -O drivers/geckodriver.tar.gz https://github.com/mozilla/geckodriver/releases/download/v0.33.0/geckodriver-v0.33.0-linux64.tar.gz
+                        tar -xzf drivers/geckodriver.tar.gz -C drivers/
+                        chmod +x drivers/geckodriver
+                    '''
+                }
+            }
+        }
+        
+        stage('Code Quality') {
+            parallel {
+                stage('Linting') {
+                    steps {
+                        echo 'Running code linting...'
+                        script {
+                            sh '''
+                                source venv/bin/activate
+                                cd python-selenium-automation
+                                
+                                # Install linting tools
+                                pip install flake8 pylint black isort
+                                
+                                # Run flake8
+                                flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+                                
+                                # Run pylint
+                                pylint --exit-zero **/*.py > pylint-report.txt
+                                
+                                # Check code formatting
+                                black --check .
+                                isort --check-only .
+                            '''
+                        }
+                    }
+                    post {
+                        always {
+                            archiveArtifacts artifacts: 'python-selenium-automation/pylint-report.txt', allowEmptyArchive: true
+                        }
+                    }
+                }
+                
+                stage('Security Scan') {
+                    steps {
+                        echo 'Running security scan...'
+                        script {
+                            sh '''
+                                source venv/bin/activate
+                                cd python-selenium-automation
+                                
+                                # Install security tools
+                                pip install bandit safety
+                                
+                                # Run bandit security scan
+                                bandit -r . -f json -o bandit-report.json || true
+                                
+                                # Check for known security vulnerabilities
+                                safety check --json --output safety-report.json || true
+                            '''
+                        }
+                    }
+                    post {
+                        always {
+                            archiveArtifacts artifacts: 'python-selenium-automation/*-report.json', allowEmptyArchive: true
+                        }
+                    }
+                }
+            }
+        }
+        
+        stage('Unit Tests') {
+            steps {
+                echo 'Running unit tests...'
+                script {
+                    sh '''
+                        source venv/bin/activate
+                        cd python-selenium-automation
+                        
+                        # Run unit tests with coverage
+                        pytest tests/unit/ -v \
+                            --cov=. \
+                            --cov-report=html:reports/coverage \
+                            --cov-report=xml:reports/coverage.xml \
+                            --junit-xml=reports/unit-tests.xml \
+                            --html=reports/unit-tests.html \
+                            --self-contained-html
+                    '''
+                }
+            }
+            post {
+                always {
+                    publishTestResults testResultsPattern: 'python-selenium-automation/reports/unit-tests.xml'
+                    publishHTML([
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'python-selenium-automation/reports',
+                        reportFiles: 'unit-tests.html',
+                        reportName: 'Unit Test Report'
+                    ])
+                }
+            }
+        }
+        
+        stage('Integration Tests') {
+            steps {
+                echo "Running ${params.TEST_SUITE} tests on ${params.BROWSER_TYPE}..."
+                script {
+                    def markerFilter = params.PYTEST_MARKERS ? "-m '${params.PYTEST_MARKERS}'" : ""
+                    def parallelFlag = params.PARALLEL_EXECUTION ? "-n auto" : ""
+                    
+                    sh """
+                        source venv/bin/activate
+                        cd python-selenium-automation
+                        
+                        # Set environment variables
+                        export BROWSER=${params.BROWSER_TYPE}
+                        export HEADLESS=${params.HEADLESS_MODE}
+                        export ENVIRONMENT=${params.ENVIRONMENT}
+                        export WEBDRIVER_CHROME_DRIVER=../drivers/chromedriver
+                        export WEBDRIVER_GECKO_DRIVER=../drivers/geckodriver
+                        
+                        # Run integration tests
+                        pytest tests/${params.TEST_SUITE}/ -v \
+                            ${markerFilter} \
+                            ${parallelFlag} \
+                            --allure-dir=reports/allure-results \
+                            --junit-xml=reports/integration-tests.xml \
+                            --html=reports/integration-tests.html \
+                            --self-contained-html \
+                            --capture=no
+                    """
+                }
+            }
+            post {
+                always {
+                    publishTestResults testResultsPattern: 'python-selenium-automation/reports/integration-tests.xml'
+                    archiveArtifacts artifacts: 'python-selenium-automation/screenshots/**/*', allowEmptyArchive: true
+                    archiveArtifacts artifacts: 'python-selenium-automation/reports/**/*', allowEmptyArchive: true
+                }
+            }
+        }
+        
+        stage('Cross-Browser Testing') {
+            when {
+                expression { params.TEST_SUITE == 'cross_browser' }
+            }
+            parallel {
+                stage('Chrome Tests') {
+                    steps {
+                        script {
+                            sh '''
+                                source venv/bin/activate
+                                cd python-selenium-automation
+                                export BROWSER=chrome
+                                export HEADLESS=true
+                                pytest tests/smoke/ -v --junit-xml=reports/chrome-tests.xml
+                            '''
+                        }
+                    }
+                }
+                stage('Firefox Tests') {
+                    steps {
+                        script {
+                            sh '''
+                                source venv/bin/activate
+                                cd python-selenium-automation
+                                export BROWSER=firefox
+                                export HEADLESS=true
+                                pytest tests/smoke/ -v --junit-xml=reports/firefox-tests.xml
+                            '''
+                        }
+                    }
+                }
+            }
+        }
+        
+        stage('API Tests') {
+            when {
+                expression { params.TEST_SUITE == 'api' || params.TEST_SUITE == 'regression' }
+            }
+            steps {
+                echo 'Running API tests...'
+                script {
+                    sh '''
+                        source venv/bin/activate
+                        cd python-selenium-automation
+                        
+                        # Run API tests
+                        pytest tests/api/ -v \
+                            --junit-xml=reports/api-tests.xml \
+                            --html=reports/api-tests.html \
+                            --self-contained-html
+                    '''
+                }
+            }
+        }
+        
+        stage('Performance Tests') {
+            when {
+                expression { params.TEST_SUITE == 'regression' }
+            }
+            steps {
+                echo 'Running performance tests...'
+                script {
+                    sh '''
+                        source venv/bin/activate
+                        cd python-selenium-automation
+                        
+                        # Install performance testing tools
+                        pip install locust
+                        
+                        # Run performance tests
+                        pytest tests/performance/ -v \
+                            --junit-xml=reports/performance-tests.xml \
+                            --html=reports/performance-tests.html \
+                            --self-contained-html
+                    '''
+                }
+            }
+        }
+        
+        stage('Generate Reports') {
+            steps {
+                echo 'Generating comprehensive test reports...'
+                script {
+                    sh '''
+                        source venv/bin/activate
+                        cd python-selenium-automation
+                        
+                        # Generate Allure reports
+                        allure generate reports/allure-results -o reports/allure-report --clean
+                        
+                        # Generate coverage report
+                        coverage html -d reports/coverage-html
+                        coverage xml -o reports/coverage.xml
+                        
+                        # Combine all test results
+                        pytest-html-merger -i reports/ -o reports/combined-report.html
+                    '''
+                }
+            }
+            post {
+                always {
+                    publishHTML([
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'python-selenium-automation/reports',
+                        reportFiles: '*.html',
+                        reportName: 'Python Test Reports'
+                    ])
+                    
+                    // Publish coverage reports
+                    publishCoverage adapters: [
+                        coberturaAdapter('python-selenium-automation/reports/coverage.xml')
+                    ], sourceFileResolver: sourceFiles('STORE_LAST_BUILD')
+                }
+            }
+        }
+        
+        stage('Quality Gates') {
+            steps {
+                echo 'Checking quality gates...'
+                script {
+                    // Check test pass rate and coverage
+                    sh '''
+                        source venv/bin/activate
+                        cd python-selenium-automation
+                        
+                        # Check coverage threshold
+                        coverage report --fail-under=80
+                        
+                        # Check test results
+                        python -c "
+import xml.etree.ElementTree as ET
+import sys
+
+# Parse test results
+tree = ET.parse('reports/integration-tests.xml')
+root = tree.getroot()
+
+failures = int(root.get('failures', 0))
+errors = int(root.get('errors', 0))
+tests = int(root.get('tests', 0))
+
+if tests == 0:
+    print('No tests found')
+    sys.exit(1)
+
+pass_rate = ((tests - failures - errors) / tests) * 100
+print(f'Pass rate: {pass_rate:.2f}%')
+
+if pass_rate < 95:
+    print('Pass rate below threshold (95%)')
+    sys.exit(1)
+"
+                    '''
+                }
+            }
+        }
+        
+        stage('Notification') {
+            steps {
+                echo 'Sending notifications...'
+                script {
+                    emailext (
+                        subject: "Python Selenium Test Execution - ${currentBuild.currentResult}",
+                        body: """
+                            <h2>Python Web Automation Test Results</h2>
+                            <p><strong>Build:</strong> ${env.BUILD_NUMBER}</p>
+                            <p><strong>Status:</strong> ${currentBuild.currentResult}</p>
+                            <p><strong>Test Suite:</strong> ${params.TEST_SUITE}</p>
+                            <p><strong>Browser:</strong> ${params.BROWSER_TYPE}</p>
+                            <p><strong>Environment:</strong> ${params.ENVIRONMENT}</p>
+                            <p><strong>Reports:</strong> <a href="${env.BUILD_URL}Python_Test_Reports/">View Reports</a></p>
+                        """,
+                        mimeType: 'text/html',
+                        to: 'asim.kumar.singh@company.com'
+                    )
+                }
+            }
+        }
+    }
+    
+    post {
+        always {
+            echo 'Cleaning up workspace...'
+            sh '''
+                # Deactivate virtual environment
+                deactivate || true
+                
+                # Clean up driver files
+                rm -rf drivers/
+                rm -rf venv/
+            '''
+            cleanWs()
+        }
+        success {
+            echo 'Python Selenium pipeline executed successfully!'
+        }
+        failure {
+            echo 'Python Selenium pipeline failed. Check logs for details.'
+        }
+        unstable {
+            echo 'Python Selenium pipeline completed with test failures.'
+        }
+    }
+}

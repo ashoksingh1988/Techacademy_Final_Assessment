@@ -1,0 +1,206 @@
+{
+  "calculator": {
+    "basic_operations": [
+      {
+        "operation": "addition",
+        "firstNumber": "5",
+        "secondNumber": "3",
+        "expectedResult": "8",
+        "description": "Simple addition test"
+      },
+      {
+        "operation": "subtraction",
+        "firstNumber": "10",
+        "secondNumber": "4",
+        "expectedResult": "6",
+        "description": "Simple subtraction test"
+      },
+      {
+        "operation": "multiplication",
+        "firstNumber": "7",
+        "secondNumber": "8",
+        "expectedResult": "56",
+        "description": "Simple multiplication test"
+      },
+      {
+        "operation": "division",
+        "firstNumber": "20",
+        "secondNumber": "4",
+        "expectedResult": "5",
+        "description": "Simple division test"
+      }
+    ],
+    "advanced_operations": [
+      {
+        "operation": "addition",
+        "firstNumber": "123.45",
+        "secondNumber": "67.89",
+        "expectedResult": "191.34",
+        "description": "Decimal addition test"
+      },
+      {
+        "operation": "multiplication",
+        "firstNumber": "12",
+        "secondNumber": "0",
+        "expectedResult": "0",
+        "description": "Multiplication by zero"
+      },
+      {
+        "operation": "division",
+        "firstNumber": "100",
+        "secondNumber": "3",
+        "expectedResult": "33.333333333",
+        "description": "Division with repeating decimal"
+      }
+    ],
+    "edge_cases": [
+      {
+        "operation": "addition",
+        "firstNumber": "999999999",
+        "secondNumber": "1",
+        "expectedResult": "1000000000",
+        "description": "Large number addition"
+      },
+      {
+        "operation": "subtraction",
+        "firstNumber": "0",
+        "secondNumber": "5",
+        "expectedResult": "-5",
+        "description": "Negative result subtraction"
+      }
+    ]
+  },
+  "settings": {
+    "navigation_tests": [
+      {
+        "settingName": "Wi-Fi",
+        "expectedActivity": "wifi",
+        "description": "Navigate to Wi-Fi settings"
+      },
+      {
+        "settingName": "Bluetooth",
+        "expectedActivity": "bluetooth",
+        "description": "Navigate to Bluetooth settings"
+      },
+      {
+        "settingName": "Display",
+        "expectedActivity": "display",
+        "description": "Navigate to Display settings"
+      },
+      {
+        "settingName": "Sound",
+        "expectedActivity": "sound",
+        "description": "Navigate to Sound settings"
+      },
+      {
+        "settingName": "Apps",
+        "expectedActivity": "app",
+        "description": "Navigate to Apps settings"
+      },
+      {
+        "settingName": "Storage",
+        "expectedActivity": "storage",
+        "description": "Navigate to Storage settings"
+      },
+      {
+        "settingName": "Security",
+        "expectedActivity": "security",
+        "description": "Navigate to Security settings"
+      },
+      {
+        "settingName": "System",
+        "expectedActivity": "system",
+        "description": "Navigate to System settings"
+      }
+    ],
+    "search_tests": [
+      {
+        "searchTerm": "Wi-Fi",
+        "expectedResults": ["Wi-Fi", "Network", "Internet"],
+        "description": "Search for Wi-Fi related settings"
+      },
+      {
+        "searchTerm": "Bluetooth",
+        "expectedResults": ["Bluetooth", "Connected devices"],
+        "description": "Search for Bluetooth related settings"
+      },
+      {
+        "searchTerm": "Display",
+        "expectedResults": ["Display", "Brightness", "Screen"],
+        "description": "Search for Display related settings"
+      }
+    ]
+  },
+  "common": {
+    "test_users": [
+      {
+        "username": "testuser@automation.com",
+        "password": "Test@123456",
+        "firstName": "Test",
+        "lastName": "User",
+        "phoneNumber": "+1234567890",
+        "role": "standard_user"
+      },
+      {
+        "username": "admin@automation.com",
+        "password": "Admin@123456",
+        "firstName": "Admin",
+        "lastName": "User",
+        "phoneNumber": "+0987654321",
+        "role": "admin_user"
+      }
+    ],
+    "sample_data": {
+      "texts": [
+        "Hello World",
+        "Test Automation Framework",
+        "Mobile Application Testing",
+        "Appium Android Automation",
+        "Quality Assurance Testing"
+      ],
+      "numbers": [
+        "123",
+        "456",
+        "789",
+        "0",
+        "999"
+      ],
+      "special_characters": [
+        "!@#$%^&*()",
+        "[]{}|;':\",./<>?",
+        "~`-_=+"
+      ]
+    },
+    "timeouts": {
+      "short": 5,
+      "medium": 15,
+      "long": 30,
+      "extended": 60
+    }
+  },
+  "validation": {
+    "error_messages": {
+      "invalid_input": "Invalid input provided",
+      "network_error": "Network connection error",
+      "timeout_error": "Operation timed out",
+      "permission_denied": "Permission denied"
+    },
+    "success_messages": {
+      "operation_completed": "Operation completed successfully",
+      "data_saved": "Data saved successfully",
+      "settings_updated": "Settings updated successfully"
+    }
+  },
+  "performance": {
+    "load_times": {
+      "app_launch": 5000,
+      "page_load": 3000,
+      "element_load": 1000
+    },
+    "thresholds": {
+      "response_time_ms": 2000,
+      "memory_usage_mb": 512,
+      "cpu_usage_percent": 80
+    }
+  }
+}

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Appium Android Regression Test Suite" verbose="1">
+    
+    <parameter name="deviceName" value="Android_Device"/>
+    <parameter name="platformVersion" value="11"/>
+    <parameter name="appPackage" value=""/>
+    <parameter name="appActivity" value=""/>
+
+    <listeners>
+        <listener class-name="com.appium.listeners.TestExecutionListener"/>
+    </listeners>
+
+    <test name="Calculator Application Regression Tests" preserve-order="true">
+        <parameter name="deviceName" value="Android_Device"/>
+        <parameter name="platformVersion" value="11"/>
+        <parameter name="appPackage" value="com.google.android.calculator"/>
+        <parameter name="appActivity" value="com.android.calculator2.Calculator"/>
+
+        <classes>
+            <class name="com.appium.tests.CalculatorTests">
+                <methods>
+                    <include name="testCalculatorPageLoad"/>
+                    <include name="testNumberInput"/>
+                    <include name="testBasicOperations"/>
+                    <include name="testClearFunctionality"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="ColorNote Application Regression Tests" preserve-order="true">
+        <parameter name="deviceName" value="Android_Device"/>
+        <parameter name="platformVersion" value="11"/>
+        <parameter name="appPackage" value="com.socialnmobile.dictapps.notepad.color.note"/>
+        <parameter name="appActivity" value="com.socialnmobile.colornote.activity.Main"/>
+
+        <classes>
+            <class name="com.appium.tests.ColorNoteTests">
+                <methods>
+                    <include name="testColorNotePageLoad"/>
+                    <include name="testCreateTextNote"/>
+                    <include name="testSearchFunctionality"/>
+                    <include name="testNotesVisibility"/>
+                    <include name="testNavigationElements"/>
+                    <include name="testAppFunctionality"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Files by Google Regression Tests" preserve-order="true">
+        <parameter name="deviceName" value="Android_Device"/>
+        <parameter name="platformVersion" value="11"/>
+        <parameter name="appPackage" value="com.google.android.apps.nbu.files"/>
+        <parameter name="appActivity" value=".home.HomeActivity"/>
+
+        <classes>
+            <class name="com.appium.tests.FilesTests">
+                <methods>
+                    <include name="testFilesPageLoad"/>
+                    <include name="testNavigateToDownloads"/>
+                    <include name="testNavigateToImages"/>
+                    <include name="testSearchFunctionality"/>
+                    <include name="testNavigateToClean"/>
+                    <include name="testStorageInfoVisibility"/>
+                    <include name="testNavigationElements"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Google Docs Regression Tests" preserve-order="true">
+        <parameter name="deviceName" value="Android_Device"/>
+        <parameter name="platformVersion" value="11"/>
+        <parameter name="appPackage" value="com.google.android.apps.docs.editors.docs"/>
+        <parameter name="appActivity" value=""/>
+
+        <classes>
+            <class name="com.appium.tests.GoogleDocsTests">
+                <methods>
+                    <include name="testGoogleDocsPageLoad"/>
+                    <include name="testCreateNewDocument"/>
+                    <include name="testSearchFunctionality"/>
+                    <include name="testNavigateToRecent"/>
+                    <include name="testDocumentsVisibility"/>
+                    <include name="testNavigationElements"/>
+                    <include name="testAppFunctionality"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+</suite>

@@ -1,0 +1,54 @@
+{
+  "devices": {
+    "oppoa54": {
+      "deviceName": "OPPOA54",
+      "platformName": "Android",
+      "platformVersion": "11",
+      "udid": "PZPVSC95GMKNGUBQ",
+      "automationName": "UiAutomator2",
+      "description": "OPPO A54 Test Device"
+    }
+  },
+  "applications": {
+    "google_calculator": {
+      "appPackage": "com.google.android.calculator",
+      "appActivity": "com.android.calculator2.Calculator",
+      "description": "Google Calculator App"
+    },
+    "colornote_notepad": {
+      "appPackage": "com.socialnmobile.dictapps.notepad.color.note",
+      "appActivity": "com.socialnmobile.colornote.activity.Main",
+      "description": "ColorNote Notepad App"
+    },
+    "files_by_google": {
+      "appPackage": "com.google.android.apps.nbu.files",
+      "appActivity": ".home.HomeActivity",
+      "description": "Files by Google App"
+    },
+    "google_docs": {
+      "appPackage": "com.google.android.apps.docs.editors.docs",
+      "description": "Google Docs App - Default Activity"
+    }
+  },
+  "device_app_combinations": {
+    "oppoa54_calculator": {
+      "appPackage": "com.google.android.calculator",
+      "appActivity": "com.android.calculator2.Calculator",
+      "description": "OPPOA54 Calculator App"
+    },
+    "oppoa54_colornote": {
+      "appPackage": "com.socialnmobile.dictapps.notepad.color.note",
+      "appActivity": "com.socialnmobile.colornote.activity.Main",
+      "description": "OPPOA54 ColorNote App"
+    },
+    "oppoa54_files": {
+      "appPackage": "com.google.android.apps.nbu.files",
+      "appActivity": ".home.HomeActivity",
+      "description": "OPPOA54 Files by Google App"
+    },
+    "oppoa54_docs": {
+      "appPackage": "com.google.android.apps.docs.editors.docs",
+      "description": "OPPOA54 Google Docs App - Default Activity"
+    }
+  }
+}

@@ -1,0 +1,382 @@
+name: Python Selenium Automation CI/CD
+# Author: Asim Kumar Singh
+# Framework: Python Selenium Automation
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths: [ 'python-selenium-automation/**' ]
+  pull_request:
+    branches: [ main ]
+    paths: [ 'python-selenium-automation/**' ]
+  schedule:
+    - cron: '0 3 * * *'  # Daily at 3 AM UTC
+  workflow_dispatch:
+    inputs:
+      test_suite:
+        description: 'Test suite to run'
+        required: true
+        default: 'smoke'
+        type: choice
+        options:
+          - smoke
+          - regression
+          - cross_browser
+          - api
+          - performance
+      browser:
+        description: 'Browser for testing'
+        required: true
+        default: 'chrome'
+        type: choice
+        options:
+          - chrome
+          - firefox
+          - edge
+      environment:
+        description: 'Environment to test'
+        required: true
+        default: 'qa'
+        type: choice
+        options:
+          - qa
+          - staging
+          - production
+      pytest_markers:
+        description: 'Pytest markers (e.g., "smoke and not slow")'
+        required: false
+        default: ''
+
+env:
+  PYTHON_VERSION: '3.9'
+
+jobs:
+  code-quality:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+      
+    - name: Set up Python ${{ env.PYTHON_VERSION }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+          
+    - name: Install dependencies
+      run: |
+        cd python-selenium-automation
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install flake8 pylint black isort bandit safety
+        
+    - name: Lint with flake8
+      run: |
+        cd python-selenium-automation
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+        
+    - name: Lint with pylint
+      run: |
+        cd python-selenium-automation
+        pylint --exit-zero **/*.py
+        
+    - name: Check code formatting
+      run: |
+        cd python-selenium-automation
+        black --check .
+        isort --check-only .
+        
+    - name: Security scan with bandit
+      run: |
+        cd python-selenium-automation
+        bandit -r . -f json -o bandit-report.json
+        
+    - name: Check for security vulnerabilities
+      run: |
+        cd python-selenium-automation
+        safety check
+        
+    - name: Upload security reports
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: security-reports
+        path: python-selenium-automation/bandit-report.json
+
+  unit-tests:
+    runs-on: ubuntu-latest
+    needs: code-quality
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+      
+    - name: Set up Python ${{ env.PYTHON_VERSION }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+          
+    - name: Install dependencies
+      run: |
+        cd python-selenium-automation
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest-html pytest-cov pytest-xdist
+        
+    - name: Run unit tests
+      run: |
+        cd python-selenium-automation
+        pytest tests/unit/ -v \
+          --cov=. \
+          --cov-report=html:reports/coverage \
+          --cov-report=xml:reports/coverage.xml \
+          --junit-xml=reports/unit-tests.xml \
+          --html=reports/unit-tests.html \
+          --self-contained-html
+          
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: python-selenium-automation/reports/coverage.xml
+        
+    - name: Upload unit test results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: unit-test-results
+        path: |
+          python-selenium-automation/reports/
+          
+    - name: Publish test results
+      if: always()
+      uses: dorny/test-reporter@v1
+      with:
+        name: Unit Tests
+        path: python-selenium-automation/reports/unit-tests.xml
+        reporter: java-junit
+
+  integration-tests:
+    runs-on: ubuntu-latest
+    needs: unit-tests
+    
+    strategy:
+      matrix:
+        browser: [chrome, firefox]
+        test-suite: [smoke, regression]
+        python-version: ['3.8', '3.9', '3.10']
+      fail-fast: false
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+      
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+        
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-${{ matrix.python-version }}-
+          
+    - name: Setup Chrome Browser
+      if: matrix.browser == 'chrome'
+      uses: browser-actions/setup-chrome@latest
+      
+    - name: Setup Firefox Browser
+      if: matrix.browser == 'firefox'
+      uses: browser-actions/setup-firefox@latest
+      
+    - name: Setup WebDrivers
+      run: |
+        # Setup ChromeDriver
+        sudo apt-get update
+        sudo apt-get install -y wget unzip
+        wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip
+        sudo unzip /tmp/chromedriver.zip -d /usr/local/bin/
+        sudo chmod +x /usr/local/bin/chromedriver
+        
+        # Setup GeckoDriver
+        wget -O /tmp/geckodriver.tar.gz https://github.com/mozilla/geckodriver/releases/download/v0.33.0/geckodriver-v0.33.0-linux64.tar.gz
+        sudo tar -xzf /tmp/geckodriver.tar.gz -C /usr/local/bin/
+        sudo chmod +x /usr/local/bin/geckodriver
+        
+    - name: Install dependencies
+      run: |
+        cd python-selenium-automation
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest-html pytest-xdist allure-pytest
+        
+    - name: Run integration tests
+      env:
+        BROWSER: ${{ matrix.browser }}
+        HEADLESS: true
+        ENVIRONMENT: qa
+      run: |
+        cd python-selenium-automation
+        TEST_SUITE=${{ matrix.test-suite }}
+        MARKERS="${{ github.event.inputs.pytest_markers }}"
+        
+        if [ "${{ github.event.inputs.test_suite }}" != "" ]; then
+          TEST_SUITE=${{ github.event.inputs.test_suite }}
+        fi
+        
+        MARKER_FLAG=""
+        if [ "$MARKERS" != "" ]; then
+          MARKER_FLAG="-m '$MARKERS'"
+        fi
+        
+        pytest tests/${TEST_SUITE}/ -v \
+          $MARKER_FLAG \
+          --allure-dir=reports/allure-results \
+          --junit-xml=reports/integration-tests-${{ matrix.browser }}-${{ matrix.test-suite }}.xml \
+          --html=reports/integration-tests-${{ matrix.browser }}-${{ matrix.test-suite }}.html \
+          --self-contained-html \
+          --capture=no
+          
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: integration-test-results-${{ matrix.browser }}-${{ matrix.test-suite }}-py${{ matrix.python-version }}
+        path: |
+          python-selenium-automation/reports/
+          python-selenium-automation/screenshots/
+          
+    - name: Publish test results
+      if: always()
+      uses: dorny/test-reporter@v1
+      with:
+        name: Integration Tests - ${{ matrix.browser }} - ${{ matrix.test-suite }} - Python ${{ matrix.python-version }}
+        path: python-selenium-automation/reports/integration-tests-*.xml
+        reporter: java-junit
+
+  api-tests:
+    runs-on: ubuntu-latest
+    needs: unit-tests
+    if: github.event.inputs.test_suite == 'api' || github.event.inputs.test_suite == 'regression' || github.event_name == 'schedule'
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+      
+    - name: Set up Python ${{ env.PYTHON_VERSION }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        
+    - name: Install dependencies
+      run: |
+        cd python-selenium-automation
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest-html requests
+        
+    - name: Run API tests
+      run: |
+        cd python-selenium-automation
+        pytest tests/api/ -v \
+          --junit-xml=reports/api-tests.xml \
+          --html=reports/api-tests.html \
+          --self-contained-html
+          
+    - name: Upload API test results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: api-test-results
+        path: python-selenium-automation/reports/
+
+  performance-tests:
+    runs-on: ubuntu-latest
+    needs: integration-tests
+    if: github.event.inputs.test_suite == 'performance' || github.event_name == 'schedule'
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+      
+    - name: Set up Python ${{ env.PYTHON_VERSION }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        
+    - name: Setup Chrome Browser
+      uses: browser-actions/setup-chrome@latest
+      
+    - name: Install dependencies
+      run: |
+        cd python-selenium-automation
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install locust pytest-benchmark
+        
+    - name: Run performance tests
+      run: |
+        cd python-selenium-automation
+        pytest tests/performance/ -v \
+          --benchmark-json=reports/benchmark.json \
+          --junit-xml=reports/performance-tests.xml \
+          --html=reports/performance-tests.html \
+          --self-contained-html
+          
+    - name: Upload performance results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: performance-test-results
+        path: python-selenium-automation/reports/
+
+  deploy-reports:
+    needs: [integration-tests, api-tests, performance-tests]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+    - name: Download All Artifacts
+      uses: actions/download-artifact@v3
+      with:
+        path: ./artifacts
+        
+    - name: Generate Allure Report
+      uses: simple-elf/allure-report-action@master
+      if: always()
+      with:
+        allure_results: artifacts/*/allure-results
+        allure_history: allure-history
+        
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: allure-history
+        destination_dir: python-reports/${{ github.run_number }}
+        
+    - name: Slack Notification
+      if: always()
+      uses: 8398a7/action-slack@v3
+      with:
+        status: ${{ job.status }}
+        channel: '#python-automation'
+        webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+        fields: repo,message,commit,author,action,eventName,ref,workflow

@@ -1,0 +1,146 @@
+name: Mobile Automation CI/CD Pipeline
+# Author: Asim Kumar Singh
+# Purpose: GitHub Actions workflow for automated testing
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Run tests daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      test_suite:
+        description: 'Test suite to run'
+        required: true
+        default: 'smoke-tests'
+        type: choice
+        options:
+          - smoke-tests
+          - regression-tests
+          - all-tests
+      device_name:
+        description: 'Device name for testing'
+        required: false
+        default: 'Android_Device'
+
+env:
+  JAVA_VERSION: '11'
+  MAVEN_VERSION: '3.8.6'
+  APPIUM_VERSION: '2.0.0'
+  NODE_VERSION: '18'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        test-suite: [smoke-tests, regression-tests]
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+      
+    - name: Set up JDK ${{ env.JAVA_VERSION }}
+      uses: actions/setup-java@v3
+      with:
+        java-version: ${{ env.JAVA_VERSION }}
+        distribution: 'temurin'
+        
+    - name: Set up Node.js ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        
+    - name: Cache Maven Dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+        
+    - name: Install Appium
+      run: |
+        npm install -g appium@${{ env.APPIUM_VERSION }}
+        npm install -g appium-doctor
+        appium driver install uiautomator2
+        
+    - name: Start Appium Server
+      run: |
+        appium --port 4723 --log-level info &
+        sleep 10
+        curl -f http://localhost:4723/status
+        
+    - name: Build Project
+      run: |
+        cd java-appium-automation
+        mvn clean compile
+        
+    - name: Run Tests
+      run: |
+        cd java-appium-automation
+        TEST_SUITE=${{ matrix.test-suite }}
+        if [ "${{ github.event.inputs.test_suite }}" != "" ]; then
+          TEST_SUITE=${{ github.event.inputs.test_suite }}
+        fi
+        mvn test -Dsurefire.suiteXmlFiles=src/test/resources/suites/${TEST_SUITE}.xml
+        
+    - name: Generate Test Report
+      if: always()
+      run: |
+        cd java-appium-automation
+        mvn surefire-report:report
+        
+    - name: Upload Test Results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results-${{ matrix.test-suite }}
+        path: |
+          java-appium-automation/target/surefire-reports/
+          java-appium-automation/reports/
+          java-appium-automation/screenshots/
+          
+    - name: Publish Test Results
+      if: always()
+      uses: dorny/test-reporter@v1
+      with:
+        name: Mobile Tests - ${{ matrix.test-suite }}
+        path: java-appium-automation/target/surefire-reports/TEST-*.xml
+        reporter: java-junit
+        
+    - name: Upload Coverage Reports
+      if: always()
+      uses: codecov/codecov-action@v3
+      with:
+        file: java-appium-automation/target/site/jacoco/jacoco.xml
+        
+    - name: Slack Notification
+      if: always()
+      uses: 8398a7/action-slack@v3
+      with:
+        status: ${{ job.status }}
+        channel: '#automation-results'
+        webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+        fields: repo,message,commit,author,action,eventName,ref,workflow
+        
+  deploy-reports:
+    needs: test
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+    - name: Download Test Artifacts
+      uses: actions/download-artifact@v3
+      with:
+        path: ./artifacts
+        
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./artifacts
+        destination_dir: test-reports/${{ github.run_number }}
