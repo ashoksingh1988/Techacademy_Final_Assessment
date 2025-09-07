@@ -109,15 +109,14 @@ pipeline {
             }
             post {
                 always {
-                    node {
-                        echo 'Cleaning up workspace...'
-                        sh 'rm -rf drivers/'
-                        cleanWs()
-                    }
+                    echo 'Cleaning up workspace...'
+                    sh 'rm -rf drivers/'
+                    cleanWs()
+
                     dir('java-selenium-automation') {
                         // Archive test results
                         archiveArtifacts artifacts: 'target/surefire-reports/**/*', allowEmptyArchive: true
-                        publishTestResults testResultsPattern: 'target/surefire-reports/TEST-*.xml'
+                        junit testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true
 
                         // Archive screenshots
                         archiveArtifacts artifacts: 'screenshots/**/*', allowEmptyArchive: true
