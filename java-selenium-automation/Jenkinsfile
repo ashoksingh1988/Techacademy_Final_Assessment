@@ -9,7 +9,10 @@ pipeline {
         BROWSER = 'chrome'
         HEADLESS = 'true'
     }
-    
+	tools {
+    		maven 'Maven_3.9.11'
+    		jdk 'JDK11'
+	}
     parameters {
         choice(
             name: 'TEST_SUITE',
@@ -236,11 +239,6 @@ pipeline {
         }
     }
 
-	tools {
-    		maven 'Maven_3.9.11'
-    		jdk 'JDK11'
-	}
-    
    post {
     always {
         node {
@@ -266,5 +264,6 @@ pipeline {
     unstable {
         echo 'Selenium pipeline completed with test failures.'
     }
+}
 }
 }
