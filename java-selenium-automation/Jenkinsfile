@@ -2,17 +2,14 @@ pipeline {
     agent any
     
     environment {
-        MAVEN_HOME = tool 'Maven_3.9.11'
+        MAVEN_HOME = tool 'Maven'
         JAVA_HOME = tool 'JDK11'
         PATH = "${MAVEN_HOME}/bin:${JAVA_HOME}/bin:${PATH}"
         SELENIUM_HUB = 'http://localhost:4444'
         BROWSER = 'chrome'
         HEADLESS = 'true'
     }
-	tools {
-    		maven 'Maven_3.9.11'
-    		jdk 'JDK11'
-	}
+    
     parameters {
         choice(
             name: 'TEST_SUITE',
@@ -110,7 +107,19 @@ pipeline {
                     }
                 }
             }
-    
+            post {
+                always {
+                    dir('java-selenium-automation') {
+                        // Archive test results
+                        archiveArtifacts artifacts: 'target/surefire-reports/**/*', allowEmptyArchive: true
+                        publishTestResults testResultsPattern: 'target/surefire-reports/TEST-*.xml'
+                        
+                        // Archive screenshots
+                        archiveArtifacts artifacts: 'screenshots/**/*', allowEmptyArchive: true
+                    }
+                }
+            }
+        }
         
         stage('Cross-Browser Testing') {
             when {
@@ -238,32 +247,22 @@ pipeline {
             }
         }
     }
-
-   post {
-    always {
-        node {
+    
+    post {
+        always {
             echo 'Cleaning up workspace...'
+            // Clean up driver files
             sh 'rm -rf drivers/'
             cleanWs()
         }
-        dir('java-selenium-automation') {
-            // Archive test results
-            archiveArtifacts artifacts: 'target/surefire-reports/**/*', allowEmptyArchive: true
-            publishTestResults testResultsPattern: 'target/surefire-reports/TEST-*.xml'
-
-            // Archive screenshots
-            archiveArtifacts artifacts: 'screenshots/**/*', allowEmptyArchive: true
+        success {
+            echo 'Selenium pipeline executed successfully!'
+        }
+        failure {
+            echo 'Selenium pipeline failed. Check logs for details.'
+        }
+        unstable {
+            echo 'Selenium pipeline completed with test failures.'
         }
     }
-    success {
-        echo 'Selenium pipeline executed successfully!'
-    }
-    failure {
-        echo 'Selenium pipeline failed. Check logs for details.'
-    }
-    unstable {
-        echo 'Selenium pipeline completed with test failures.'
-    }
-}
-}
 }
