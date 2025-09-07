@@ -267,3 +267,4 @@ pipeline {
         echo 'Selenium pipeline completed with test failures.'
     }
 }
+}
