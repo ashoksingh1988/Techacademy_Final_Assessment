@@ -3,8 +3,8 @@ pipeline {
     
     environment {
         MAVEN_HOME = tool 'Maven'
-        JAVA_HOME = tool 'JDK9'
-        PATH = "${MAVEN_HOME}/bin:${JAVA_HOME}/bin:${PATH}"
+        JAVA_HOME = tool 'JDK11'
+        PATH = "${MAVEN_HOME}/bin;${JAVA_HOME}/bin;${PATH}"
         SELENIUM_HUB = 'http://localhost:4444'
         BROWSER = 'chrome'
         HEADLESS = 'true'
@@ -48,24 +48,8 @@ pipeline {
         
         stage('Environment Setup') {
             steps {
-                echo 'Setting up Selenium environment...'
-                script {
-                    // Download and setup WebDriver binaries
-                    sh '''
-                        # Create drivers directory
-                        mkdir -p drivers
-                        
-                        # Download ChromeDriver
-                        wget -O drivers/chromedriver.zip https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip
-                        unzip -o drivers/chromedriver.zip -d drivers/
-                        chmod +x drivers/chromedriver
-                        
-                        # Download GeckoDriver for Firefox
-                        wget -O drivers/geckodriver.tar.gz https://github.com/mozilla/geckodriver/releases/download/v0.33.0/geckodriver-v0.33.0-linux64.tar.gz
-                        tar -xzf drivers/geckodriver.tar.gz -C drivers/
-                        chmod +x drivers/geckodriver
-                    '''
-                }
+                echo 'Setting up Selenium environment (Windows, WebDriverManager will handle drivers)...'
+                // No manual driver download needed because WebDriverManager is used in pom.xml
             }
         }
         
@@ -73,7 +57,8 @@ pipeline {
             steps {
                 echo 'Building the Selenium project...'
                 dir('java-selenium-automation') {
-                    sh 'mvn clean compile'
+                    bat 'mvn -v'
+                    bat 'mvn clean compile'
                 }
             }
         }
@@ -82,7 +67,7 @@ pipeline {
             steps {
                 echo 'Running unit tests...'
                 dir('java-selenium-automation') {
-                    sh 'mvn test -Dtest=*UnitTest'
+                    bat 'mvn test -Dtest=*UnitTest'
                 }
             }
         }
@@ -93,24 +78,21 @@ pipeline {
                 dir('java-selenium-automation') {
                     script {
                         def testSuite = params.TEST_SUITE
-                        def suiteFile = "src/test/resources/suites/${testSuite}.xml"
+                        def suiteMap = [
+                            'smoke-tests': 'src/test/resources/suites/selenium-smoke-tests.xml',
+                            'regression-tests': 'src/test/resources/suites/selenium-regression-tests.xml',
+                            'cross-browser-tests': 'src/test/resources/suites/selenium-smoke-tests.xml'
+                        ]
+                        def suiteFile = suiteMap.get(testSuite, 'src/test/resources/suites/selenium-smoke-tests.xml')
                         
-                        sh """
-                            mvn test -Dsurefire.suiteXmlFiles=${suiteFile} \
-                                    -Dbrowser=${params.BROWSER_TYPE} \
-                                    -Denvironment=${params.ENVIRONMENT} \
-                                    -Dheadless=${params.HEADLESS_MODE} \
-                                    -Dparallel=${params.PARALLEL_EXECUTION} \
-                                    -Dwebdriver.chrome.driver=../drivers/chromedriver \
-                                    -Dwebdriver.gecko.driver=../drivers/geckodriver
-                        """
+                        bat "mvn test -Dsurefire.suiteXmlFiles=${suiteFile} -Dbrowser=${params.BROWSER_TYPE} -Denvironment=${params.ENVIRONMENT} -Dheadless=${params.HEADLESS_MODE} -Dparallel=${params.PARALLEL_EXECUTION}"
                     }
                 }
             }
             post {
                 always {
                     echo 'Cleaning up workspace...'
-                    sh 'rm -rf drivers/'
+                    bat 'if exist drivers rmdir /s /q drivers'
                     cleanWs()
 
                     dir('java-selenium-automation') {
@@ -142,21 +124,21 @@ pipeline {
                 stage('Chrome Tests') {
                     steps {
                         dir('java-selenium-automation') {
-                            sh 'mvn test -Dbrowser=chrome -Dsurefire.suiteXmlFiles=src/test/resources/suites/smoke-tests.xml'
+                            bat 'mvn test -Dbrowser=chrome -Dsurefire.suiteXmlFiles=src/test/resources/suites/selenium-smoke-tests.xml'
                         }
                     }
                 }
                 stage('Firefox Tests') {
                     steps {
                         dir('java-selenium-automation') {
-                            sh 'mvn test -Dbrowser=firefox -Dsurefire.suiteXmlFiles=src/test/resources/suites/smoke-tests.xml'
+                            bat 'mvn test -Dbrowser=firefox -Dsurefire.suiteXmlFiles=src/test/resources/suites/selenium-smoke-tests.xml'
                         }
                     }
                 }
                 stage('Edge Tests') {
                     steps {
                         dir('java-selenium-automation') {
-                            sh 'mvn test -Dbrowser=edge -Dsurefire.suiteXmlFiles=src/test/resources/suites/smoke-tests.xml'
+                            bat 'mvn test -Dbrowser=edge -Dsurefire.suiteXmlFiles=src/test/resources/suites/selenium-smoke-tests.xml'
                         }
                     }
                 }
@@ -167,7 +149,7 @@ pipeline {
             steps {
                 echo 'Running performance tests...'
                 dir('java-selenium-automation') {
-                    sh 'mvn test -Dtest=*PerformanceTest'
+                    bat 'mvn test -Dtest=*PerformanceTest'
                 }
             }
         }
@@ -178,7 +160,7 @@ pipeline {
                 dir('java-selenium-automation') {
                     script {
                         // Generate Surefire reports
-                        sh 'mvn surefire-report:report'
+                        bat 'mvn surefire-report:report'
                         
                         // Archive ExtentReports
                         archiveArtifacts artifacts: 'reports/**/*', allowEmptyArchive: true
@@ -196,7 +178,7 @@ pipeline {
                         
                         // Generate Allure reports if available
                         try {
-                            sh 'mvn allure:report'
+                            bat 'mvn allure:report'
                             publishHTML([
                                 allowMissing: true,
                                 alwaysLinkToLastBuild: true,
