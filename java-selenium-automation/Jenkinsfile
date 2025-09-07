@@ -2,8 +2,8 @@ pipeline {
     agent any
     
     environment {
-        MAVEN_HOME = tool 'Maven_3.9.11'
-        JAVA_HOME = tool 'JDK11'
+        MAVEN_HOME = tool 'Maven'
+        JAVA_HOME = tool 'JDK9'
         PATH = "${MAVEN_HOME}/bin:${JAVA_HOME}/bin:${PATH}"
         SELENIUM_HUB = 'http://localhost:4444'
         BROWSER = 'chrome'
