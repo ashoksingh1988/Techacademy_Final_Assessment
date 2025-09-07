@@ -3,7 +3,7 @@ pipeline {
     
     environment {
         MAVEN_HOME = tool 'Maven'
-        JAVA_HOME = tool 'JDK11'
+        JAVA_HOME = 'C:/Program Files/Java/jdk-24'
         PATH = "${MAVEN_HOME}/bin;${JAVA_HOME}/bin;${PATH}"
         SELENIUM_HUB = 'http://localhost:4444'
         BROWSER = 'chrome'
