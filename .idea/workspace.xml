@@ -4,111 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35cda0f9-c071-4104-a304-fcc462a55ca9" name="Changes" comment="Capstone Automation Framework with execution results">
-      <change afterPath="$PROJECT_DIR$/.github/workflows/master-automation.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/AugmentWebviewStateStore.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EXECUTION_TEST_RESULTS.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Jenkinsfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/.github/workflows/mobile-automation.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/APPIUM_SETUP_GUIDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/CI-CD-INTEGRATION.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/Jenkinsfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/docs/EXECUTION.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/docs/SETUP.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/reports/Appium_Android_Automation_Report_2025-08-08_00-01-17.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/reports/Appium_Android_Automation_Report_2025-08-08_00-04-58.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/reports/Appium_Android_Automation_Report_2025-08-08_00-41-50.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/reports/Appium_Android_Automation_Report_2025-08-08_00-56-44.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testAppFunctionality_failure_2025-08-07_22-29-15-642.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testAppFunctionality_failure_2025-08-07_22-32-09-555.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testAppFunctionality_failure_2025-08-07_22-32-10-408.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testColorNotePageLoad_failure_2025-08-07_22-16-50-082.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testColorNotePageLoad_failure_2025-08-07_22-22-47-821.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testColorNotePageLoad_failure_2025-08-07_22-28-32-969.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testCreateNewDocument_failure_2025-08-08_00-48-51-176.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testCreateNewDocument_failure_2025-08-08_00-48-52-350.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testFilesPageLoad_failure_2025-08-07_21-32-02-567.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testFilesPageLoad_failure_2025-08-07_21-47-39-850.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testGoogleDocsPageLoad_failure_2025-08-07_22-24-37-659.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testGoogleDocsPageLoad_failure_2025-08-07_22-24-38-777.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testGoogleDocsPageLoad_failure_2025-08-07_22-31-26-496.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testGoogleDocsPageLoad_failure_2025-08-07_22-31-27-374.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testSearchFunctionality_failure_2025-08-08_00-08-26-993.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testSearchFunctionality_failure_2025-08-08_00-48-58-698.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testSearchFunctionality_failure_2025-08-08_00-48-59-502.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/scripts/run-tests.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/scripts/setup-environment.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/setup-appium.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/src/main/java/com/appium/core/BaseTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/src/main/java/com/appium/core/ConfigurationManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/src/main/java/com/appium/core/DriverFactory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/src/main/java/com/appium/listeners/TestExecutionListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/src/main/java/com/appium/pages/BasePage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/src/main/java/com/appium/pages/CalculatorPage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/src/main/java/com/appium/pages/ColorNotePage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/src/main/java/com/appium/pages/FilesPage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/src/main/java/com/appium/pages/GoogleDocsPage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/src/main/java/com/appium/utils/ReportManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/src/main/java/com/appium/utils/ScreenshotUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/src/main/java/com/appium/utils/WaitHelper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/src/test/java/com/appium/tests/CalculatorTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/src/test/java/com/appium/tests/ColorNoteTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/src/test/java/com/appium/tests/FilesTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/src/test/java/com/appium/tests/GoogleDocsTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/src/test/resources/application.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/src/test/resources/config/ci-config.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/src/test/resources/config/devices.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/src/test/resources/suites/parallel-tests.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/src/test/resources/suites/regression-tests.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/src/test/resources/suites/smoke-tests.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/src/test/resources/testdata/test-data.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-selenium-automation/.github/workflows/selenium-automation.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-selenium-automation/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-selenium-automation/Jenkinsfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-selenium-automation/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-selenium-automation/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-selenium-automation/reports/Selenium_Web_Automation_Report_2025-08-06_00-43-26.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-selenium-automation/scripts/run-tests.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-selenium-automation/src/main/java/com/selenium/core/BaseTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-selenium-automation/src/main/java/com/selenium/core/DriverManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-selenium-automation/src/main/java/com/selenium/listeners/TestExecutionListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-selenium-automation/src/main/java/com/selenium/pages/InventoryPage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-selenium-automation/src/main/java/com/selenium/pages/LoginPage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-selenium-automation/src/main/java/com/selenium/utils/ConfigurationManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-selenium-automation/src/main/java/com/selenium/utils/DataReader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-selenium-automation/src/main/java/com/selenium/utils/ReportManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-selenium-automation/src/main/java/com/selenium/utils/ScreenshotUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-selenium-automation/src/test/java/com/selenium/tests/SauceDemoTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-selenium-automation/src/test/resources/application.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-selenium-automation/src/test/resources/suites/selenium-regression-tests.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-selenium-automation/src/test/resources/suites/selenium-smoke-tests.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python-selenium-automation/.github/workflows/python-automation.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python-selenium-automation/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python-selenium-automation/Jenkinsfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python-selenium-automation/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python-selenium-automation/conftest.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python-selenium-automation/pages/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python-selenium-automation/pages/base_page.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python-selenium-automation/pages/cart_page.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python-selenium-automation/pages/inventory_page.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python-selenium-automation/pages/login_page.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python-selenium-automation/pytest.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python-selenium-automation/reports/report.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python-selenium-automation/requirements.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python-selenium-automation/run_tests.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python-selenium-automation/tests/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python-selenium-automation/tests/test_saucedemo_case_study.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/reports/report.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/run-testng.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testng.xml" afterDir="false" />
+    <list default="true" id="35cda0f9-c071-4104-a304-fcc462a55ca9" name="Changes" comment="Added Jenkinsfile with corrected pipeline configuration_for running build_14">
+      <change beforePath="$PROJECT_DIR$/.idea/AugmentWebviewStateStore.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/AugmentWebviewStateStore.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python-selenium-automation/Jenkinsfile.fixed" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/python-selenium-automation/Jenkinsfile.windows" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,6 +18,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;ashoksingh1988&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/ashoksingh1988/Techacademy_Final_Assessment.git&quot;,
+    &quot;accountId&quot;: &quot;0a63887c-64a0-4387-a57a-efbe73510269&quot;
+  }
+}</component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -129,28 +41,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Maven.SauceDemoAutomation [clean,install].executor": "Run",
-    "Maven.SauceDemoAutomation [clean].executor": "Run",
-    "Maven.SauceDemoAutomation [install].executor": "Run",
-    "Maven.SauceDemoAutomation [test...].executor": "Run",
-    "Maven.SauceDemoAutomation [test].executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.zencoder-patch-add-chat-message-raw-content": "true",
-    "RunOnceActivity.zencoder-patch-chat-storage-migration": "true",
-    "RunOnceActivity.zencoder-patch-generate-chat-message-id": "true",
-    "RunOnceActivity.zencoder-patch-migrate-custom-instruction": "true",
-    "RunOnceActivity.zencoder-patch-migrate-repo-info-to-rules": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "TestNG.C:/Users/Asim/IdeaProjects/SauceDemoAutomation/testng.xml.executor": "Run",
-    "git-widget-placeholder": "master",
-    "settings.editor.selected.configurable": "vcs.Git"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Maven.SauceDemoAutomation [clean,install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.SauceDemoAutomation [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.SauceDemoAutomation [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.SauceDemoAutomation [test...].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.SauceDemoAutomation [test].executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.zencoder-patch-add-chat-message-raw-content&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.zencoder-patch-chat-storage-migration&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.zencoder-patch-generate-chat-message-id&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.zencoder-patch-migrate-custom-instruction&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.zencoder-patch-migrate-repo-info-to-rules&quot;: &quot;true&quot;,
+    &quot;TestNG.C:/Users/Asim/IdeaProjects/SauceDemoAutomation/testng.xml.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="mvn clean install" />
@@ -176,7 +88,6 @@
     <recent_temporary>
       <list>
         <item itemvalue="TestNG.C:/Users/Asim/IdeaProjects/SauceDemoAutomation/testng.xml" />
-        <item itemvalue="Shire.shire-chatbox.default" />
       </list>
     </recent_temporary>
   </component>
@@ -188,7 +99,115 @@
       <option name="presentableId" value="Default" />
       <updated>1754335676548</updated>
     </task>
+    <task id="LOCAL-00001" summary="Capstone Automation Framework with execution results">
+      <option name="closed" value="true" />
+      <created>1754930544352</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1754930544354</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Capstone Automation Framework with execution results">
+      <option name="closed" value="true" />
+      <created>1754930590967</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1754930590967</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Capstone Automation Framework with execution results">
+      <option name="closed" value="true" />
+      <created>1754930930753</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1754930930755</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Added Jenkinsfile with corrected pipeline configuration">
+      <option name="closed" value="true" />
+      <created>1757275300816</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1757275300816</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Added Jenkinsfile with corrected pipeline configuration">
+      <option name="closed" value="true" />
+      <created>1757276136964</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1757276136964</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Added Jenkinsfile with corrected pipeline configuration">
+      <option name="closed" value="true" />
+      <created>1757276756545</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1757276756545</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Added Jenkinsfile with corrected pipeline configuration">
+      <option name="closed" value="true" />
+      <created>1757276912864</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1757276912864</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Added Jenkinsfile with corrected pipeline configuration_updated">
+      <option name="closed" value="true" />
+      <created>1757277558469</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1757277558469</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Added Jenkinsfile with corrected pipeline configuration_for running build_10">
+      <option name="closed" value="true" />
+      <created>1757278588637</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1757278588637</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Added Jenkinsfile with corrected pipeline configuration_for running build_11">
+      <option name="closed" value="true" />
+      <created>1757279007153</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1757279007153</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Added Jenkinsfile with corrected pipeline configuration_for running build_12">
+      <option name="closed" value="true" />
+      <created>1757280695112</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1757280695112</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Added Jenkinsfile with corrected pipeline configuration_for running build_13">
+      <option name="closed" value="true" />
+      <created>1757281633579</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1757281633579</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Added Jenkinsfile with corrected pipeline configuration_for running build_14">
+      <option name="closed" value="true" />
+      <created>1757353286369</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1757353286370</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="Jenkinsfile" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -203,7 +222,14 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Capstone Automation Framework with execution results" />
-    <option name="LAST_COMMIT_MESSAGE" value="Capstone Automation Framework with execution results" />
+    <MESSAGE value="Added Jenkinsfile with corrected pipeline configuration" />
+    <MESSAGE value="Added Jenkinsfile with corrected pipeline configuration_updated" />
+    <MESSAGE value="Added Jenkinsfile with corrected pipeline configuration_for running build_10" />
+    <MESSAGE value="Added Jenkinsfile with corrected pipeline configuration_for running build_11" />
+    <MESSAGE value="Added Jenkinsfile with corrected pipeline configuration_for running build_12" />
+    <MESSAGE value="Added Jenkinsfile with corrected pipeline configuration_for running build_13" />
+    <MESSAGE value="Added Jenkinsfile with corrected pipeline configuration_for running build_14" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Jenkinsfile with corrected pipeline configuration_for running build_14" />
   </component>
   <component name="ai.zencoder.plugin.mcp">
     <option name="internalToolsState" value="{&quot;fetch_webpage&quot;:true,&quot;web_search&quot;:true,&quot;ExecuteShellCommand&quot;:true,&quot;file_search&quot;:true,&quot;str_replace_editor&quot;:true,&quot;list_resources&quot;:true,&quot;FileDiagnosticsTool&quot;:true,&quot;fulltext_search&quot;:true,&quot;read_resource&quot;:true,&quot;RequirementsTool&quot;:true}" />
@@ -767,6 +793,6 @@
   </component>
   <component name="ai.zencoder.plugin.rag.RepoInfoWarningState">
     <option name="currentWarningState" value="true" />
-    <option name="lastCheckTime" value="1754836887360" />
+    <option name="lastCheckTime" value="1757278109142" />
   </component>
 </project>

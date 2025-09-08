@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Diagnostic Test Suite" verbose="1">
+    
+    <parameter name="deviceName" value="Android_Device"/>
+    <parameter name="platformVersion" value="11"/>
+
+    <listeners>
+        <listener class-name="com.appium.listeners.TestExecutionListener"/>
+    </listeners>
+
+    <test name="ColorNote Diagnostic Test" preserve-order="true">
+        <parameter name="deviceName" value="Android_Device"/>
+        <parameter name="platformVersion" value="11"/>
+        <parameter name="appPackage" value="com.socialnmobile.dictapps.notepad.color.note"/>
+        <parameter name="appActivity" value="com.socialnmobile.colornote.activity.Main"/>
+
+        <classes>
+            <class name="com.appium.tests.ColorNoteTests">
+                <methods>
+                    <include name="testColorNotePageLoad"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Google Docs Diagnostic Test" preserve-order="true">
+        <parameter name="deviceName" value="Android_Device"/>
+        <parameter name="platformVersion" value="11"/>
+        <parameter name="appPackage" value="com.google.android.apps.docs.editors.docs"/>
+        <parameter name="appActivity" value=""/>
+
+        <classes>
+            <class name="com.appium.tests.GoogleDocsTests">
+                <methods>
+                    <include name="testGoogleDocsPageLoad"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+</suite>
