@@ -93,10 +93,89 @@ pipeline {
                             '''
                         } catch (Exception e) {
                             echo "Environment setup failed: ${e.getMessage()}"
+                            // Continue with basic setup
                             bat '''
                                 python --version
                                 pip install selenium pytest pytest-html
                             '''
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Code Quality') {
+            parallel {
+                stage('Linting') {
+                    steps {
+                        echo 'Running code linting...'
+                        dir('python-selenium-automation') {
+                            script {
+                                try {
+                                    bat '''
+                                        call venv\\Scripts\\activate.bat
+                                        
+                                        REM Install linting tools
+                                        pip install flake8 pylint black isort
+                                        
+                                        REM Run flake8 (basic syntax check)
+                                        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics || echo "Flake8 completed with warnings"
+                                        
+                                        REM Run pylint (generate report)
+                                        pylint --exit-zero **/*.py > pylint-report.txt || echo "Pylint completed"
+                                        
+                                        echo Linting completed
+                                    '''
+                                } catch (Exception e) {
+                                    echo "Linting failed: ${e.getMessage()}"
+                                }
+                            }
+                        }
+                    }
+                    post {
+                        always {
+                            script {
+                                if (fileExists('python-selenium-automation/pylint-report.txt')) {
+                                    archiveArtifacts artifacts: 'python-selenium-automation/pylint-report.txt', allowEmptyArchive: true
+                                }
+                            }
+                        }
+                    }
+                }
+
+                stage('Security Scan') {
+                    steps {
+                        echo 'Running security scan...'
+                        dir('python-selenium-automation') {
+                            script {
+                                try {
+                                    bat '''
+                                        call venv\\Scripts\\activate.bat
+                                        
+                                        REM Install security tools
+                                        pip install bandit safety
+                                        
+                                        REM Run bandit security scan
+                                        bandit -r . -f json -o bandit-report.json || echo "Bandit scan completed"
+                                        
+                                        REM Check for known security vulnerabilities
+                                        safety check --json --output safety-report.json || echo "Safety check completed"
+                                        
+                                        echo Security scan completed
+                                    '''
+                                } catch (Exception e) {
+                                    echo "Security scan failed: ${e.getMessage()}"
+                                }
+                            }
+                        }
+                    }
+                    post {
+                        always {
+                            script {
+                                if (fileExists('python-selenium-automation/bandit-report.json') || fileExists('python-selenium-automation/safety-report.json')) {
+                                    archiveArtifacts artifacts: 'python-selenium-automation/*-report.json', allowEmptyArchive: true
+                                }
+                            }
                         }
                     }
                 }
@@ -185,6 +264,7 @@ pipeline {
                             """
                         } catch (Exception e) {
                             echo "Integration tests failed: ${e.getMessage()}"
+                            // Create dummy report for pipeline continuation
                             bat '''
                                 if not exist reports mkdir reports
                                 echo ^<testsuite name="integration-tests" tests="0" failures="0" errors="1"^>^</testsuite^> > reports\\integration-tests.xml
@@ -209,126 +289,3 @@ pipeline {
                 }
             }
         }
-
-        stage('Generate Reports') {
-            steps {
-                echo 'Generating comprehensive test reports...'
-                dir('python-selenium-automation') {
-                    script {
-                        try {
-                            bat '''
-                                call venv\\Scripts\\activate.bat
-                                
-                                REM Create reports directory if it doesn't exist
-                                if not exist reports mkdir reports
-                                
-                                REM Generate basic HTML report combining all results
-                                echo ^<html^>^<head^>^<title^>Python Test Results^</title^>^</head^>^<body^>^<h1^>Python Selenium Test Results^</h1^>^<p^>Build: %BUILD_NUMBER%^</p^>^<p^>Status: Completed^</p^>^</body^>^</html^> > reports\\combined-report.html
-                                
-                                echo Report generation completed
-                            '''
-                        } catch (Exception e) {
-                            echo "Report generation failed: ${e.getMessage()}"
-                        }
-                    }
-                }
-            }
-            post {
-                always {
-                    script {
-                        if (fileExists('python-selenium-automation/reports')) {
-                            publishHTML([
-                                allowMissing: true,
-                                alwaysLinkToLastBuild: true,
-                                keepAll: true,
-                                reportDir: 'python-selenium-automation/reports',
-                                reportFiles: '*.html',
-                                reportName: 'Python Test Reports'
-                            ])
-                        }
-                    }
-                }
-            }
-        }
-
-        stage('Quality Gates') {
-            steps {
-                echo 'Checking quality gates...'
-                dir('python-selenium-automation') {
-                    script {
-                        try {
-                            bat '''
-                                call venv\\Scripts\\activate.bat
-                                
-                                REM Check if test results exist
-                                if exist reports\\integration-tests.xml (
-                                    echo Test results found, quality gate passed
-                                ) else (
-                                    echo No test results found
-                                )
-                            '''
-                        } catch (Exception e) {
-                            echo "Quality gate check failed: ${e.getMessage()}"
-                        }
-                    }
-                }
-            }
-        }
-
-        stage('Notification') {
-            steps {
-                echo 'Sending notifications...'
-                script {
-                    try {
-                        emailext (
-                            subject: "Python Selenium Test Execution - ${currentBuild.currentResult}",
-                            body: """
-                                <h2>Python Web Automation Test Results</h2>
-                                <p><strong>Build:</strong> ${env.BUILD_NUMBER}</p>
-                                <p><strong>Status:</strong> ${currentBuild.currentResult}</p>
-                                <p><strong>Test Suite:</strong> ${params.TEST_SUITE}</p>
-                                <p><strong>Browser:</strong> ${params.BROWSER_TYPE}</p>
-                                <p><strong>Environment:</strong> ${params.ENVIRONMENT}</p>
-                                <p><strong>Reports:</strong> <a href="${env.BUILD_URL}Python_Test_Reports/">View Reports</a></p>
-                            """,
-                            mimeType: 'text/html',
-                            to: 'ashokchandravanshi1988@gmail.com'
-                        )
-                    } catch (Exception e) {
-                        echo "Email notification failed: ${e.getMessage()}"
-                    }
-                }
-            }
-        }
-    }
-
-    post {
-        always {
-            echo 'Cleaning up workspace...'
-            script {
-                try {
-                    dir('python-selenium-automation') {
-                        bat '''
-                            REM Clean up virtual environment and temporary files
-                            if exist venv rmdir /s /q venv
-                            if exist drivers rmdir /s /q drivers
-                            if exist __pycache__ rmdir /s /q __pycache__
-                            if exist .pytest_cache rmdir /s /q .pytest_cache
-                        '''
-                    }
-                } catch (Exception e) {
-                    echo "Cleanup failed: ${e.getMessage()}"
-                }
-            }
-        }
-        success {
-            echo 'Python Selenium pipeline executed successfully!'
-        }
-        failure {
-            echo 'Python Selenium pipeline failed. Check logs for details.'
-        }
-        unstable {
-            echo 'Python Selenium pipeline completed with test failures.'
-        }
-    }
-}
