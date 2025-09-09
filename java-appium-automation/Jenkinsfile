@@ -2,9 +2,9 @@ pipeline {
     agent any
     
     environment {
-        MAVEN_HOME = 'C:\\Program Files\\Apache\\maven'
-        JAVA_HOME = 'C:\\Program Files\\Java\\jdk-11'
-        PATH = "C:\\Program Files\\Apache\\maven\\bin;C:\\Program Files\\Java\\jdk-11\\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Java\jdk-24\bin;C:\Program Files\Maven\ApacheMaven\apache-maven-3.9.11\bin;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Users\Asim\AppData\Local\Android\Sdk\platform-tools;C:\Users\Asim\AppData\Local\Android\Sdk\emulator;C:\Users\Asim\AppData\Local\Programs\Python\Python313;C:\Users\Asim\AppData\Local\Programs\Python\Python313\Scripts\;C:\Program Files\Git\cmd;C:\Users\Asim\AppData\Local\Programs\Python\Python313\Scripts\;C:\Users\Asim\AppData\Local\Programs\Python\Python313\;C:\Users\Asim\AppData\Local\Microsoft\WindowsApps;;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2025.1.4.1\bin;;C:\Users\Asim\AppData\Roaming\npm"
+        MAVEN_HOME = 'C:\\\\Program Files\\\\Apache\\\\maven'
+        JAVA_HOME = 'C:\\\\Program Files\\\\Java\\\\jdk-11'
+        PATH = "C:\\\\Program Files\\\\Apache\\\\maven\\\\bin;C:\\\\Program Files\\\\Java\\\\jdk-11\\\\bin;C:\\\\Windows\\\\System32"
         APPIUM_SERVER = 'http://127.0.0.1:4723'
         DEVICE_NAME = 'Android_Device'
         PLATFORM_VERSION = '11'
