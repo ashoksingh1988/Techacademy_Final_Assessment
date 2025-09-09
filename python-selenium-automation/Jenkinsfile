@@ -133,7 +133,7 @@ pipeline {
                 always {
                     script {
                         if (fileExists('python-selenium-automation/reports/unit-tests.xml')) {
-                            junit testResultsPattern: 'python-selenium-automation/reports/unit-tests.xml', allowEmptyResults: true
+                            junit testResults: 'python-selenium-automation/reports/unit-tests.xml', allowEmptyResults: true
                         }
                         if (fileExists('python-selenium-automation/reports/unit-tests.html')) {
                             publishHTML([
@@ -197,7 +197,7 @@ pipeline {
                 always {
                     script {
                         if (fileExists('python-selenium-automation/reports/integration-tests.xml')) {
-                            junit testResultsPattern: 'python-selenium-automation/reports/integration-tests.xml', allowEmptyResults: true
+                            junit testResults: 'python-selenium-automation/reports/integration-tests.xml', allowEmptyResults: true
                         }
                         if (fileExists('python-selenium-automation/screenshots')) {
                             archiveArtifacts artifacts: 'python-selenium-automation/screenshots/**/*', allowEmptyArchive: true
