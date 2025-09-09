@@ -36,20 +36,22 @@ pipeline {
                 echo 'Setting up test environment...'
                 script {
                     try {
-                        // Check if Appium server is running
+                        // Check if Appium server is running (simplified check)
                         def appiumStatus = bat(
-                            script: "curl -s ${APPIUM_SERVER}/status || echo Appium not running",
+                            script: "echo Checking Appium server... && timeout 3 curl -s ${APPIUM_SERVER}/status 2>nul || echo Appium not running",
                             returnStdout: true
                         ).trim()
                         
                         if (appiumStatus.contains('Appium not running')) {
-                            echo "Appium server not detected. Starting Appium server or continuing with demo mode..."
-                            // Try to start Appium server
-                            bat "start /B appium --port 4723 2>nul || echo Appium start attempted"
-                            // Wait a moment for server to start
-                            sleep(5)
+                            echo "Appium server not detected. Continuing with demo mode..."
+                            echo "Note: For production use, start Appium server manually before running tests"
                         } else {
                             echo "Appium server is running: ${appiumStatus}"
+                        }
+                    } catch (Exception e) {
+                        echo "Environment setup completed with warnings: ${e.getMessage()}"
+                    }
+                }
                         }
                     } catch (Exception e) {
                         echo "Environment setup completed with warnings: ${e.getMessage()}"
@@ -159,11 +161,3 @@ pipeline {
             echo 'Cleaning up workspace...'
             echo "Workspace cleanup completed"
         }
-        success {
-            echo 'Pipeline executed successfully!'
-        }
-        failure {
-            echo 'Pipeline failed. Check logs for details.'
-        }
-    }
-}
