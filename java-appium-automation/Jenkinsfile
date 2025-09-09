@@ -136,7 +136,7 @@ pipeline {
                                 <p><strong>Device:</strong> ${params.DEVICE_UDID}</p>
                                 <p><strong>Reports:</strong> <a href="${env.BUILD_URL}Appium_Test_Report/">View Reports</a></p>
                             """,
-                            to: "asim.kumar.singh@company.com",
+                            to: "ashokchandravanshi1988@gmail.com",
                             mimeType: 'text/html'
                         )
                     } catch (Exception e) {
