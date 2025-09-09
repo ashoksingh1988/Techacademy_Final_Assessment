@@ -41,8 +41,8 @@ pipeline {
                 echo 'Setting up test environment...'
                 script {
                     // Check if Appium server is running
-                    def appiumStatus = sh(
-                        script: "curl -s ${APPIUM_SERVER}/status || echo 'Appium not running'",
+                    def appiumStatus = bat(
+                        script: "curl -s ${APPIUM_SERVER}/status || echo Appium not running",
                         returnStdout: true
                     ).trim()
                     
@@ -59,7 +59,7 @@ pipeline {
             steps {
                 echo 'Building the project...'
                 dir('java-appium-automation') {
-                    sh 'mvn clean compile'
+                    bat 'mvn clean compile'
                 }
             }
         }
@@ -72,7 +72,7 @@ pipeline {
                         def testSuite = params.TEST_SUITE
                         def suiteFile = "src/test/resources/suites/${testSuite}.xml"
                         
-                        sh """
+                        bat """
                             mvn test -Dsurefire.suiteXmlFiles=${suiteFile} \
                                     -Ddevice.name=${params.DEVICE_UDID} \
                                     -Dplatform.version=${PLATFORM_VERSION} \
@@ -86,7 +86,7 @@ pipeline {
                     // Archive test results
                     dir('java-appium-automation') {
                         archiveArtifacts artifacts: 'target/surefire-reports/**/*', allowEmptyArchive: true
-                        publishTestResults testResultsPattern: 'target/surefire-reports/TEST-*.xml'
+                        junit testResults: 'target/surefire-reports/TEST-*.xml'
                     }
                 }
             }
