@@ -9,7 +9,7 @@ pipeline {
         DEVICE_NAME = 'PZPVSC95GMKNGUBQ'
         PLATFORM_VERSION = '11'
         ANDROID_HOME = 'C:\\\\Users\\\\Asim\\\\AppData\\\\Local\\\\Android\\\\Sdk'
-
+    }
     parameters {
         choice(
             name: 'TEST_SUITE',
