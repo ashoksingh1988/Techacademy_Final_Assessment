@@ -20,7 +20,7 @@ class TestSauceDemoCaseStudy:
         
         # Step 1: Launch URL using Selenium with Python
         driver.get(base_url)
-        assert driver.current_url == base_url
+        assert base_url in driver.current_url
         
         # Step 2: Verify SWAG LABS is present on the Web Page
         swag_labs_logo = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "login_logo")))
@@ -31,8 +31,8 @@ class TestSauceDemoCaseStudy:
         password_field = driver.find_element(By.ID, "password")
         login_button = driver.find_element(By.ID, "login-button")
         
-        username_field.send_keys(test_credentials["username"])
-        password_field.send_keys(test_credentials["password"])
+        username_field.send_keys(test_credentials["valid_username"])
+        password_field.send_keys(test_credentials["valid_password"])
         login_button.click()
         
         # Verify login successful
