@@ -53,8 +53,8 @@ pipeline {
                     
                     // Check Appium server if mobile tests are enabled
                     if (params.RUN_JAVA_APPIUM) {
-                        def appiumStatus = sh(
-                            script: "curl -s ${APPIUM_SERVER}/status || echo "Appium not running"",
+                        def appiumStatus = bat(
+                            script: "timeout 3 curl -s ${APPIUM_SERVER}/status 2>nul || echo Appium not running",
                             returnStdout: true
                         ).trim()
                         
