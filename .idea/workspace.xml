@@ -5,22 +5,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35cda0f9-c071-4104-a304-fcc462a55ca9" name="Changes" comment="Added Jenkinsfile with corrected pipeline configuration_for running build_14">
-      <change afterPath="$PROJECT_DIR$/IMPLEMENTATION_SUMMARY.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JENKINS_LOCAL_CHROME_SETUP_GUIDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/src/main/java/com/appium/core/EnhancedDriverFactory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/src/main/java/com/appium/listeners/EnhancedTestExecutionListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/src/main/java/com/appium/utils/EnhancedReportManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-appium-automation/src/main/java/com/appium/utils/EnhancedScreenshotUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/java-selenium-automation/src/main/java/com/selenium/utils/EnhancedReportManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python-selenium-automation/utils/enhanced_report_manager.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python-selenium-automation/utils/enhanced_screenshot_utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/AugmentWebviewStateStore.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/AugmentWebviewStateStore.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Jenkinsfile" beforeDir="false" afterPath="$PROJECT_DIR$/Jenkinsfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-selenium-automation/Jenkinsfile" beforeDir="false" afterPath="$PROJECT_DIR$/java-selenium-automation/Jenkinsfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-selenium-automation/Jenkinsfile" beforeDir="false" afterPath="$PROJECT_DIR$/python-selenium-automation/Jenkinsfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-selenium-automation/conftest.py" beforeDir="false" afterPath="$PROJECT_DIR$/python-selenium-automation/conftest.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-selenium-automation/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/python-selenium-automation/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-appium-automation/reports/Appium_Android_Automation_Report_2025-08-08_00-56-44.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testAppFunctionality_failure_2025-08-07_22-29-15-642.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testAppFunctionality_failure_2025-08-07_22-32-09-555.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testAppFunctionality_failure_2025-08-07_22-32-10-408.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testColorNotePageLoad_failure_2025-08-07_22-16-50-082.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testColorNotePageLoad_failure_2025-08-07_22-22-47-821.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testColorNotePageLoad_failure_2025-08-07_22-28-32-969.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testCreateNewDocument_failure_2025-08-08_00-48-51-176.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testCreateNewDocument_failure_2025-08-08_00-48-52-350.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testFilesPageLoad_failure_2025-08-07_21-32-02-567.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testFilesPageLoad_failure_2025-08-07_21-47-39-850.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testGoogleDocsPageLoad_failure_2025-08-07_22-24-37-659.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testGoogleDocsPageLoad_failure_2025-08-07_22-24-38-777.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testGoogleDocsPageLoad_failure_2025-08-07_22-31-26-496.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testGoogleDocsPageLoad_failure_2025-08-07_22-31-27-374.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testSearchFunctionality_failure_2025-08-08_00-08-26-993.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testSearchFunctionality_failure_2025-08-08_00-48-58-698.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testSearchFunctionality_failure_2025-08-08_00-48-59-502.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-appium-automation/src/main/java/com/appium/core/EnhancedDriverFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-appium-automation/src/main/java/com/appium/listeners/EnhancedTestExecutionListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-appium-automation/src/main/java/com/appium/utils/EnhancedReportManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-appium-automation/src/main/java/com/appium/utils/EnhancedScreenshotUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/python-selenium-automation/reports/report.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/report.html" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
