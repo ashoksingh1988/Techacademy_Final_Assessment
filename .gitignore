@@ -36,3 +36,7 @@ build/
 
 ### Mac OS ###
 .DS_Store
+### Documentation (Local Only) ###
+docs-local/
+README.md
+*.md
