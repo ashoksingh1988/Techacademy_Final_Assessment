@@ -3,9 +3,9 @@ pipeline {
 
     environment {
         MAVEN_HOME = 'C:\\\\Program Files\\\\Maven\\\\ApacheMaven\\\\apache-maven-3.9.11'
-        JAVA_HOME = 'C:\\\\Program Files\\\\Java\\\\jdk-24'
+        JAVA_HOME = 'C:\\\\\\\\Program Files\\\\\\\\Common Files\\\\\\\\Oracle\\\\\\\\Java\\\\\\\\javapath'
         PYTHON_VERSION = "3.13"
-        PATH = "C:\\\\Program Files\\\\Maven\\\\ApacheMaven\\\\apache-maven-3.9.11\\\\bin;C:\\\\Program Files\\\\Java\\\\jdk-24\\\\bin;C:\\\\Users\\\\Asim\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python313;C:\\\\Program Files\\\\Git\\\\cmd;C:\\\\Program Files\\\\nodejs;C:\\\\Windows\\\\System32"
+        PATH = "C:\\\\\\\\Program Files\\\\\\\\Common Files\\\\\\\\Oracle\\\\\\\\Java\\\\\\\\javapath;C:\\\\\\\\Program Files\\\\\\\\Maven\\\\\\\\ApacheMaven\\\\\\\\apache-maven-3.9.11\\\\\\\\bin;C:\\\\\\\\Users\\\\\\\\Asim\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Programs\\\\\\\\Python\\\\\\\\Python313;C:\\\\\\\\Users\\\\\\\\Asim\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Programs\\\\\\\\Python\\\\\\\\Python313\\\\\\\\Scripts;C:\\\\\\\\Program Files\\\\\\\\nodejs;C:\\\\\\\\Program Files\\\\\\\\Git\\\\\\\\cmd;C:\\\\\\\\Users\\\\\\\\Asim\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Android\\\\\\\\Sdk\\\\\\\\platform-tools;C:\\\\\\\\Users\\\\\\\\Asim\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Android\\\\\\\\Sdk\\\\\\\\emulator;C:\\\\\\\\Windows\\\\\\\\System32"
         APPIUM_SERVER = "http://127.0.0.1:4723"
         SELENIUM_HUB = "http://localhost:4444"
         ANDROID_HOME = 'C:\\\\Users\\\\Asim\\\\AppData\\\\Local\\\\Android\\\\Sdk'
