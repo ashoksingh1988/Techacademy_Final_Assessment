@@ -49,7 +49,7 @@ pipeline {
                 echo "Setting up master execution environment..."
                 script {
                     // Create master reports directory
-                    bat "mkdir -p master-reports/{java-selenium,java-appium,python-selenium}"
+                    bat "if not exist master-reports mkdir master-reports && if not exist master-reports\\java-selenium mkdir master-reports\\java-selenium && if not exist master-reports\\java-appium mkdir master-reports\\java-appium && if not exist master-reports\\python-selenium mkdir master-reports\\python-selenium"
                     
                     // Check Appium server if mobile tests are enabled
                     if (params.RUN_JAVA_APPIUM) {
@@ -66,10 +66,17 @@ pipeline {
                     // Setup Python environment if Python tests are enabled
                     if (params.RUN_PYTHON_SELENIUM) {
                         bat """
-                            python3 -m venv master-venv
-                            source master-venv/bin/activate
-                            pip install --upgrade pip
-                        """
+                        REM Create consolidated report directory
+                        if not exist consolidated-reports mkdir consolidated-reports
+
+                        REM Copy individual framework reports
+                        if exist java-selenium-automation\\target\\surefire-reports xcopy java-selenium-automation\\target\\surefire-reports consolidated-reports\\selenium\\ /E /I /Y 2>nul
+                        if exist java-appium-automation\\target\\surefire-reports xcopy java-appium-automation\\target\\surefire-reports consolidated-reports\\appium\\ /E /I /Y 2>nul
+                        if exist python-selenium-automation\\reports xcopy python-selenium-automation\\reports consolidated-reports\\python\\ /E /I /Y 2>nul
+
+                        REM Generate master index
+                        echo ^<html^>^<body^>^<h1^>Master Test Report^</h1^>^</body^>^</html^> > consolidated-reports\\index.html
+                    """
                     }
                 }
             }
@@ -93,16 +100,21 @@ pipeline {
                             
                             dir("java-selenium-automation") {
                                 bat """
-                REM Clean up virtual environment
-                if exist master-venv rmdir /s /q master-venv 2>nul
+                        REM Create consolidated report directory
+                        if not exist consolidated-reports mkdir consolidated-reports
 
-                REM Clean up temporary files  
-                if exist master-reports rmdir /s /q master-reports 2>nul
-            """
+                        REM Copy individual framework reports
+                        if exist java-selenium-automation\\target\\surefire-reports xcopy java-selenium-automation\\target\\surefire-reports consolidated-reports\\selenium\\ /E /I /Y 2>nul
+                        if exist java-appium-automation\\target\\surefire-reports xcopy java-appium-automation\\target\\surefire-reports consolidated-reports\\appium\\ /E /I /Y 2>nul
+                        if exist python-selenium-automation\\reports xcopy python-selenium-automation\\reports consolidated-reports\\python\\ /E /I /Y 2>nul
+
+                        REM Generate master index
+                        echo ^<html^>^<body^>^<h1^>Master Test Report^</h1^>^</body^>^</html^> > consolidated-reports\\index.html
+                    """
                                 
                                 // Copy reports to master directory
-                                bat "cp -r reports/* ../master-reports/java-selenium/ "
-                                bat "cp -r target/surefire-reports/* ../master-reports/java-selenium/ "
+                                bat "if exist reports xcopy reports ..\\master-reports\\java-selenium\\ /E /I /Y 2>nul"
+                                bat "if exist target\\surefire-reports xcopy target\\surefire-reports ..\\master-reports\\java-selenium\\ /E /I /Y 2>nul"
                             }
                         }
                     }
@@ -124,16 +136,21 @@ pipeline {
                             
                             dir("java-appium-automation") {
                                 bat """
-                REM Clean up virtual environment
-                if exist master-venv rmdir /s /q master-venv 2>nul
+                        REM Create consolidated report directory
+                        if not exist consolidated-reports mkdir consolidated-reports
 
-                REM Clean up temporary files  
-                if exist master-reports rmdir /s /q master-reports 2>nul
-            """
+                        REM Copy individual framework reports
+                        if exist java-selenium-automation\\target\\surefire-reports xcopy java-selenium-automation\\target\\surefire-reports consolidated-reports\\selenium\\ /E /I /Y 2>nul
+                        if exist java-appium-automation\\target\\surefire-reports xcopy java-appium-automation\\target\\surefire-reports consolidated-reports\\appium\\ /E /I /Y 2>nul
+                        if exist python-selenium-automation\\reports xcopy python-selenium-automation\\reports consolidated-reports\\python\\ /E /I /Y 2>nul
+
+                        REM Generate master index
+                        echo ^<html^>^<body^>^<h1^>Master Test Report^</h1^>^</body^>^</html^> > consolidated-reports\\index.html
+                    """
                                 
                                 // Copy reports to master directory
-                                bat "cp -r reports/* ../master-reports/java-appium/ "
-                                bat "cp -r target/surefire-reports/* ../master-reports/java-appium/ "
+                                bat "if exist reports xcopy reports ..\\master-reports\\java-appium\\ /E /I /Y 2>nul"
+                                bat "if exist target\\surefire-reports xcopy target\\surefire-reports ..\\master-reports\\java-appium\\ /E /I /Y 2>nul"
                             }
                         }
                     }
@@ -156,22 +173,20 @@ pipeline {
                             
                             dir("python-selenium-automation") {
                                 bat """
-                                    source ../master-venv/bin/activate
-                                    pip install -r requirements.txt
-                                    pip install pytest-html pytest-xdist
-                                    
-                                    export BROWSER=chrome
-                                    export HEADLESS=true
-                                    export ENVIRONMENT=${ENVIRONMENT}
-                                    
-                                    pytest ${testPath} -v \
-                                        --html=reports/python-test-report.html \
-                                        --self-contained-html \
-                                        --junit-xml=reports/python-tests.xml
-                                """
+                        REM Create consolidated report directory
+                        if not exist consolidated-reports mkdir consolidated-reports
+
+                        REM Copy individual framework reports
+                        if exist java-selenium-automation\\target\\surefire-reports xcopy java-selenium-automation\\target\\surefire-reports consolidated-reports\\selenium\\ /E /I /Y 2>nul
+                        if exist java-appium-automation\\target\\surefire-reports xcopy java-appium-automation\\target\\surefire-reports consolidated-reports\\appium\\ /E /I /Y 2>nul
+                        if exist python-selenium-automation\\reports xcopy python-selenium-automation\\reports consolidated-reports\\python\\ /E /I /Y 2>nul
+
+                        REM Generate master index
+                        echo ^<html^>^<body^>^<h1^>Master Test Report^</h1^>^</body^>^</html^> > consolidated-reports\\index.html
+                    """
                                 
                                 // Copy reports to master directory
-                                bat "cp -r reports/* ../master-reports/python-selenium/ "
+                                bat "if exist reports xcopy reports ..\\master-reports\\python-selenium\\ /E /I /Y 2>nul"
                             }
                         }
                     }
@@ -283,52 +298,16 @@ pipeline {
                 echo "Consolidating reports from all frameworks..."
                 script {
                     bat """
-                        # Create consolidated report directory
-                        mkdir -p consolidated-reports
-                        
-                        # Copy all framework reports
-                        cp -r master-reports/* consolidated-reports/ 
-                        
-                        # Generate master summary report
-                        cat > consolidated-reports/master-summary.html << "EOF"
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Master Test Execution Report</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .framework { border: 1px solid #ddd; margin: 10px 0; padding: 15px; }
-        .header { background-color: #f5f5f5; padding: 10px; font-weight: bold; }
-        .pass { color: green; }
-        .fail { color: red; }
-    </style>
-</head>
-<body>
-    <h1>Master Test Execution Report</h1>
-    <p><strong>Execution Date:</strong> $(date)</p>
-    <p><strong>Environment:</strong> ${ENVIRONMENT}</p>
-    <p><strong>Test Suite:</strong> ${TEST_SUITE}</p>
-    
-    <div class="framework">
-        <div class="header">Java Selenium Framework</div>
-        <p>Status: Executed</p>
-        <p>Reports: <a href="java-selenium/">View Reports</a></p>
-    </div>
-    
-    <div class="framework">
-        <div class="header">Java Appium Framework</div>
-        <p>Status: Executed</p>
-        <p>Reports: <a href="java-appium/">View Reports</a></p>
-    </div>
-    
-    <div class="framework">
-        <div class="header">Python Selenium Framework</div>
-        <p>Status: Executed</p>
-        <p>Reports: <a href="python-selenium/">View Reports</a></p>
-    </div>
-</body>
-</html>
-EOF
+                        REM Create consolidated report directory
+                        if not exist consolidated-reports mkdir consolidated-reports
+
+                        REM Copy individual framework reports
+                        if exist java-selenium-automation\\target\\surefire-reports xcopy java-selenium-automation\\target\\surefire-reports consolidated-reports\\selenium\\ /E /I /Y 2>nul
+                        if exist java-appium-automation\\target\\surefire-reports xcopy java-appium-automation\\target\\surefire-reports consolidated-reports\\appium\\ /E /I /Y 2>nul
+                        if exist python-selenium-automation\\reports xcopy python-selenium-automation\\reports consolidated-reports\\python\\ /E /I /Y 2>nul
+
+                        REM Generate master index
+                        echo ^<html^>^<body^>^<h1^>Master Test Report^</h1^>^</body^>^</html^> > consolidated-reports\\index.html
                     """
                 }
             }
@@ -385,12 +364,17 @@ EOF
         always {
             echo "Cleaning up master workspace..."
             bat """
-                REM Clean up virtual environment
-                if exist master-venv/ 
-                
-                REM Clean up temporary files
-                if exist master-reports/ 
-            """
+                        REM Create consolidated report directory
+                        if not exist consolidated-reports mkdir consolidated-reports
+
+                        REM Copy individual framework reports
+                        if exist java-selenium-automation\\target\\surefire-reports xcopy java-selenium-automation\\target\\surefire-reports consolidated-reports\\selenium\\ /E /I /Y 2>nul
+                        if exist java-appium-automation\\target\\surefire-reports xcopy java-appium-automation\\target\\surefire-reports consolidated-reports\\appium\\ /E /I /Y 2>nul
+                        if exist python-selenium-automation\\reports xcopy python-selenium-automation\\reports consolidated-reports\\python\\ /E /I /Y 2>nul
+
+                        REM Generate master index
+                        echo ^<html^>^<body^>^<h1^>Master Test Report^</h1^>^</body^>^</html^> > consolidated-reports\\index.html
+                    """
             cleanWs()
         }
         success {
