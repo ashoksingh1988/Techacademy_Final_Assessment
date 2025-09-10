@@ -6,7 +6,7 @@ pipeline {
         JAVA_HOME = 'C:\\\\Program Files\\\\Java\\\\jdk-24'
         PATH = "C:\\\\Program Files\\\\Maven\\\\ApacheMaven\\\\apache-maven-3.9.11\\\\bin;C:\\\\Program Files\\\\Java\\\\jdk-24\\\\bin;C:\\\\Users\\\\Asim\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python313;C:\\\\Users\\\\Asim\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python313\\\\Scripts;C:\\\\Program Files\\\\Git\\\\cmd;C:\\\\Program Files\\\\nodejs;C:\\\\Windows\\\\System32"
         PYTHON_HOME = 'C:\\\\Users\\\\Asim\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python313'
-        PYTHONPATH = "${WORKSPACE}\\python-selenium-automation"
+        PYTHONPATH = "${WORKSPACE}\\\\python-selenium-automation"`n        // Enhanced reporting and local Chrome configuration`n        CHROME_BINARY = 'C:\\\\\\\\Users\\\\\\\\Asim\\\\\\\\Downloads\\\\\\\\ChromeSetup\\\\\\\\chrome.exe'`n        HEADLESS_MODE = 'false'`n        BROWSER_TYPE = 'chrome'`n        DISPLAY = ':0'`n        ENHANCED_REPORTING = 'true'
     }
 
     parameters {

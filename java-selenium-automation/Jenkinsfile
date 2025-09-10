@@ -7,7 +7,7 @@ pipeline {
         PATH = "C:\\\\\\\\Program Files\\\\\\\\Java\\\\\\\\jdk-24\\\\\\\\bin;C:\\\\\\\\Program Files\\\\\\\\Maven\\\\\\\\ApacheMaven\\\\\\\\apache-maven-3.9.11\\\\\\\\bin;C:\\\\\\\\Users\\\\\\\\Asim\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Programs\\\\\\\\Python\\\\\\\\Python313;C:\\\\\\\\Users\\\\\\\\Asim\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Programs\\\\\\\\Python\\\\\\\\Python313\\\\\\\\Scripts;C:\\\\\\\\Program Files\\\\\\\\nodejs;C:\\\\\\\\Program Files\\\\\\\\Git\\\\\\\\cmd;C:\\\\\\\\Windows\\\\\\\\System32"
         SELENIUM_HUB = 'http://localhost:4444'
         BROWSER = 'chrome'
-        HEADLESS = 'true'
+        HEADLESS = 'false'`n        // Enhanced reporting and local Chrome configuration`n        CHROME_BINARY = 'C:\\\\\\\\Users\\\\\\\\Asim\\\\\\\\Downloads\\\\\\\\ChromeSetup\\\\\\\\chrome.exe'`n        DISPLAY = ':0'`n        ENHANCED_REPORTING = 'true'
     }
 
     parameters {
