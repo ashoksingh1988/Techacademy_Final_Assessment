@@ -85,6 +85,17 @@ pipeline {
                 script {
                     def jobs = []
                     
+                    if (params.RUN_JAVA_APPIUM) {
+                        def appiumSuite = params.TEST_SUITE == "smoke" ? "smoke-tests" : params.TEST_SUITE == "regression" ? "regression-tests" : "diagnostic-tests"
+                        jobs.add([
+                            job: 'java-appium-pipeline',
+                            parameters: [
+                                [$class: 'StringParameterValue', name: 'TEST_SUITE', value: appiumSuite],
+                                [$class: 'StringParameterValue', name: 'DEVICE_UDID', value: 'PZPVSC95GMKNGUBQ']
+                            ]
+                        ])
+                    }
+                    
                     if (params.RUN_JAVA_SELENIUM) {
                         def seleniumSuite = params.TEST_SUITE == "smoke" ? "smoke-tests" : params.TEST_SUITE == "regression" ? "regression-tests" : "cross-browser-tests"
                         jobs.add([
@@ -94,17 +105,6 @@ pipeline {
                                 [$class: 'StringParameterValue', name: 'BROWSER_TYPE', value: 'chrome'],
                                 [$class: 'StringParameterValue', name: 'ENVIRONMENT', value: params.ENVIRONMENT],
                                 [$class: 'BooleanParameterValue', name: 'HEADLESS_MODE', value: false]
-                            ]
-                        ])
-                    }
-                    
-                    if (params.RUN_JAVA_APPIUM) {
-                        def appiumSuite = params.TEST_SUITE == "smoke" ? "smoke-tests" : params.TEST_SUITE == "regression" ? "regression-tests" : "diagnostic-tests"
-                        jobs.add([
-                            job: 'java-appium-pipeline',
-                            parameters: [
-                                [$class: 'StringParameterValue', name: 'TEST_SUITE', value: appiumSuite],
-                                [$class: 'StringParameterValue', name: 'DEVICE_UDID', value: 'PZPVSC95GMKNGUBQ']
                             ]
                         ])
                     }
