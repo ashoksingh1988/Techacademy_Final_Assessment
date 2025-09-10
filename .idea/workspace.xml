@@ -5,9 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35cda0f9-c071-4104-a304-fcc462a55ca9" name="Changes" comment="Added Jenkinsfile with corrected pipeline configuration_for running build_14">
-      <change afterPath="$PROJECT_DIR$/python-selenium-automation/tests/test_saucedemo_comprehensive.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/AugmentWebviewStateStore.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/AugmentWebviewStateStore.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python-selenium-automation/reports/report.html" beforeDir="false" afterPath="$PROJECT_DIR$/python-selenium-automation/reports/report.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
