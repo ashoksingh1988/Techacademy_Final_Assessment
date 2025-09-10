@@ -86,21 +86,25 @@ pipeline {
                     def jobs = []
                     
                     if (params.RUN_JAVA_SELENIUM) {
+                        def seleniumSuite = params.TEST_SUITE == "smoke" ? "smoke-tests" : params.TEST_SUITE == "regression" ? "regression-tests" : "cross-browser-tests"
                         jobs.add([
                             job: 'java-selenium-pipeline',
                             parameters: [
-                                string(name: "TEST_SUITE", value: params.TEST_SUITE),
-                                string(name: "ENVIRONMENT", value: params.ENVIRONMENT)
+                                [$class: 'StringParameterValue', name: 'TEST_SUITE', value: seleniumSuite],
+                                [$class: 'StringParameterValue', name: 'BROWSER_TYPE', value: 'chrome'],
+                                [$class: 'StringParameterValue', name: 'ENVIRONMENT', value: params.ENVIRONMENT],
+                                [$class: 'BooleanParameterValue', name: 'HEADLESS_MODE', value: false]
                             ]
                         ])
                     }
                     
                     if (params.RUN_JAVA_APPIUM) {
+                        def appiumSuite = params.TEST_SUITE == "smoke" ? "smoke-tests" : params.TEST_SUITE == "regression" ? "regression-tests" : "diagnostic-tests"
                         jobs.add([
                             job: 'java-appium-pipeline',
                             parameters: [
-                                string(name: "TEST_SUITE", value: params.TEST_SUITE),
-                                string(name: "DEVICE_UDID", value: "PZPVSC95GMKNGUBQ")
+                                [$class: 'StringParameterValue', name: 'TEST_SUITE', value: appiumSuite],
+                                [$class: 'StringParameterValue', name: 'DEVICE_UDID', value: 'PZPVSC95GMKNGUBQ']
                             ]
                         ])
                     }
@@ -109,8 +113,10 @@ pipeline {
                         jobs.add([
                             job: 'python-selenium-pipeline',
                             parameters: [
-                                string(name: "TEST_SUITE", value: params.TEST_SUITE),
-                                string(name: "ENVIRONMENT", value: params.ENVIRONMENT)
+                                [$class: 'StringParameterValue', name: 'TEST_SUITE', value: params.TEST_SUITE],
+                                [$class: 'StringParameterValue', name: 'BROWSER_TYPE', value: 'chrome'],
+                                [$class: 'StringParameterValue', name: 'ENVIRONMENT', value: params.ENVIRONMENT],
+                                [$class: 'BooleanParameterValue', name: 'HEADLESS_MODE', value: false]
                             ]
                         ])
                     }
