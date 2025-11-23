@@ -9,9 +9,11 @@ pipeline {
 
     parameters {
         choice(name: 'TEST_SUITE', choices: ['smoke-tests', 'regression-tests'], description: 'Test suite')
-        choice(name: 'BROWSER_TYPE', choices: ['chrome', 'firefox', 'edge'], description: 'Browser')
+        choice(name: 'BROWSER_TYPE', choices: ['chrome', 'firefox', 'edge'], description: 'Single browser (used when MULTI_BROWSER=false)')
         choice(name: 'ENVIRONMENT', choices: ['qa', 'staging', 'production'], description: 'Environment')
-        booleanParam(name: 'HEADLESS_MODE', defaultValue: true, description: 'Headless mode')
+        booleanParam(name: 'HEADLESS_MODE', defaultValue: false, description: 'Headless mode (false = visible browser for demo)')
+        string(name: 'BROWSERS', defaultValue: 'chrome,firefox,edge', description: 'Comma-separated browsers for parallel execution (e.g., chrome,firefox,edge)')
+        booleanParam(name: 'MULTI_BROWSER', defaultValue: true, description: 'Run multiple browsers in parallel (for demo)')
     }
 
     stages {
@@ -21,10 +23,29 @@ pipeline {
 
         stage('Build & Test') {
             steps {
-                dir('java-selenium-automation') {
-                    script {
-                        def suiteFile = params.TEST_SUITE == 'smoke-tests' ? 'selenium-smoke-tests.xml' : 'selenium-regression-tests.xml'
-                        bat "mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/suites/${suiteFile} -Dbrowser=${params.BROWSER_TYPE} -Denvironment=${params.ENVIRONMENT} -Dheadless=${params.HEADLESS_MODE}"
+                script {
+                    def suiteFile = params.TEST_SUITE == 'smoke-tests' ? 'selenium-smoke-tests.xml' : 'selenium-regression-tests.xml'
+                    
+                    if (params.MULTI_BROWSER) {
+                        // Multi-browser parallel execution for demo
+                        def browsers = params.BROWSERS.split(',')*.trim().findAll { it }
+                        def parallelTasks = [:]
+                        
+                        browsers.each { browser ->
+                            parallelTasks["${browser}"] = {
+                                dir('java-selenium-automation') {
+                                    echo "Running tests on ${browser}..."
+                                    bat "mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/suites/${suiteFile} -Dbrowser=${browser} -Denvironment=${params.ENVIRONMENT} -Dheadless=${params.HEADLESS_MODE}"
+                                }
+                            }
+                        }
+                        
+                        parallel parallelTasks
+                    } else {
+                        // Single browser execution
+                        dir('java-selenium-automation') {
+                            bat "mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/suites/${suiteFile} -Dbrowser=${params.BROWSER_TYPE} -Denvironment=${params.ENVIRONMENT} -Dheadless=${params.HEADLESS_MODE}"
+                        }
                     }
                 }
             }

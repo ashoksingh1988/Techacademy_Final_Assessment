@@ -2,11 +2,8 @@ pipeline {
     agent any
 
     environment {
-        MAVEN_HOME = 'C:\\\\Program Files\\\\Maven\\\\ApacheMaven\\\\apache-maven-3.9.11'
-        JAVA_HOME = 'C:\\\\Program Files\\\\Java\\\\jdk-24'
-        PATH = "C:\\\\Program Files\\\\Maven\\\\ApacheMaven\\\\apache-maven-3.9.11\\\\bin;C:\\\\Program Files\\\\Java\\\\jdk-24\\\\bin;C:\\\\Users\\\\Asim\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python313;C:\\\\Users\\\\Asim\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python313\\\\Scripts;C:\\\\Program Files\\\\Git\\\\cmd;C:\\\\Program Files\\\\nodejs;C:\\\\Windows\\\\System32"
-        PYTHON_HOME = 'C:\\\\Users\\\\Asim\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python313'
-        PYTHONPATH = "${WORKSPACE}\\\\python-selenium-automation"`n        // Enhanced reporting and local Chrome configuration`n        CHROME_BINARY = 'C:\\\\\\\\Users\\\\\\\\Asim\\\\\\\\Downloads\\\\\\\\ChromeSetup\\\\\\\\chrome.exe'`n        HEADLESS_MODE = 'false'`n        BROWSER_TYPE = 'chrome'`n        DISPLAY = ':0'`n        ENHANCED_REPORTING = 'true'
+        PYTHON_HOME = 'C:\\Users\\Asim\\AppData\\Local\\Programs\\Python\\Python313'
+        PATH = "C:\\Users\\Asim\\AppData\\Local\\Programs\\Python\\Python313;C:\\Users\\Asim\\AppData\\Local\\Programs\\Python\\Python313\\Scripts;${env.PATH}"
     }
 
     parameters {
@@ -18,7 +15,7 @@ pipeline {
         choice(
             name: 'BROWSER_TYPE',
             choices: ['chrome', 'firefox', 'edge', 'safari'],
-            description: 'Select browser for testing'
+            description: 'Single browser (used when MULTI_BROWSER=false)'
         )
         choice(
             name: 'ENVIRONMENT',
@@ -28,12 +25,22 @@ pipeline {
         booleanParam(
             name: 'HEADLESS_MODE',
             defaultValue: false,
-            description: 'Run tests in headless mode'
+            description: 'Run tests in headless mode (false = visible browser for demo)'
         )
         booleanParam(
             name: 'PARALLEL_EXECUTION',
-            defaultValue: false,
-            description: 'Execute tests in parallel'
+            defaultValue: true,
+            description: 'Execute tests in parallel (pytest-xdist for faster execution)'
+        )
+        string(
+            name: 'BROWSERS',
+            defaultValue: 'chrome,firefox,edge',
+            description: 'Comma-separated browsers for parallel execution (e.g., chrome,firefox,edge)'
+        )
+        booleanParam(
+            name: 'MULTI_BROWSER',
+            defaultValue: true,
+            description: 'Run multiple browsers in parallel (for demo)'
         )
     }
 
@@ -47,22 +54,14 @@ pipeline {
 
         stage('Environment Setup') {
             steps {
-                echo "Setting up Python test environment..."
                 script {
-                    try {
-                        dir('python-selenium-automation') {
-                            bat """
-                                REM Create virtual environment
-                                "${PYTHON_HOME}\\python.exe" -m venv venv
-                                
-                                REM Activate virtual environment and install dependencies
-                                call venv\\Scripts\\activate.bat
-                                python -m pip install --upgrade pip
-                                pip install -r requirements.txt
-                            """
-                        }
-                    } catch (Exception e) {
-                        echo "Environment setup completed with warnings: ${e.getMessage()}"
+                    dir('python-selenium-automation') {
+                        bat """
+                            "${PYTHON_HOME}\\python.exe" -m venv venv
+                            call venv\\Scripts\\activate.bat
+                            python -m pip install --upgrade pip --quiet
+                            pip install -r requirements.txt --quiet
+                        """
                     }
                 }
             }
@@ -70,32 +69,45 @@ pipeline {
 
         stage('Test Execution') {
             steps {
-                echo "Executing Python Selenium tests..."
                 script {
-                    try {
+                    def parallelFlag = params.PARALLEL_EXECUTION ? '-n auto' : ''
+                    
+                    if (params.MULTI_BROWSER) {
+                        // Multi-browser parallel execution for demo
+                        def browsers = params.BROWSERS.split(',')*.trim().findAll { it }
+                        def parallelTasks = [:]
+                        
+                        browsers.each { browser ->
+                            parallelTasks["${browser}"] = {
+                                dir('python-selenium-automation') {
+                                    echo "Running tests on ${browser}..."
+                                    bat """
+                                        call venv\\Scripts\\activate.bat
+                                        python -m pytest tests/ ${parallelFlag} --browser=${browser} --environment=${params.ENVIRONMENT} --headless=${params.HEADLESS_MODE} --html=reports/report_${browser}.html --self-contained-html -v
+                                    """
+                                }
+                            }
+                        }
+                        
+                        parallel parallelTasks
+                    } else {
+                        // Single browser execution
                         dir('python-selenium-automation') {
                             bat """
                                 call venv\\Scripts\\activate.bat
-                                python -m pytest tests/ --browser=${params.BROWSER_TYPE} --environment=${params.ENVIRONMENT} --suite=${params.TEST_SUITE} --headless=${params.HEADLESS_MODE} --html=reports/report.html --self-contained-html
+                                python -m pytest tests/ ${parallelFlag} --browser=${params.BROWSER_TYPE} --environment=${params.ENVIRONMENT} --headless=${params.HEADLESS_MODE} --html=reports/report.html --self-contained-html -v
                             """
                         }
-                    } catch (Exception e) {
-                        echo "Test execution failed: ${e.getMessage()}"
-                        echo "Creating dummy test results for demonstration..."
-                        
-                        bat "if not exist python-selenium-automation\\reports mkdir python-selenium-automation\\reports"
-                        writeFile file: 'python-selenium-automation/reports/report.html', text: '<html><body><h1>Python Test Report</h1><p>Tests executed successfully</p></body></html>'
                     }
                 }
             }
         }
 
-        stage('Generate Reports') {
+        stage('Reports') {
             steps {
-                echo "Generating Python test reports..."
-                script {
-                    try {
-                        dir('python-selenium-automation') {
+                dir('python-selenium-automation') {
+                    script {
+                        try {
                             publishHTML([
                                 allowMissing: false,
                                 alwaysLinkToLastBuild: true,
@@ -104,11 +116,8 @@ pipeline {
                                 reportFiles: 'report.html',
                                 reportName: 'Python Test Report'
                             ])
-                            
                             archiveArtifacts artifacts: 'reports/**/*', allowEmptyArchive: true
-                        }
-                    } catch (Exception e) {
-                        echo "Report generation completed with warnings: ${e.getMessage()}"
+                        } catch (Exception e) {}
                     }
                 }
             }
@@ -116,27 +125,14 @@ pipeline {
 
         stage('Notification') {
             steps {
-                echo "Sending Python test notifications..."
                 script {
                     try {
                         emailext(
-                            subject: "Python Selenium Test Execution - ${currentBuild.currentResult}",
-                            body: """
-                                <h2>Python Selenium Test Report</h2>
-                                <p><strong>Build:</strong> ${env.BUILD_NUMBER}</p>
-                                <p><strong>Status:</strong> ${currentBuild.currentResult}</p>
-                                <p><strong>Test Suite:</strong> ${params.TEST_SUITE}</p>
-                                <p><strong>Browser:</strong> ${params.BROWSER_TYPE}</p>
-                                <p><strong>Environment:</strong> ${params.ENVIRONMENT}</p>
-                                <p><strong>Headless Mode:</strong> ${params.HEADLESS_MODE}</p>
-                                <p><strong>Reports:</strong> <a href="${env.BUILD_URL}Python_Test_Report/">View Report</a></p>
-                            """,
-                            to: "ashokchandravanshi1988@gmail.com",
-                            mimeType: 'text/html'
+                            subject: "Python Selenium - ${currentBuild.currentResult}",
+                            body: "Build: ${env.BUILD_NUMBER} | Browser: ${params.BROWSER_TYPE} | Headless: ${params.HEADLESS_MODE}",
+                            to: "ashokchandravanshi1988@gmail.com"
                         )
-                    } catch (Exception e) {
-                        echo "Notification completed with warnings: ${e.getMessage()}"
-                    }
+                    } catch (Exception e) {}
                 }
             }
         }
@@ -144,29 +140,16 @@ pipeline {
 
     post {
         always {
-            echo "Cleaning up Python workspace..."
             script {
                 try {
                     dir('python-selenium-automation') {
-                        bat """
-                            REM Deactivate virtual environment
-                            if exist venv\\Scripts\\deactivate.bat call venv\\Scripts\\deactivate.bat
-                            
-                            REM Clean up virtual environment
-                            if exist venv rmdir /s /q venv 2>nul
-                        """
+                        bat "if exist venv rmdir /s /q venv 2>nul"
                     }
-                } catch (Exception e) {
-                    echo "Cleanup completed with warnings: ${e.getMessage()}"
-                }
+                } catch (Exception e) {}
             }
             cleanWs()
         }
-        success {
-            echo "Python Selenium pipeline executed successfully!"
-        }
-        failure {
-            echo "Python Selenium pipeline failed!"
-        }
+        success { echo "Pipeline completed successfully!" }
+        failure { echo "Pipeline failed!" }
     }
 }
