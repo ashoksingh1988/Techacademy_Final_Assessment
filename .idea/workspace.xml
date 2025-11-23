@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35cda0f9-c071-4104-a304-fcc462a55ca9" name="Changes" comment="Added Jenkinsfile with corrected pipeline configuration_for running build_14">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Jenkinsfile" beforeDir="false" afterPath="$PROJECT_DIR$/Jenkinsfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/git-commit.bat" beforeDir="false" afterPath="$PROJECT_DIR$/git-commit.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-appium-automation/Jenkinsfile" beforeDir="false" afterPath="$PROJECT_DIR$/java-appium-automation/Jenkinsfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jenkins-appium-start.bat" beforeDir="false" afterPath="$PROJECT_DIR$/jenkins-appium-start.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jenkins-appium-stop.bat" beforeDir="false" afterPath="$PROJECT_DIR$/jenkins-appium-stop.bat" afterDir="false" />
-    </list>
+    <list default="true" id="35cda0f9-c071-4104-a304-fcc462a55ca9" name="Changes" comment="Added Jenkinsfile with corrected pipeline configuration_for running build_14" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

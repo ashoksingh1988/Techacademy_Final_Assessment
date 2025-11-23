@@ -60,12 +60,30 @@ pipeline {
         stage('Setup Environment') {
             steps {
                 script {
-                    try {
-                        timeout(time: 10, unit: 'SECONDS') {
-                            bat(script: "jenkins-appium-start.bat", returnStatus: true)
+                    echo "Setting up test environment..."
+                    
+                    // Start Appium if needed
+                    if (params.RUN_JAVA_APPIUM) {
+                        try {
+                            timeout(time: 20, unit: 'SECONDS') {
+                                bat(script: "jenkins-appium-start.bat", returnStatus: true)
+                            }
+                            
+                            // Verify device is connected before proceeding
+                            def deviceCheck = bat(script: "adb devices | findstr PZPVSC95GMKNGUBQ", returnStatus: true)
+                            if (deviceCheck != 0) {
+                                echo "ERROR: Device PZPVSC95GMKNGUBQ not connected!"
+                                bat "adb devices"
+                                error("Android device not found. Please connect device and enable USB debugging.")
+                            } else {
+                                echo "Device PZPVSC95GMKNGUBQ is ready"
+                            }
+                        } catch (Exception e) {
+                            echo "Environment setup failed: ${e.getMessage()}"
+                            throw e
                         }
-                    } catch (Exception e) {
-                        echo "Appium start skipped or timed out - continuing"
+                    } else {
+                        echo "Skipping Appium setup (mobile tests disabled)"
                     }
                 }
             }

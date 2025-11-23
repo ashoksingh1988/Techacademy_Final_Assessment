@@ -1,27 +1,40 @@
 @echo off
-REM Fast Appium start for Jenkins - non-blocking
+setlocal enabledelayedexpansion
+REM Jenkins Appium & Device Setup - Non-blocking
 
-REM Check if already running (quick check, 1 sec timeout)
+REM Check if Appium already running
 curl -s --max-time 1 http://127.0.0.1:4723/status >nul 2>&1
 if %errorlevel% equ 0 (
     echo Appium already running
-    exit /b 0
+    goto :verify_device
 )
 
-REM Start Appium in background (detached process)
-echo Starting Appium...
-start "AppiumServer" /MIN appium --allow-insecure chromedriver_autodownload >nul 2>&1
+REM Start Appium in background
+echo Starting Appium server...
+start "AppiumServer" /MIN appium --allow-insecure chromedriver_autodownload
 
-REM Quick verification (3 attempts, 1 sec each)
-for /L %%i in (1,1,3) do (
+REM Wait for Appium to be ready (max 10 seconds)
+for /L %%i in (1,1,10) do (
     timeout /t 1 /nobreak >nul 2>&1
     curl -s --max-time 1 http://127.0.0.1:4723/status >nul 2>&1
     if !errorlevel! equ 0 (
-        echo Appium ready
-        exit /b 0
+        echo Appium server ready
+        goto :verify_device
     )
 )
 
-REM If not ready after 3 seconds, continue anyway (tests will handle it)
-echo Appium starting in background...
+echo WARNING: Appium may not be ready yet
+
+:verify_device
+REM Quick device check (non-blocking)
+echo Checking Android device...
+adb devices 2>nul | findstr "device" | findstr -v "List" >nul 2>&1
+if %errorlevel% equ 0 (
+    echo Device detected
+    adb devices
+) else (
+    echo WARNING: No Android device detected
+    echo Please ensure device is connected and USB debugging is enabled
+)
+
 exit /b 0

@@ -35,12 +35,29 @@ pipeline {
         stage('Environment Setup') {
             steps {
                 script {
+                    echo "Setting up Appium and verifying device..."
                     try {
-                        timeout(time: 10, unit: 'SECONDS') {
+                        timeout(time: 20, unit: 'SECONDS') {
                             bat(script: "cd .. && jenkins-appium-start.bat", returnStatus: true)
                         }
                     } catch (Exception e) {
-                        echo "Appium start skipped - tests may run in demo mode"
+                        echo "WARNING: Environment setup issue - ${e.getMessage()}"
+                    }
+                    
+                    // Verify device is connected
+                    try {
+                        def deviceCheck = bat(script: "adb devices | findstr ${params.DEVICE_UDID}", returnStatus: true)
+                        if (deviceCheck != 0) {
+                            echo "ERROR: Device ${params.DEVICE_UDID} not found!"
+                            echo "Available devices:"
+                            bat "adb devices"
+                            error("Device not connected. Please connect device ${params.DEVICE_UDID} and enable USB debugging.")
+                        } else {
+                            echo "Device ${params.DEVICE_UDID} is connected"
+                        }
+                    } catch (Exception e) {
+                        echo "Device verification failed: ${e.getMessage()}"
+                        throw e
                     }
                 }
             }
