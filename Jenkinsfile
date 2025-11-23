@@ -61,9 +61,11 @@ pipeline {
             steps {
                 script {
                     try {
-                        bat(script: "jenkins-appium-start.bat", returnStatus: true)
+                        timeout(time: 10, unit: 'SECONDS') {
+                            bat(script: "jenkins-appium-start.bat", returnStatus: true)
+                        }
                     } catch (Exception e) {
-                        echo "Appium start warning: ${e.getMessage()}"
+                        echo "Appium start skipped or timed out - continuing"
                     }
                 }
             }

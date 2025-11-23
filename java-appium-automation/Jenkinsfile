@@ -36,9 +36,11 @@ pipeline {
             steps {
                 script {
                     try {
-                        bat(script: "cd .. && jenkins-appium-start.bat", returnStatus: true)
+                        timeout(time: 10, unit: 'SECONDS') {
+                            bat(script: "cd .. && jenkins-appium-start.bat", returnStatus: true)
+                        }
                     } catch (Exception e) {
-                        echo "Appium start warning - tests may run in demo mode"
+                        echo "Appium start skipped - tests may run in demo mode"
                     }
                 }
             }

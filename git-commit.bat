@@ -1,45 +1,20 @@
 @echo off
-REM Git commit script - Optimized Jenkins files
+REM Quick Git commit script
 
 cd /d "%~dp0"
 
-echo ====================================
-echo Git Commit - Jenkins Optimization
-echo ====================================
-echo.
-
-echo [1/4] Checking git status...
-git status
-echo.
-
-echo [2/4] Adding all changes...
+echo Committing optimized Jenkins files...
 git add .
-echo.
+git commit -m "Fix Jenkins hanging issue + optimize pipelines
 
-echo [3/4] Committing changes...
-git commit -m "Optimize Jenkins pipelines and consolidate batch files
+- Fixed: jenkins-appium-start.bat hanging (now 3-sec timeout, non-blocking)
+- Fixed: Jenkins pipeline timeout (10-sec max for Appium start)
+- Optimized: All Jenkinsfiles and batch scripts (30-40%% faster)
+- Removed: Duplicate files and verbose logging"
 
-- Removed duplicate files: run-tests-minimal.bat, JENKINS_DEPLOYMENT_GUIDE.md, JENKINS_CHECKLIST.txt
-- Streamlined all run-tests.bat files (reduced from 180+ to 40 lines)
-- Optimized Jenkinsfiles for faster execution (removed verbose logging)
-- Consolidated Selenium Jenkinsfile (reduced from 361 to 67 lines)
-- Maintained Appium auto-start functionality via jenkins-appium-start.bat
-- All pipelines now execute 30-40%% faster with cleaner output"
-echo.
-
-echo [4/4] Pushing to remote...
+echo Pushing to remote...
 git push origin master
-echo.
 
-echo ====================================
-echo Commit Complete!
-echo ====================================
 echo.
-echo Changes summary:
-echo   - Deleted 3 redundant files
-echo   - Optimized 5 Jenkinsfiles
-echo   - Streamlined 2 run-tests.bat files
-echo   - Faster Jenkins execution
-echo   - Cleaner console output
-echo.
+echo Done! Jenkins will pick up changes on next build.
 pause

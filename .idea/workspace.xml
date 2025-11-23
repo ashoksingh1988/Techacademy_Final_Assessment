@@ -5,49 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35cda0f9-c071-4104-a304-fcc462a55ca9" name="Changes" comment="Added Jenkinsfile with corrected pipeline configuration_for running build_14">
-      <change beforePath="$PROJECT_DIR$/.idea/AugmentWebviewStateStore.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/AugmentWebviewStateStore.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/zencoder-chat-index.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/zencoder-chat-index.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/zencoder/chats/3964c6b6-e831-43ae-b05d-3cfd2539d810.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/zencoder/chats/edd16039-6242-47e3-926e-1c52341d9aa9.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Jenkinsfile" beforeDir="false" afterPath="$PROJECT_DIR$/Jenkinsfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/git-commit.bat" beforeDir="false" afterPath="$PROJECT_DIR$/git-commit.bat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/java-appium-automation/Jenkinsfile" beforeDir="false" afterPath="$PROJECT_DIR$/java-appium-automation/Jenkinsfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-appium-automation/reports/Appium_Android_Automation_Report_2025-09-10_19-18-56.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-appium-automation/reports/Appium_Android_Automation_Report_2025-09-10_19-53-53.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testColorNotePageLoad_failure_2025-09-10_20-29-34-225.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testGoogleDocsPageLoad_failure_2025-09-10_20-31-32-386.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testGoogleDocsPageLoad_failure_2025-09-10_20-31-33-878.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-appium-automation/reports/screenshots/testNavigationElements_failure_2025-09-10_20-29-51-273.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-appium-automation/scripts/run-tests.bat" beforeDir="false" afterPath="$PROJECT_DIR$/java-appium-automation/scripts/run-tests.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-appium-automation/src/main/java/com/appium/core/BaseTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-appium-automation/src/main/java/com/appium/core/BaseTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-selenium-automation/scripts/run-tests.bat" beforeDir="false" afterPath="$PROJECT_DIR$/java-selenium-automation/scripts/run-tests.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-selenium-automation/conftest.py" beforeDir="false" afterPath="$PROJECT_DIR$/python-selenium-automation/conftest.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-selenium-automation/reports/report.html" beforeDir="false" afterPath="$PROJECT_DIR$/python-selenium-automation/reports/report.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-selenium-automation/reports/screenshots/failure/test_add_item_to_cart_FAILURE_2025-09-10_20-34-27.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-selenium-automation/reports/screenshots/failure/test_logout_functionality_FAILURE_2025-09-10_20-19-24.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-selenium-automation/reports/screenshots/failure/test_remove_item_from_cart_FAILURE_2025-09-10_20-19-05.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-selenium-automation/reports/screenshots/failure/test_saucedemo_complete_workflow_FAILURE_2025-09-10_19-32-54.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-selenium-automation/reports/screenshots/failure/test_saucedemo_complete_workflow_FAILURE_2025-09-10_19-35-13.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-selenium-automation/reports/screenshots/failure/test_saucedemo_complete_workflow_FAILURE_2025-09-10_19-36-43.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-selenium-automation/reports/screenshots/failure/test_saucedemo_complete_workflow_FAILURE_2025-09-10_20-18-05.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-selenium-automation/reports/screenshots/success/test_add_item_to_cart_SUCCESS_2025-09-10_20-18-54.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-selenium-automation/reports/screenshots/success/test_add_item_to_cart_SUCCESS_2025-09-10_20-21-01.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-selenium-automation/reports/screenshots/success/test_login_with_invalid_credentials_SUCCESS_2025-09-10_20-18-41.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-selenium-automation/reports/screenshots/success/test_login_with_invalid_credentials_SUCCESS_2025-09-10_20-20-50.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-selenium-automation/reports/screenshots/success/test_login_with_invalid_credentials_SUCCESS_2025-09-10_20-34-04.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-selenium-automation/reports/screenshots/success/test_login_with_invalid_credentials_SUCCESS_2025-09-10_20-35-29.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-selenium-automation/reports/screenshots/success/test_login_with_valid_credentials_SUCCESS_2025-09-10_20-18-27.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-selenium-automation/reports/screenshots/success/test_login_with_valid_credentials_SUCCESS_2025-09-10_20-20-35.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-selenium-automation/reports/screenshots/success/test_login_with_valid_credentials_SUCCESS_2025-09-10_20-33-52.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-selenium-automation/reports/screenshots/success/test_login_with_valid_credentials_SUCCESS_2025-09-10_20-35-16.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-selenium-automation/reports/screenshots/success/test_verify_website_title_SUCCESS_2025-09-10_20-18-13.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-selenium-automation/reports/screenshots/success/test_verify_website_title_SUCCESS_2025-09-10_20-20-23.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-selenium-automation/reports/screenshots/success/test_verify_website_title_SUCCESS_2025-09-10_20-33-40.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-selenium-automation/reports/screenshots/success/test_verify_website_title_SUCCESS_2025-09-10_20-35-04.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-selenium-automation/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/python-selenium-automation/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-selenium-automation/run_tests.bat" beforeDir="false" afterPath="$PROJECT_DIR$/python-selenium-automation/run_tests.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python-selenium-automation/tests/test_saucedemo_comprehensive.py" beforeDir="false" afterPath="$PROJECT_DIR$/python-selenium-automation/tests/test_saucedemo_comprehensive.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jenkins-appium-start.bat" beforeDir="false" afterPath="$PROJECT_DIR$/jenkins-appium-start.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jenkins-appium-stop.bat" beforeDir="false" afterPath="$PROJECT_DIR$/jenkins-appium-stop.bat" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,52 +46,53 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Batch.run-testng.executor&quot;: &quot;Run&quot;,
-    &quot;Batch.run-tests.executor&quot;: &quot;Run&quot;,
-    &quot;Batch.run_tests.executor&quot;: &quot;Run&quot;,
-    &quot;Batch.setup-appium.executor&quot;: &quot;Run&quot;,
-    &quot;Batch.setup-environment.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.SauceDemoAutomation [clean,install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.SauceDemoAutomation [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.SauceDemoAutomation [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.SauceDemoAutomation [test...].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.SauceDemoAutomation [test].executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Python.conftest.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ChatTagsLlmMigration&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ClientConfigCleanupMigration&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.CodyAccountHistoryMigration&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.CodyAccountsIdsRefresh&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.CodyAssignOrphanedChatsToActiveAccount&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.CodyConvertUrlToCodebaseName&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.CodyHistoryLlmMigration&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.CodyMigrateChatHistory-v2&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.CodyProjectSettingsMigration&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.DeprecatedChatLlmMigration&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ToggleCodyToolWindowAfterMigration&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.zencoder-patch-add-chat-message-raw-content&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.zencoder-patch-chat-storage-migration&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.zencoder-patch-generate-chat-message-id&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.zencoder-patch-migrate-custom-instruction&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.zencoder-patch-migrate-repo-info-to-rules&quot;: &quot;true&quot;,
-    &quot;TestNG.C:/Users/Asim/IdeaProjects/SauceDemoAutomation/testng.xml.executor&quot;: &quot;Run&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1&quot;: &quot;true&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Batch.git-commit.executor": "Run",
+    "Batch.run-testng.executor": "Run",
+    "Batch.run-tests.executor": "Run",
+    "Batch.run_tests.executor": "Run",
+    "Batch.setup-appium.executor": "Run",
+    "Batch.setup-environment.executor": "Run",
+    "Maven.SauceDemoAutomation [clean,install].executor": "Run",
+    "Maven.SauceDemoAutomation [clean].executor": "Run",
+    "Maven.SauceDemoAutomation [install].executor": "Run",
+    "Maven.SauceDemoAutomation [test...].executor": "Run",
+    "Maven.SauceDemoAutomation [test].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.conftest.executor": "Run",
+    "RunOnceActivity.ChatTagsLlmMigration": "true",
+    "RunOnceActivity.ClientConfigCleanupMigration": "true",
+    "RunOnceActivity.CodyAccountHistoryMigration": "true",
+    "RunOnceActivity.CodyAccountsIdsRefresh": "true",
+    "RunOnceActivity.CodyAssignOrphanedChatsToActiveAccount": "true",
+    "RunOnceActivity.CodyConvertUrlToCodebaseName": "true",
+    "RunOnceActivity.CodyHistoryLlmMigration": "true",
+    "RunOnceActivity.CodyMigrateChatHistory-v2": "true",
+    "RunOnceActivity.CodyProjectSettingsMigration": "true",
+    "RunOnceActivity.DeprecatedChatLlmMigration": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.ToggleCodyToolWindowAfterMigration": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.zencoder-patch-add-chat-message-raw-content": "true",
+    "RunOnceActivity.zencoder-patch-chat-storage-migration": "true",
+    "RunOnceActivity.zencoder-patch-generate-chat-message-id": "true",
+    "RunOnceActivity.zencoder-patch-migrate-custom-instruction": "true",
+    "RunOnceActivity.zencoder-patch-migrate-repo-info-to-rules": "true",
+    "TestNG.C:/Users/Asim/IdeaProjects/SauceDemoAutomation/testng.xml.executor": "Run",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "master",
+    "junie.onboarding.icon.badge.shown": "true",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "MavenSettings",
+    "to.speed.mode.migration.done": "true"
   }
-}</component>
+}]]></component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="mvn clean install" />

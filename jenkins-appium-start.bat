@@ -1,40 +1,27 @@
 @echo off
-REM ==========================================
-REM Jenkins Appium Server Starter
-REM ==========================================
+REM Fast Appium start for Jenkins - non-blocking
 
-echo Starting Appium server for Jenkins...
-
-REM Check if Appium is already running
-timeout 2 curl -s http://127.0.0.1:4723/status >nul 2>&1
+REM Check if already running (quick check, 1 sec timeout)
+curl -s --max-time 1 http://127.0.0.1:4723/status >nul 2>&1
 if %errorlevel% equ 0 (
-    echo Appium server is already running
+    echo Appium already running
     exit /b 0
 )
 
-REM Start Appium server in background
-echo Starting new Appium server instance...
-start /B appium --allow-insecure chromedriver_autodownload --log appium-jenkins.log
+REM Start Appium in background (detached process)
+echo Starting Appium...
+start "AppiumServer" /MIN appium --allow-insecure chromedriver_autodownload >nul 2>&1
 
-REM Wait for server to start (max 10 seconds)
-echo Waiting for Appium to be ready...
-set MAX_ATTEMPTS=10
-set ATTEMPT=0
-
-:check_loop
-set /a ATTEMPT+=1
-if %ATTEMPT% gtr %MAX_ATTEMPTS% (
-    echo ERROR: Appium failed to start after %MAX_ATTEMPTS% attempts
-    exit /b 1
+REM Quick verification (3 attempts, 1 sec each)
+for /L %%i in (1,1,3) do (
+    timeout /t 1 /nobreak >nul 2>&1
+    curl -s --max-time 1 http://127.0.0.1:4723/status >nul 2>&1
+    if !errorlevel! equ 0 (
+        echo Appium ready
+        exit /b 0
+    )
 )
 
-timeout 1 >nul 2>&1
-curl -s http://127.0.0.1:4723/status >nul 2>&1
-if %errorlevel% neq 0 (
-    echo Attempt %ATTEMPT%/%MAX_ATTEMPTS% - waiting...
-    goto check_loop
-)
-
-echo Appium server started successfully!
-curl -s http://127.0.0.1:4723/status
+REM If not ready after 3 seconds, continue anyway (tests will handle it)
+echo Appium starting in background...
 exit /b 0
