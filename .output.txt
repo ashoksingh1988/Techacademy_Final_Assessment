@@ -1,0 +1,305 @@
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::staticFieldBase has been called by com.google.inject.internal.aop.HiddenClassDefiner (file:/C:/Program%20Files/Maven/ApacheMaven/apache-maven-3.9.11/lib/guice-5.1.0-classes.jar)
+WARNING: Please consider reporting this to the maintainers of class com.google.inject.internal.aop.HiddenClassDefiner
+WARNING: sun.misc.Unsafe::staticFieldBase will be removed in a future release
+13:53:11.570 [main] DEBUG org.testng.TestNG -- suiteXmlPath: "C:\Users\Asim\IdeaProjects\SauceDemoAutomation\java-appium-automation\src\test\resources\suites\smoke-tests.xml"
+13:53:12.536 [main] INFO com.appium.listeners.TestExecutionListener -- ========================================
+13:53:12.536 [main] INFO com.appium.listeners.TestExecutionListener -- TEST SUITE STARTED: Appium Android Smoke Test Suite
+13:53:12.536 [main] INFO com.appium.listeners.TestExecutionListener -- ========================================
+13:53:12.992 [main] INFO com.appium.core.ConfigurationManager -- Application properties loaded successfully
+13:53:13.056 [main] INFO com.appium.core.ConfigurationManager -- Device configurations loaded successfully
+13:53:13.060 [main] INFO com.appium.core.ConfigurationManager -- Test data configurations loaded successfully
+13:53:13.064 [main] INFO com.appium.utils.ReportManager -- Initializing ExtentReports
+13:53:13.455 [main] INFO com.appium.utils.ReportManager -- ExtentReports initial
+ized successfully: reports\Appium_Android_Automation_Report_2025-09-30_13-53-13.html
+13:53:13.455 [main] INFO com.appium.listeners.TestExecutionListener -- Suite Configuration:
+13:53:13.456 [main] INFO com.appium.listeners.TestExecutionListener --   Suite Name: Appium Android Smoke Test Suite
+13:53:13.456 [main] INFO com.appium.listeners.TestExecutionListener --   XML Fil
+e: C:\Users\Asim\IdeaProjects\SauceDemoAutomation\java-appium-automation\src\test\resources\suites\smoke-tests.xml
+13:53:13.456 [main] INFO com.appium.listeners.TestExecutionListener --   Parallel Mode: methods
+13:53:13.456 [main] INFO com.appium.listeners.TestExecutionListener --   Thread Count: 1
+13:53:13.456 [main] INFO com.appium.listeners.TestExecutionListener --   Test Count: 4
+13:53:13.456 [main] INFO com.appium.listeners.TestExecutionListener -- Framework Configuration:
+13:53:13.456 [main] INFO com.appium.listeners.TestExecutionListener --   Appium Server: http://127.0.0.1:4723
+13:53:13.456 [main] INFO com.appium.listeners.TestExecutionListener --   Reports Directory: reports
+13:53:13.456 [main] INFO com.appium.listeners.TestExecutionListener --   Screenshot on Failure: true
+13:53:13.456 [main] INFO com.appium.listeners.TestExecutionListener --   Parallel Execution: false
+13:53:13.457 [main] INFO com.appium.listeners.TestExecutionListener -- Suite initialization completed successfully
+13:53:13.504 [main] INFO com.appium.core.BaseTest -- === Test Suite Setup Started ===
+13:53:13.504 [main] INFO com.appium.core.BaseTest -- === Test Suite Setup Completed ===
+13:53:13.559 [TestNG-test=Calculator Application Smoke Tests-1] INFO com.appium.core.BaseTest -- === Test Class Setup: CalculatorTests ===
+13:53:13.605 [TestNG-test=Calculator Application Smoke Tests-1] INFO com.appium.core.BaseTest -- === Test Setup: testCalculatorPageLoad ===
+13:53:13.605 [TestNG-test=Calculator Application Smoke Tests-1] INFO com.appium.core.BaseTest -- Test Configuration for: testCalculatorPageLoad
+13:53:13.605 [TestNG-test=Calculator Application Smoke Tests-1] INFO com.appium.core.BaseTest --   Device Name: Android_Device
+13:53:13.605 [TestNG-test=Calculator Application Smoke Tests-1] INFO com.appium.core.BaseTest --   Platform Version: 11
+13:53:13.605 [TestNG-test=Calculator Application Smoke Tests-1] INFO com.appium.core.BaseTest --   App Package: com.google.android.calculator
+13:53:13.605 [TestNG-test=Calculator Application Smoke Tests-1] INFO com.appium.core.BaseTest --   App Activity: com.android.calculator2.Calculator
+13:53:13.605 [TestNG-test=Calculator Application Smoke Tests-1] INFO com.appium.core.BaseTest --   Thread: TestNG-test=Calculator Application Smoke Tests-1
+13:53:13.639 [TestNG-test=Calculator Application Smoke Tests-1] WARN com.appium.
+core.BaseTest -- Appium server not reachable at http://127.0.0.1:4723/status: Connection refused: getsockopt
+13:53:13.639 [TestNG-test=Calculator Application Smoke Tests-1] WARN com.appium.
+core.BaseTest -- Appium server is not reachable at http://127.0.0.1:4723 ? skipping test 'testCalculatorPageLoad'
+13:53:13.649 [TestNG-test=Calculator Application Smoke Tests-1] INFO com.appium.listeners.TestExecutionListener -- ----------------------------------------
+13:53:13.650 [TestNG-test=Calculator Application Smoke Tests-1] INFO com.appium.
+listeners.TestExecutionListener -- TEST STARTED: com.appium.tests.CalculatorTests.testCalculatorPageLoad
+13:53:13.650 [TestNG-test=Calculator Application Smoke Tests-1] INFO com.appium.listeners.TestExecutionListener -- ----------------------------------------
+13:53:13.662 [TestNG-test=Calculator Application Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Created test in report: testCalculatorPageLoad
+13:53:13.670 [TestNG-test=Calculator Application Smoke Tests-1] DEBUG com.appium
+.utils.ReportManager -- Logged info: Test Class: com.appium.tests.CalculatorTests
+13:53:13.671 [TestNG-test=Calculator Application Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Logged info: Test Method: testCalculatorPageLoad
+13:53:13.672 [TestNG-test=Calculator Application Smoke Tests-1] DEBUG com.appium
+.utils.ReportManager -- Logged info: Thread: TestNG-test=Calculator Application Smoke Tests-1
+13:53:13.690 [TestNG-test=Calculator Application Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Logged info: Start Time: Tue Sep 30 13:53:13 IST 2025
+13:53:13.696 [TestNG-test=Calculator Application Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Assigned category to test: CalculatorTests
+13:53:13.697 [TestNG-test=Calculator Application Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Assigned author to test: Asim Kumar Singh
+13:53:13.700 [TestNG-test=Calculator Application Smoke Tests-1] WARN com.appium.listeners.TestExecutionListener -- ?? TEST SKIPPED: testCalculatorPageLoad
+13:53:13.702 [TestNG-test=Calculator Application Smoke Tests-1] WARN com.appium.listeners.TestExecutionListener -- Skip reason: Unknown reason
+13:53:13.702 [TestNG-test=Calculator Application Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Logged skip: Test skipped: Unknown reason
+13:53:13.708 [TestNG-test=Calculator Application Smoke Tests-1] WARN com.appium.core.BaseTest -- Test completed with unknown status: null
+13:53:13.709 [TestNG-test=Calculator Application Smoke Tests-1] WARN com.appium.
+core.DriverFactory -- No driver found to quit for thread: TestNG-test=Calculator Application Smoke Tests-1
+13:53:13.709 [TestNG-test=Calculator Application Smoke Tests-1] INFO com.appium.core.BaseTest -- === Test Teardown Completed: null ===
+13:53:13.716 [TestNG-test=Calculator Application Smoke Tests-1] INFO com.appium.listeners.TestExecutionListener -- ----------------------------------------
+13:53:13.716 [TestNG-test=Calculator Application Smoke Tests-1] INFO com.appium.
+listeners.TestExecutionListener -- TEST STARTED: com.appium.tests.CalculatorTests.testClearFunctionality
+13:53:13.716 [TestNG-test=Calculator Application Smoke Tests-1] INFO com.appium.listeners.TestExecutionListener -- ----------------------------------------
+13:53:13.716 [TestNG-test=Calculator Application Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Created test in report: testClearFunctionality
+13:53:13.716 [TestNG-test=Calculator Application Smoke Tests-1] DEBUG com.appium
+.utils.ReportManager -- Logged info: Test Class: com.appium.tests.CalculatorTests
+13:53:13.718 [TestNG-test=Calculator Application Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Logged info: Test Method: testClearFunctionality
+13:53:13.718 [TestNG-test=Calculator Application Smoke Tests-1] DEBUG com.appium
+.utils.ReportManager -- Logged info: Thread: TestNG-test=Calculator Application Smoke Tests-1
+13:53:13.718 [TestNG-test=Calculator Application Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Logged info: Start Time: Tue Sep 30 13:53:13 IST 2025
+13:53:13.719 [TestNG-test=Calculator Application Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Assigned category to test: CalculatorTests
+13:53:13.720 [TestNG-test=Calculator Application Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Assigned author to test: Asim Kumar Singh
+13:53:13.720 [TestNG-test=Calculator Application Smoke Tests-1] WARN com.appium.listeners.TestExecutionListener -- ?? TEST SKIPPED: testClearFunctionality
+13:53:13.720 [TestNG-test=Calculator Application Smoke Tests-1] WARN com.appium.
+listeners.TestExecutionListener -- Skip reason: Method com.appium.tests.Calculat
+orTests.testClearFunctionality() on instance com.appium.tests.CalculatorTests@77f1baf5 depends on not successfully finished methods
+[com.appium.tests.CalculatorTests.testCalculatorPageLoad() on instance com.appium.tests.CalculatorTests@77f1baf5]
+13:53:13.722 [TestNG-test=Calculator Application Smoke Tests-1] DEBUG com.appium
+.utils.ReportManager -- Logged skip: Test skipped: Method com.appium.tests.Calcu
+latorTests.testClearFunctionality() on instance com.appium.tests.CalculatorTests@77f1baf5 depends on not successfully finished methods
+[com.appium.tests.CalculatorTests.testCalculatorPageLoad() on instance com.appium.tests.CalculatorTests@77f1baf5]
+13:53:13.724 [TestNG-test=Calculator Application Smoke Tests-1] INFO com.appium.core.BaseTest -- === Test Class Teardown: CalculatorTests ===
+13:53:13.813 [TestNG-test=ColorNote Application Smoke Tests-1] INFO com.appium.core.BaseTest -- === Test Class Setup: ColorNoteTests ===
+13:53:13.817 [TestNG-test=ColorNote Application Smoke Tests-1] INFO com.appium.core.BaseTest -- === Test Setup: testColorNotePageLoad ===
+13:53:13.817 [TestNG-test=ColorNote Application Smoke Tests-1] INFO com.appium.core.BaseTest -- Test Configuration for: testColorNotePageLoad
+13:53:13.817 [TestNG-test=ColorNote Application Smoke Tests-1] INFO com.appium.core.BaseTest --   Device Name: Android_Device
+13:53:13.817 [TestNG-test=ColorNote Application Smoke Tests-1] INFO com.appium.core.BaseTest --   Platform Version: 11
+13:53:13.817 [TestNG-test=ColorNote Application Smoke Tests-1] INFO com.appium.core.BaseTest --   App Package: com.socialnmobile.dictapps.notepad.color.note
+13:53:13.817 [TestNG-test=ColorNote Application Smoke Tests-1] INFO com.appium.core.BaseTest --   App Activity: com.socialnmobile.colornote.activity.Main
+13:53:13.817 [TestNG-test=ColorNote Application Smoke Tests-1] INFO com.appium.core.BaseTest --   Thread: TestNG-test=ColorNote Application Smoke Tests-1
+13:53:13.818 [TestNG-test=ColorNote Application Smoke Tests-1] WARN com.appium.c
+ore.BaseTest -- Appium server not reachable at http://127.0.0.1:4723/status: Connection refused: getsockopt
+13:53:13.819 [TestNG-test=ColorNote Application Smoke Tests-1] WARN com.appium.c
+ore.BaseTest -- Appium server is not reachable at http://127.0.0.1:4723 ? skipping test 'testColorNotePageLoad'
+13:53:13.820 [TestNG-test=ColorNote Application Smoke Tests-1] INFO com.appium.listeners.TestExecutionListener -- ----------------------------------------
+13:53:13.822 [TestNG-test=ColorNote Application Smoke Tests-1] INFO com.appium.l
+isteners.TestExecutionListener -- TEST STARTED: com.appium.tests.ColorNoteTests.testColorNotePageLoad
+13:53:13.822 [TestNG-test=ColorNote Application Smoke Tests-1] INFO com.appium.listeners.TestExecutionListener -- ----------------------------------------
+13:53:13.822 [TestNG-test=ColorNote Application Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Created test in report: testColorNotePageLoad
+13:53:13.822 [TestNG-test=ColorNote Application Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Logged info: Test Class: com.appium.tests.ColorNoteTests
+13:53:13.823 [TestNG-test=ColorNote Application Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Logged info: Test Method: testColorNotePageLoad
+13:53:13.823 [TestNG-test=ColorNote Application Smoke Tests-1] DEBUG com.appium.
+utils.ReportManager -- Logged info: Thread: TestNG-test=ColorNote Application Smoke Tests-1
+13:53:13.823 [TestNG-test=ColorNote Application Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Logged info: Start Time: Tue Sep 30 13:53:13 IST 2025
+13:53:13.824 [TestNG-test=ColorNote Application Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Assigned category to test: ColorNoteTests
+13:53:13.824 [TestNG-test=ColorNote Application Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Assigned author to test: Asim Kumar Singh
+13:53:13.825 [TestNG-test=ColorNote Application Smoke Tests-1] WARN com.appium.listeners.TestExecutionListener -- ?? TEST SKIPPED: testColorNotePageLoad
+13:53:13.825 [TestNG-test=ColorNote Application Smoke Tests-1] WARN com.appium.l
+isteners.TestExecutionListener -- Skip reason: Appium server is not reachable at http://127.0.0.1:4723 ? skipping test 'testColorNotePageLoad'
+13:53:13.825 [TestNG-test=ColorNote Application Smoke Tests-1] DEBUG com.appium.
+utils.ReportManager -- Logged skip: Test skipped: Appium server is not reachable at http://127.0.0.1:4723 ? skipping test 'testColorNotePageLoad'
+13:53:13.827 [TestNG-test=ColorNote Application Smoke Tests-1] WARN com.appium.core.BaseTest -- Test completed with unknown status: null
+13:53:13.827 [TestNG-test=ColorNote Application Smoke Tests-1] WARN com.appium.c
+ore.DriverFactory -- No driver found to quit for thread: TestNG-test=ColorNote Application Smoke Tests-1
+13:53:13.827 [TestNG-test=ColorNote Application Smoke Tests-1] INFO com.appium.core.BaseTest -- === Test Teardown Completed: null ===
+13:53:13.830 [TestNG-test=ColorNote Application Smoke Tests-1] INFO com.appium.core.BaseTest -- === Test Setup: testNavigationElements ===
+13:53:13.830 [TestNG-test=ColorNote Application Smoke Tests-1] INFO com.appium.core.BaseTest -- Test Configuration for: testNavigationElements
+13:53:13.830 [TestNG-test=ColorNote Application Smoke Tests-1] INFO com.appium.core.BaseTest --   Device Name: Android_Device
+13:53:13.830 [TestNG-test=ColorNote Application Smoke Tests-1] INFO com.appium.core.BaseTest --   Platform Version: 11
+13:53:13.830 [TestNG-test=ColorNote Application Smoke Tests-1] INFO com.appium.core.BaseTest --   App Package: com.socialnmobile.dictapps.notepad.color.note
+13:53:13.830 [TestNG-test=ColorNote Application Smoke Tests-1] INFO com.appium.core.BaseTest --   App Activity: com.socialnmobile.colornote.activity.Main
+13:53:13.830 [TestNG-test=ColorNote Application Smoke Tests-1] INFO com.appium.core.BaseTest --   Thread: TestNG-test=ColorNote Application Smoke Tests-1
+13:53:13.833 [TestNG-test=ColorNote Application Smoke Tests-1] WARN com.appium.c
+ore.BaseTest -- Appium server not reachable at http://127.0.0.1:4723/status: Connection refused: getsockopt
+13:53:13.833 [TestNG-test=ColorNote Application Smoke Tests-1] WARN com.appium.c
+ore.BaseTest -- Appium server is not reachable at http://127.0.0.1:4723 ? skipping test 'testNavigationElements'
+13:53:13.834 [TestNG-test=ColorNote Application Smoke Tests-1] DEBUG com.appium.
+utils.ReportManager -- Logged skip: Appium server is not reachable at http://127.0.0.1:4723 ? skipping test 'testNavigationElements'
+13:53:13.835 [TestNG-test=ColorNote Application Smoke Tests-1] INFO com.appium.listeners.TestExecutionListener -- ----------------------------------------
+13:53:13.835 [TestNG-test=ColorNote Application Smoke Tests-1] INFO com.appium.l
+isteners.TestExecutionListener -- TEST STARTED: com.appium.tests.ColorNoteTests.testNavigationElements
+13:53:13.835 [TestNG-test=ColorNote Application Smoke Tests-1] INFO com.appium.listeners.TestExecutionListener -- ----------------------------------------
+13:53:13.835 [TestNG-test=ColorNote Application Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Created test in report: testNavigationElements
+13:53:13.835 [TestNG-test=ColorNote Application Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Logged info: Test Class: com.appium.tests.ColorNoteTests
+13:53:13.836 [TestNG-test=ColorNote Application Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Logged info: Test Method: testNavigationElements
+13:53:13.836 [TestNG-test=ColorNote Application Smoke Tests-1] DEBUG com.appium.
+utils.ReportManager -- Logged info: Thread: TestNG-test=ColorNote Application Smoke Tests-1
+13:53:13.836 [TestNG-test=ColorNote Application Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Logged info: Start Time: Tue Sep 30 13:53:13 IST 2025
+13:53:13.837 [TestNG-test=ColorNote Application Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Assigned category to test: ColorNoteTests
+13:53:13.837 [TestNG-test=ColorNote Application Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Assigned author to test: Asim Kumar Singh
+13:53:13.837 [TestNG-test=ColorNote Application Smoke Tests-1] WARN com.appium.listeners.TestExecutionListener -- ?? TEST SKIPPED: testNavigationElements
+13:53:13.837 [TestNG-test=ColorNote Application Smoke Tests-1] WARN com.appium.l
+isteners.TestExecutionListener -- Skip reason: Appium server is not reachable at http://127.0.0.1:4723 ? skipping test 'testNavigationElements'
+13:53:13.838 [TestNG-test=ColorNote Application Smoke Tests-1] DEBUG com.appium.
+utils.ReportManager -- Logged skip: Test skipped: Appium server is not reachable at http://127.0.0.1:4723 ? skipping test 'testNavigationElements'
+13:53:13.840 [TestNG-test=ColorNote Application Smoke Tests-1] WARN com.appium.core.BaseTest -- Test completed with unknown status: null
+13:53:13.840 [TestNG-test=ColorNote Application Smoke Tests-1] WARN com.appium.c
+ore.DriverFactory -- No driver found to quit for thread: TestNG-test=ColorNote Application Smoke Tests-1
+13:53:13.840 [TestNG-test=ColorNote Application Smoke Tests-1] INFO com.appium.core.BaseTest -- === Test Teardown Completed: null ===
+13:53:13.842 [TestNG-test=ColorNote Application Smoke Tests-1] INFO com.appium.core.BaseTest -- === Test Class Teardown: ColorNoteTests ===
+13:53:13.859 [TestNG-test=Files by Google Smoke Tests-1] INFO com.appium.core.BaseTest -- === Test Class Setup: FilesTests ===
+13:53:13.863 [TestNG-test=Files by Google Smoke Tests-1] INFO com.appium.core.BaseTest -- === Test Setup: testFilesPageLoad ===
+13:53:13.863 [TestNG-test=Files by Google Smoke Tests-1] INFO com.appium.core.BaseTest -- Test Configuration for: testFilesPageLoad
+13:53:13.863 [TestNG-test=Files by Google Smoke Tests-1] INFO com.appium.core.BaseTest --   Device Name: Android_Device
+13:53:13.864 [TestNG-test=Files by Google Smoke Tests-1] INFO com.appium.core.BaseTest --   Platform Version: 11
+13:53:13.865 [TestNG-test=Files by Google Smoke Tests-1] INFO com.appium.core.BaseTest --   App Package: com.google.android.apps.nbu.files
+13:53:13.865 [TestNG-test=Files by Google Smoke Tests-1] INFO com.appium.core.BaseTest --   App Activity: .home.HomeActivity
+13:53:13.865 [TestNG-test=Files by Google Smoke Tests-1] INFO com.appium.core.BaseTest --   Thread: TestNG-test=Files by Google Smoke Tests-1
+13:53:13.866 [TestNG-test=Files by Google Smoke Tests-1] WARN com.appium.core.Ba
+seTest -- Appium server not reachable at http://127.0.0.1:4723/status: Connection refused: getsockopt
+13:53:13.867 [TestNG-test=Files by Google Smoke Tests-1] WARN com.appium.core.Ba
+seTest -- Appium server is not reachable at http://127.0.0.1:4723 ? skipping test 'testFilesPageLoad'
+13:53:13.870 [TestNG-test=Files by Google Smoke Tests-1] INFO com.appium.listeners.TestExecutionListener -- ----------------------------------------
+13:53:13.871 [TestNG-test=Files by Google Smoke Tests-1] INFO com.appium.listene
+rs.TestExecutionListener -- TEST STARTED: com.appium.tests.FilesTests.testFilesPageLoad
+13:53:13.872 [TestNG-test=Files by Google Smoke Tests-1] INFO com.appium.listeners.TestExecutionListener -- ----------------------------------------
+13:53:13.873 [TestNG-test=Files by Google Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Created test in report: testFilesPageLoad
+13:53:13.873 [TestNG-test=Files by Google Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Logged info: Test Class: com.appium.tests.FilesTests
+13:53:13.874 [TestNG-test=Files by Google Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Logged info: Test Method: testFilesPageLoad
+13:53:13.874 [TestNG-test=Files by Google Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Logged info: Thread: TestNG-test=Files by Google Smoke Tests-1
+13:53:13.874 [TestNG-test=Files by Google Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Logged info: Start Time: Tue Sep 30 13:53:13 IST 2025
+13:53:13.874 [TestNG-test=Files by Google Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Assigned category to test: FilesTests
+13:53:13.874 [TestNG-test=Files by Google Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Assigned author to test: Asim Kumar Singh
+13:53:13.875 [TestNG-test=Files by Google Smoke Tests-1] WARN com.appium.listeners.TestExecutionListener -- ?? TEST SKIPPED: testFilesPageLoad
+13:53:13.875 [TestNG-test=Files by Google Smoke Tests-1] WARN com.appium.listene
+rs.TestExecutionListener -- Skip reason: Appium server is not reachable at http://127.0.0.1:4723 ? skipping test 'testFilesPageLoad'
+13:53:13.875 [TestNG-test=Files by Google Smoke Tests-1] DEBUG com.appium.utils.
+ReportManager -- Logged skip: Test skipped: Appium server is not reachable at http://127.0.0.1:4723 ? skipping test 'testFilesPageLoad'
+13:53:13.877 [TestNG-test=Files by Google Smoke Tests-1] WARN com.appium.core.BaseTest -- Test completed with unknown status: null
+13:53:13.877 [TestNG-test=Files by Google Smoke Tests-1] WARN com.appium.core.Dr
+iverFactory -- No driver found to quit for thread: TestNG-test=Files by Google Smoke Tests-1
+13:53:13.877 [TestNG-test=Files by Google Smoke Tests-1] INFO com.appium.core.BaseTest -- === Test Teardown Completed: null ===
+13:53:13.880 [TestNG-test=Files by Google Smoke Tests-1] INFO com.appium.core.BaseTest -- === Test Setup: testNavigationElements ===
+13:53:13.880 [TestNG-test=Files by Google Smoke Tests-1] INFO com.appium.core.BaseTest -- Test Configuration for: testNavigationElements
+13:53:13.881 [TestNG-test=Files by Google Smoke Tests-1] INFO com.appium.core.BaseTest --   Device Name: Android_Device
+13:53:13.881 [TestNG-test=Files by Google Smoke Tests-1] INFO com.appium.core.BaseTest --   Platform Version: 11
+13:53:13.881 [TestNG-test=Files by Google Smoke Tests-1] INFO com.appium.core.BaseTest --   App Package: com.google.android.apps.nbu.files
+13:53:13.881 [TestNG-test=Files by Google Smoke Tests-1] INFO com.appium.core.BaseTest --   App Activity: .home.HomeActivity
+13:53:13.881 [TestNG-test=Files by Google Smoke Tests-1] INFO com.appium.core.BaseTest --   Thread: TestNG-test=Files by Google Smoke Tests-1
+13:53:13.883 [TestNG-test=Files by Google Smoke Tests-1] WARN com.appium.core.Ba
+seTest -- Appium server not reachable at http://127.0.0.1:4723/status: Connection refused: getsockopt
+13:53:13.883 [TestNG-test=Files by Google Smoke Tests-1] WARN com.appium.core.Ba
+seTest -- Appium server is not reachable at http://127.0.0.1:4723 ? skipping test 'testNavigationElements'
+13:53:13.883 [TestNG-test=Files by Google Smoke Tests-1] DEBUG com.appium.utils.
+ReportManager -- Logged skip: Appium server is not reachable at http://127.0.0.1:4723 ? skipping test 'testNavigationElements'
+13:53:13.885 [TestNG-test=Files by Google Smoke Tests-1] INFO com.appium.listeners.TestExecutionListener -- ----------------------------------------
+13:53:13.885 [TestNG-test=Files by Google Smoke Tests-1] INFO com.appium.listene
+rs.TestExecutionListener -- TEST STARTED: com.appium.tests.FilesTests.testNavigationElements
+13:53:13.885 [TestNG-test=Files by Google Smoke Tests-1] INFO com.appium.listeners.TestExecutionListener -- ----------------------------------------
+13:53:13.886 [TestNG-test=Files by Google Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Created test in report: testNavigationElements
+13:53:13.887 [TestNG-test=Files by Google Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Logged info: Test Class: com.appium.tests.FilesTests
+13:53:13.888 [TestNG-test=Files by Google Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Logged info: Test Method: testNavigationElements
+13:53:13.888 [TestNG-test=Files by Google Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Logged info: Thread: TestNG-test=Files by Google Smoke Tests-1
+13:53:13.889 [TestNG-test=Files by Google Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Logged info: Start Time: Tue Sep 30 13:53:13 IST 2025
+13:53:13.890 [TestNG-test=Files by Google Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Assigned category to test: FilesTests
+13:53:13.890 [TestNG-test=Files by Google Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Assigned author to test: Asim Kumar Singh
+13:53:13.890 [TestNG-test=Files by Google Smoke Tests-1] WARN com.appium.listeners.TestExecutionListener -- ?? TEST SKIPPED: testNavigationElements
+13:53:13.890 [TestNG-test=Files by Google Smoke Tests-1] WARN com.appium.listene
+rs.TestExecutionListener -- Skip reason: Appium server is not reachable at http://127.0.0.1:4723 ? skipping test 'testNavigationElements'
+13:53:13.892 [TestNG-test=Files by Google Smoke Tests-1] DEBUG com.appium.utils.
+ReportManager -- Logged skip: Test skipped: Appium server is not reachable at http://127.0.0.1:4723 ? skipping test 'testNavigationElements'
+13:53:13.894 [TestNG-test=Files by Google Smoke Tests-1] WARN com.appium.core.BaseTest -- Test completed with unknown status: null
+13:53:13.894 [TestNG-test=Files by Google Smoke Tests-1] WARN com.appium.core.Dr
+iverFactory -- No driver found to quit for thread: TestNG-test=Files by Google Smoke Tests-1
+13:53:13.894 [TestNG-test=Files by Google Smoke Tests-1] INFO com.appium.core.BaseTest -- === Test Teardown Completed: null ===
+13:53:13.896 [TestNG-test=Files by Google Smoke Tests-1] INFO com.appium.core.BaseTest -- === Test Class Teardown: FilesTests ===
+13:53:13.918 [TestNG-test=Google Docs Smoke Tests-1] INFO com.appium.core.BaseTest -- === Test Class Setup: GoogleDocsTests ===
+13:53:13.926 [TestNG-test=Google Docs Smoke Tests-1] INFO com.appium.core.BaseTest -- === Test Setup: testGoogleDocsPageLoad ===
+13:53:13.926 [TestNG-test=Google Docs Smoke Tests-1] INFO com.appium.core.BaseTest -- Test Configuration for: testGoogleDocsPageLoad
+13:53:13.926 [TestNG-test=Google Docs Smoke Tests-1] INFO com.appium.core.BaseTest --   Device Name: Android_Device
+13:53:13.926 [TestNG-test=Google Docs Smoke Tests-1] INFO com.appium.core.BaseTest --   Platform Version: 11
+13:53:13.926 [TestNG-test=Google Docs Smoke Tests-1] INFO com.appium.core.BaseTest --   App Package: com.google.android.apps.docs.editors.docs
+13:53:13.926 [TestNG-test=Google Docs Smoke Tests-1] INFO com.appium.core.BaseTest --   App Activity: Not specified
+13:53:13.926 [TestNG-test=Google Docs Smoke Tests-1] INFO com.appium.core.BaseTest --   Thread: TestNG-test=Google Docs Smoke Tests-1
+13:53:13.928 [TestNG-test=Google Docs Smoke Tests-1] WARN com.appium.core.BaseTe
+st -- Appium server not reachable at http://127.0.0.1:4723/status: Connection refused: getsockopt
+13:53:13.928 [TestNG-test=Google Docs Smoke Tests-1] WARN com.appium.core.BaseTe
+st -- Appium server is not reachable at http://127.0.0.1:4723 ? skipping test 'testGoogleDocsPageLoad'
+13:53:13.930 [TestNG-test=Google Docs Smoke Tests-1] INFO com.appium.listeners.TestExecutionListener -- ----------------------------------------
+13:53:13.930 [TestNG-test=Google Docs Smoke Tests-1] INFO com.appium.listeners.T
+estExecutionListener -- TEST STARTED: com.appium.tests.GoogleDocsTests.testGoogleDocsPageLoad
+13:53:13.930 [TestNG-test=Google Docs Smoke Tests-1] INFO com.appium.listeners.TestExecutionListener -- ----------------------------------------
+13:53:13.930 [TestNG-test=Google Docs Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Created test in report: testGoogleDocsPageLoad
+13:53:13.930 [TestNG-test=Google Docs Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Logged info: Test Class: com.appium.tests.GoogleDocsTests
+13:53:13.930 [TestNG-test=Google Docs Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Logged info: Test Method: testGoogleDocsPageLoad
+13:53:13.932 [TestNG-test=Google Docs Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Logged info: Thread: TestNG-test=Google Docs Smoke Tests-1
+13:53:13.932 [TestNG-test=Google Docs Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Logged info: Start Time: Tue Sep 30 13:53:13 IST 2025
+13:53:13.932 [TestNG-test=Google Docs Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Assigned category to test: GoogleDocsTests
+13:53:13.932 [TestNG-test=Google Docs Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Assigned author to test: Asim Kumar Singh
+13:53:13.932 [TestNG-test=Google Docs Smoke Tests-1] WARN com.appium.listeners.TestExecutionListener -- ?? TEST SKIPPED: testGoogleDocsPageLoad
+13:53:13.932 [TestNG-test=Google Docs Smoke Tests-1] WARN com.appium.listeners.T
+estExecutionListener -- Skip reason: Appium server is not reachable at http://127.0.0.1:4723 ? skipping test 'testGoogleDocsPageLoad'
+13:53:13.932 [TestNG-test=Google Docs Smoke Tests-1] DEBUG com.appium.utils.Repo
+rtManager -- Logged skip: Test skipped: Appium server is not reachable at http://127.0.0.1:4723 ? skipping test 'testGoogleDocsPageLoad'
+13:53:13.934 [TestNG-test=Google Docs Smoke Tests-1] WARN com.appium.core.BaseTest -- Test completed with unknown status: null
+13:53:13.934 [TestNG-test=Google Docs Smoke Tests-1] WARN com.appium.core.Driver
+Factory -- No driver found to quit for thread: TestNG-test=Google Docs Smoke Tests-1
+13:53:13.934 [TestNG-test=Google Docs Smoke Tests-1] INFO com.appium.core.BaseTest -- === Test Teardown Completed: null ===
+13:53:13.937 [TestNG-test=Google Docs Smoke Tests-1] INFO com.appium.core.BaseTest -- === Test Setup: testNavigationElements ===
+13:53:13.937 [TestNG-test=Google Docs Smoke Tests-1] INFO com.appium.core.BaseTest -- Test Configuration for: testNavigationElements
+13:53:13.937 [TestNG-test=Google Docs Smoke Tests-1] INFO com.appium.core.BaseTest --   Device Name: Android_Device
+13:53:13.937 [TestNG-test=Google Docs Smoke Tests-1] INFO com.appium.core.BaseTest --   Platform Version: 11
+13:53:13.937 [TestNG-test=Google Docs Smoke Tests-1] INFO com.appium.core.BaseTest --   App Package: com.google.android.apps.docs.editors.docs
+13:53:13.937 [TestNG-test=Google Docs Smoke Tests-1] INFO com.appium.core.BaseTest --   App Activity: Not specified
+13:53:13.937 [TestNG-test=Google Docs Smoke Tests-1] INFO com.appium.core.BaseTest --   Thread: TestNG-test=Google Docs Smoke Tests-1
+13:53:13.939 [TestNG-test=Google Docs Smoke Tests-1] WARN com.appium.core.BaseTe
+st -- Appium server not reachable at http://127.0.0.1:4723/status: Connection refused: getsockopt
+13:53:13.939 [TestNG-test=Google Docs Smoke Tests-1] WARN com.appium.core.BaseTe
+st -- Appium server is not reachable at http://127.0.0.1:4723 ? skipping test 'testNavigationElements'
+13:53:13.939 [TestNG-test=Google Docs Smoke Tests-1] DEBUG com.appium.utils.Repo
+rtManager -- Logged skip: Appium server is not reachable at http://127.0.0.1:4723 ? skipping test 'testNavigationElements'
+13:53:13.942 [TestNG-test=Google Docs Smoke Tests-1] INFO com.appium.listeners.TestExecutionListener -- ----------------------------------------
+13:53:13.942 [TestNG-test=Google Docs Smoke Tests-1] INFO com.appium.listeners.T
+estExecutionListener -- TEST STARTED: com.appium.tests.GoogleDocsTests.testNavigationElements
+13:53:13.942 [TestNG-test=Google Docs Smoke Tests-1] INFO com.appium.listeners.TestExecutionListener -- ----------------------------------------
+13:53:13.942 [TestNG-test=Google Docs Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Created test in report: testNavigationElements
+13:53:13.942 [TestNG-test=Google Docs Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Logged info: Test Class: com.appium.tests.GoogleDocsTests
+13:53:13.943 [TestNG-test=Google Docs Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Logged info: Test Method: testNavigationElements
+13:53:13.943 [TestNG-test=Google Docs Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Logged info: Thread: TestNG-test=Google Docs Smoke Tests-1
+13:53:13.943 [TestNG-test=Google Docs Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Logged info: Start Time: Tue Sep 30 13:53:13 IST 2025
+13:53:13.943 [TestNG-test=Google Docs Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Assigned category to test: GoogleDocsTests
+13:53:13.944 [TestNG-test=Google Docs Smoke Tests-1] DEBUG com.appium.utils.ReportManager -- Assigned author to test: Asim Kumar Singh
+13:53:13.944 [TestNG-test=Google Docs Smoke Tests-1] WARN com.appium.listeners.TestExecutionListener -- ?? TEST SKIPPED: testNavigationElements
+13:53:13.944 [TestNG-test=Google Docs Smoke Tests-1] WARN com.appium.listeners.T
+estExecutionListener -- Skip reason: Appium server is not reachable at http://127.0.0.1:4723 ? skipping test 'testGoogleDocsPageLoad'
+13:53:13.945 [TestNG-test=Google Docs Smoke Tests-1] DEBUG com.appium.utils.Repo
+rtManager -- Logged skip: Test skipped: Appium server is not reachable at http://127.0.0.1:4723 ? skipping test 'testGoogleDocsPageLoad'
+13:53:13.947 [TestNG-test=Google Docs Smoke Tests-1] WARN com.appium.core.BaseTest -- Test completed with unknown status: null
+13:53:13.947 [TestNG-test=Google Docs Smoke Tests-1] WARN com.appium.core.Driver
+Factory -- No driver found to quit for thread: TestNG-test=Google Docs Smoke Tests-1
+13:53:13.947 [TestNG-test=Google Docs Smoke Tests-1] INFO com.appium.core.BaseTest -- === Test Teardown Completed: null ===
+13:53:13.948 [TestNG-test=Google Docs Smoke Tests-1] INFO com.appium.core.BaseTest -- === Test Class Teardown: GoogleDocsTests ===
+13:53:13.967 [main] INFO com.appium.core.BaseTest -- === Test Suite Teardown Started ===
+13:53:13.968 [main] INFO com.appium.core.DriverFactory -- Quitting all active drivers. Count: 0
+13:53:13.970 [main] INFO com.appium.core.DriverFactory -- All drivers quit successfully
+13:53:14.758 [main] INFO com.appium.utils.ReportManager -- ExtentReports flushed successfully
+13:53:14.758 [main] INFO com.appium.core.BaseTest -- Suite execution completed
+13:53:14.758 [main] INFO com.appium.core.BaseTest -- Reports location: reports
+13:53:14.758 [main] INFO com.appium.core.BaseTest -- === Test Suite Teardown Completed ===
+13:53:14.759 [main] INFO com.appium.listeners.TestExecutionListener -- ========================================
+13:53:14.759 [main] INFO com.appium.listeners.TestExecutionListener -- TEST SUITE FINISHED: Appium Android Smoke Test Suite
+13:53:14.759 [main] INFO com.appium.listeners.TestExecutionListener -- ========================================
+13:53:14.759 [main] INFO com.appium.core.DriverFactory -- Quitting all active drivers. Count: 0
+13:53:14.759 [main] INFO com.appium.core.DriverFactory -- All drivers quit successfully
+13:53:14.806 [main] INFO com.appium.utils.ReportManager -- ExtentReports flushed successfully
+13:53:14.814 [main] INFO com.appium.utils.ScreenshotUtils -- Cleaned up 0 old screenshots (older than 7 days)
+13:53:14.814 [main] INFO com.appium.listeners.TestExecutionListener -- Cleaned up 0 old screenshot files
+13:53:14.814 [main] INFO com.appium.listeners.TestExecutionListener -- Suite Execution Summary:
+13:53:14.816 [main] INFO com.appium.listeners.TestExecutionListener --   Total Tests: 8
+13:53:14.816 [main] INFO com.appium.listeners.TestExecutionListener --   Reports Location: reports
+13:53:14.816 [main] INFO com.appium.listeners.TestExecutionListener --   Screenshots Count: 0
+13:53:14.817 [main] INFO com.appium.listeners.TestExecutionListener --   Active Drivers: 0
+13:53:14.817 [main] INFO com.appium.listeners.TestExecutionListener -- Suite execution completed successfully

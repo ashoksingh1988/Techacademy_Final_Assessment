@@ -6,9 +6,12 @@ import io.appium.java_client.android.AndroidDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.ITestResult;
+import org.testng.SkipException;
 import org.testng.annotations.*;
 
 import java.lang.reflect.Method;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * BaseTest - Foundation class for all test classes
@@ -49,6 +52,11 @@ public abstract class BaseTest {
         String testName = method.getName();
         logger.info("=== Test Setup: {} ===", testName);
         
+        // Ensure configuration is initialized (safety in case @BeforeSuite didn't run due to suite config)
+        if (config == null) {
+            config = ConfigurationManager.getInstance();
+        }
+        
         // Resolve configuration parameters
         deviceName = resolveParameter("device.name", deviceName, "Android_Device");
         platformVersion = resolveParameter("platform.version", platformVersion, "11");
@@ -58,6 +66,15 @@ public abstract class BaseTest {
         logTestConfiguration(testName, deviceName, platformVersion, appPackage, appActivity);
         
         try {
+            // Check Appium server availability first to avoid hard failures on environments without Appium/device
+            if (!isAppiumServerAvailable()) {
+                String serverUrl = config.getProperty("appium.server.url", "http://127.0.0.1:4723");
+                String message = "Appium server is not reachable at " + serverUrl + " — skipping test '" + testName + "'";
+                logger.warn(message);
+                ReportManager.logSkip(message);
+                throw new SkipException(message);
+            }
+
             // Initialize driver
             driver = DriverFactory.createAndroidDriver(deviceName, platformVersion, appPackage, appActivity);
             
@@ -66,6 +83,8 @@ public abstract class BaseTest {
             
             logger.info("Test setup completed successfully for: {}", testName);
             
+        } catch (SkipException se) {
+            throw se; // propagate skip without wrapping
         } catch (Exception e) {
             logger.error("Test setup failed for: {}", testName, e);
             throw new RuntimeException("Test setup failed", e);
@@ -240,5 +259,23 @@ public abstract class BaseTest {
      */
     protected AndroidDriver getDriver() {
         return DriverFactory.getDriver();
+    }
+
+    // Checks if the Appium server is reachable by calling the /status endpoint
+    private boolean isAppiumServerAvailable() {
+        String baseUrl = config != null ? config.getProperty("appium.server.url", "http://127.0.0.1:4723") : "http://127.0.0.1:4723";
+        String statusUrl = baseUrl.endsWith("/") ? baseUrl + "status" : baseUrl + "/status";
+        try {
+            URL url = new URL(statusUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setConnectTimeout(2000);
+            connection.setReadTimeout(2000);
+            int code = connection.getResponseCode();
+            return code == 200;
+        } catch (Exception e) {
+            logger.warn("Appium server not reachable at {}: {}", statusUrl, e.getMessage());
+            return false;
+        }
     }
 }

@@ -1,0 +1,232 @@
+{
+    "checksum": "4c10e1312833261ae47e341fb8f9a02da05337952c874e1835b5da60b22fdf5a",
+    "data": {
+    "id": "64c8fc98-ac4b-434d-acb3-0052b344c514",
+    "createdAt": 1759598348480,
+    "updatedAt": 1759598363397,
+    "title": "Framework Execution Guide",
+    "messages": [
+        {
+            "id": "df34f2d6-03a0-4379-adf6-24a6118ba907",
+            "role": "user",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "how to run each of the framework manually - java-appium-automation, java-selenium-automation and python-selenium-automation "
+                },
+                {
+                    "type": "text",
+                    "text": "please share the crisp information only that I can remember easily before giving demo of these framework to my Lead"
+                }
+            ],
+            "context": {
+                "currentFile": {
+                    "path": "pom.xml",
+                    "fsPath": "C:/Users/Asim/IdeaProjects/SauceDemoAutomation/pom.xml",
+                    "sources": [
+                        "opened_tab"
+                    ],
+                    "content": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\"\n         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\n    <modelVersion>4.0.0</modelVersion>\n\n    <groupId>com.asim.capstone</groupId>\n    <artifactId>SauceDemoAutomation</artifactId>\n    <version>1.0-SNAPSHOT</version>\n\n    <properties>\n        <maven.compiler.source>11</maven.compiler.source>\n        <maven.compiler.target>11</maven.compiler.target>\n        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\n        <selenium.version>4.18.1</selenium.version>\n        <testng.version>7.9.0</testng.version>\n        <webdrivermanager.version>5.7.0</webdrivermanager.version>\n        <appium.version>9.3.0</appium.version>\n        <extentreports.version>5.1.2</extentreports.version>\n        <jackson.version>2.17.2</jackson.version>\n    </properties>\n\n    <dependencies>\n        <!-- Selenium Java -->\n        <dependency>\n            <groupId>org.seleniumhq.selenium</groupId>\n            <artifactId>selenium-java</artifactId>\n            <version>${selenium.version}</version>\n        </dependency>\n\n        <!-- TestNG -->\n        <dependency>\n            <groupId>org.testng</groupId>\n            <artifactId>testng</artifactId>\n            <version>${testng.version}</version>\n            <scope>test</scope>\n        </dependency>\n\n        <!-- WebDriverManager -->\n        <dependency>\n            <groupId>io.github.bonigarcia</groupId>\n            <artifactId>webdrivermanager</artifactId>\n            <version>${webdrivermanager.version}</version>\n        </dependency>\n\n        <!-- Apache Commons IO for screenshots -->\n        <dependency>\n            <groupId>commons-io</groupId>\n            <artifactId>commons-io</artifactId>\n            <version>2.11.0</version>\n        </dependency>\n\n        <!-- SLF4J Simple Logger to fix logging warnings -->\n        <dependency>\n            <groupId>org.slf4j</groupId>\n            <artifactId>slf4j-simple</artifactId>\n            <version>2.0.9</version>\n        </dependency>\n\n        <!-- Appium Java Client -->\n        <dependency>\n            <groupId>io.appium</groupId>\n            <artifactId>java-client</artifactId>\n            <version>${appium.version}</version>\n        </dependency>\n\n        <!-- ExtentReports for reporting -->\n        <dependency>\n            <groupId>com.aventstack</groupId>\n            <artifactId>extentreports</artifactId>\n            <version>${extentreports.version}</version>\n        </dependency>\n\n        <!-- Jackson for JSON handling -->\n        <dependency>\n            <groupId>com.fasterxml.jackson.core</groupId>\n            <artifactId>jackson-databind</artifactId>\n            <version>${jackson.version}</version>\n        </dependency>\n\n        <!-- Jackson YAML for configuration files -->\n        <dependency>\n            <groupId>com.fasterxml.jackson.dataformat</groupId>\n            <artifactId>jackson-dataformat-yaml</artifactId>\n            <version>${jackson.version}</version>\n        </dependency>\n    </dependencies>\n\n    <build>\n        <plugins>\n            <plugin>\n                <groupId>org.apache.maven.plugins</groupId>\n                <artifactId>maven-compiler-plugin</artifactId>\n                <version>3.8.1</version>\n                <configuration>\n                    <source>${maven.compiler.source}</source>\n                    <target>${maven.compiler.target}</target>\n                </configuration>\n            </plugin>\n            <plugin>\n                <groupId>org.apache.maven.plugins</groupId>\n                <artifactId>maven-surefire-plugin</artifactId>\n                <version>3.2.5</version>\n                <configuration>\n                    <suiteXmlFiles>\n                        <suiteXmlFile>testng.xml</suiteXmlFile>\n                    </suiteXmlFiles>\n                    <systemPropertyVariables>\n                        <webdriver.chrome.silentOutput>true</webdriver.chrome.silentOutput>\n                        <appium.server.url>http://127.0.0.1:4723</appium.server.url>\n                    </systemPropertyVariables>\n                    <argLine>\n                        --add-opens java.base/java.lang=ALL-UNNAMED\n                        --add-opens java.base/java.util=ALL-UNNAMED\n                        --add-opens java.base/java.time=ALL-UNNAMED\n                    </argLine>\n                    <parallel>methods</parallel>\n                    <threadCount>1</threadCount>\n                    <forkCount>1</forkCount>\n                    <reuseForks>false</reuseForks>\n                </configuration>\n            </plugin>\n        </plugins>\n    </build>\n\n</project>",
+                    "language": "xml"
+                },
+                "codebaseEnabled": true
+            },
+            "createdAt": 1759598349223,
+            "isInternal": false,
+            "rawContent": {
+                "type": "doc",
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "how to run each of the framework manually - java-appium-automation, java-selenium-automation and python-selenium-automation "
+                            }
+                        ]
+                    },
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "please share the crisp information only that I can remember easily before giving demo of these framework to my Lead"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "autoAppliedRules": []
+        },
+        {
+            "id": "f243e7a0-ba0d-4a0b-8b7f-117aecbf9083",
+            "role": "assistant",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "I'll help you with the crisp information on how to run each framework manually. Let me search for the relevant files to provide accurate instructions."
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01BivHmP72yEtcvt1GdsCYeA",
+                    "title": "File search",
+                    "statusText": "Done",
+                    "status": "SUCCESS",
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Let me search for the main test files in each framework:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01Gge6CvRWRcNUPGxWbHdg3U",
+                    "title": "File search",
+                    "statusText": "Done",
+                    "status": "SUCCESS",
+                    "isHidden": false
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_012GQQvBYNFpCocvEPeuu4Tg",
+                    "title": "File search",
+                    "statusText": "Done",
+                    "status": "SUCCESS",
+                    "isHidden": false
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01J1SUEYmJXuApwghietp9kF",
+                    "title": "File search",
+                    "statusText": "Done",
+                    "status": "SUCCESS",
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Let me try a broader search to find the test directories:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01Q7f5JMxWopYPCDGXzKdanv",
+                    "statusText": "Viewed directory",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": ".",
+                                "fsPath": "C:/Users/Asim/IdeaProjects/SauceDemoAutomation"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Now I'll check the script files for each framework to understand how to run them:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01EaXhP1jHdtN7Z6SBY2ufbJ",
+                    "statusText": "Viewed directory",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "java-selenium-automation/scripts",
+                                "fsPath": "C:/Users/Asim/IdeaProjects/SauceDemoAutomation/java-selenium-automation/scripts"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_015GV5qioaaWM4zk1v4fTkUm",
+                    "statusText": "Viewed file (lines 1:190)",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "java-selenium-automation/scripts/run-tests.bat",
+                                "fsPath": "C:/Users/Asim/IdeaProjects/SauceDemoAutomation/java-selenium-automation/scripts/run-tests.bat"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_015rNDEb52p9CzB25DCxFkTG",
+                    "statusText": "Viewed directory",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "java-appium-automation/scripts",
+                                "fsPath": "C:/Users/Asim/IdeaProjects/SauceDemoAutomation/java-appium-automation/scripts"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01XjHtigeJHEtqwsmGLMiMdT",
+                    "statusText": "Viewed file (lines 1:232)",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "java-appium-automation/scripts/run-tests.bat",
+                                "fsPath": "C:/Users/Asim/IdeaProjects/SauceDemoAutomation/java-appium-automation/scripts/run-tests.bat"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01WT77xBZ2vbgFk9Wq7qzHAq",
+                    "statusText": "Viewed file (lines 1:19)",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "python-selenium-automation/run_tests.bat",
+                                "fsPath": "C:/Users/Asim/IdeaProjects/SauceDemoAutomation/python-selenium-automation/run_tests.bat"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Based on my search, here's the crisp information on how to run each framework manually:\n\n## 1. Java Selenium Automation\n\n```\ncd C:/Users/Asim/IdeaProjects/SauceDemoAutomation/java-selenium-automation\nscripts/run-tests.bat --suite smoke --browser chrome\n```\n\n**Options:**\n- `--suite`: smoke or regression\n- `--browser`: chrome, firefox, edge, safari\n- `--headless`: true/false\n- `--url`: custom URL (default: https://www.saucedemo.com)\n\n## 2. Java Appium Automation\n\n```\ncd C:/Users/Asim/IdeaProjects/SauceDemoAutomation/java-appium-automation\nscripts/run-tests.bat --suite smoke --device Android_Device\n```\n\n**Prerequisites:**\n- Appium server running (http://127.0.0.1:4723)\n- Android device connected or emulator running\n\n**Options:**\n- `--suite`: smoke, regression, parallel\n- `--device`: device name\n- `--platform`: Android version (default: 13)\n- `--parallel`: true/false\n- `--threads`: number of threads for parallel execution\n\n## 3. Python Selenium Automation\n\n```\ncd C:/Users/Asim/IdeaProjects/SauceDemoAutomation/python-selenium-automation\nrun_tests.bat\n```\n\nThis will:\n- Install dependencies from requirements.txt\n- Run all tests with pytest\n- Generate HTML report at reports/report.html"
+                }
+            ],
+            "context": {
+                "author": "Ask agent",
+                "operationId": "e3b2ca3f-cfb6-4439-824c-833c25ca7038",
+                "usageStatistics": {
+                    "llmCallsUsedForAnswer": 11.0,
+                    "llmCallsUsedTotal": 11.0,
+                    "llmCallsLimit": 25.0,
+                    "limitRenewalMillisecondTimestamp": 1759684191074
+                }
+            },
+            "createdAt": 1759598363397,
+            "isInternal": false
+        }
+    ],
+    "isAgent": false,
+    "isNameGenerated": true,
+    "isCustomAgent": false,
+    "isUnitTestsAgent": false,
+    "isE2EAgent": false,
+    "isWebDevAgent": false,
+    "isQnaAgent": true,
+    "isRepoInfoAgent": false,
+    "model": "default"
+}
+}

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ai.zencoder.plugin.chat.index">
-    <option name="activeChatId" value="edd16039-6242-47e3-926e-1c52341d9aa9" />
-    <option name="chatMetadata" value="{&quot;3964c6b6-e831-43ae-b05d-3cfd2539d810&quot;:{&quot;id&quot;:&quot;3964c6b6-e831-43ae-b05d-3cfd2539d810&quot;,&quot;title&quot;:&quot;Generate a commit message based on the latest c...&quot;,&quot;createdAt&quot;:1757282700289,&quot;updatedAt&quot;:1757282737026,&quot;isAgent&quot;:true,&quot;messageCount&quot;:2,&quot;lastMessagePreview&quot;:&quot;Rate limit exceeded. You can try again on September 09 at 02:18.&quot;},&quot;edd16039-6242-47e3-926e-1c52341d9aa9&quot;:{&quot;id&quot;:&quot;edd16039-6242-47e3-926e-1c52341d9aa9&quot;,&quot;title&quot;:&quot;Jenkins Build Job Error Fix&quot;,&quot;createdAt&quot;:1757278208403,&quot;updatedAt&quot;:1757365492352,&quot;isAgent&quot;:true,&quot;isNameGenerated&quot;:true,&quot;messageCount&quot;:12,&quot;lastMessagePreview&quot;:&quot;**Fixing the build issue**\n\nI need to assist the user in addressing the failing build #13. First, I ...&quot;}}" />
+    <option name="activeChatId" value="64c8fc98-ac4b-434d-acb3-0052b344c514" />
+    <option name="chatMetadata" value="{&quot;64c8fc98-ac4b-434d-acb3-0052b344c514&quot;:{&quot;id&quot;:&quot;64c8fc98-ac4b-434d-acb3-0052b344c514&quot;,&quot;title&quot;:&quot;Framework Execution Guide&quot;,&quot;createdAt&quot;:1759598348480,&quot;updatedAt&quot;:1759598363397,&quot;isNameGenerated&quot;:true,&quot;messageCount&quot;:2,&quot;lastMessagePreview&quot;:&quot;I'll help you with the crisp information on how to run each framework manually. Let me search for th...&quot;}}" />
   </component>
 </project>

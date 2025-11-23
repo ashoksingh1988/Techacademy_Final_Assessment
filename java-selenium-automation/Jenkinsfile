@@ -3,314 +3,41 @@ pipeline {
 
     environment {
         MAVEN_HOME = 'C:\\\\Program Files\\\\Maven\\\\ApacheMaven\\\\apache-maven-3.9.11'
-        JAVA_HOME = 'C:\\\\\\\\Program Files\\\\\\\\Java\\\\\\\\jdk-24'
-        PATH = "C:\\\\\\\\Program Files\\\\\\\\Java\\\\\\\\jdk-24\\\\\\\\bin;C:\\\\\\\\Program Files\\\\\\\\Maven\\\\\\\\ApacheMaven\\\\\\\\apache-maven-3.9.11\\\\\\\\bin;C:\\\\\\\\Users\\\\\\\\Asim\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Programs\\\\\\\\Python\\\\\\\\Python313;C:\\\\\\\\Users\\\\\\\\Asim\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Programs\\\\\\\\Python\\\\\\\\Python313\\\\\\\\Scripts;C:\\\\\\\\Program Files\\\\\\\\nodejs;C:\\\\\\\\Program Files\\\\\\\\Git\\\\\\\\cmd;C:\\\\\\\\Windows\\\\\\\\System32"
-        SELENIUM_HUB = 'http://localhost:4444'
-        BROWSER = 'chrome'
-        HEADLESS = 'false'`n        // Enhanced reporting and local Chrome configuration`n        CHROME_BINARY = 'C:\\\\\\\\Users\\\\\\\\Asim\\\\\\\\Downloads\\\\\\\\ChromeSetup\\\\\\\\chrome.exe'`n        DISPLAY = ':0'`n        ENHANCED_REPORTING = 'true'
+        JAVA_HOME = 'C:\\\\Program Files\\\\Java\\\\jdk-24'
+        PATH = "C:\\\\Program Files\\\\Java\\\\jdk-24\\\\bin;C:\\\\Program Files\\\\Maven\\\\ApacheMaven\\\\apache-maven-3.9.11\\\\bin;${env.PATH}"
     }
 
     parameters {
-        choice(
-            name: 'TEST_SUITE',
-            choices: ['smoke-tests', 'regression-tests', 'cross-browser-tests'],
-            description: 'Select test suite to execute'
-        )
-        choice(
-            name: 'BROWSER_TYPE',
-            choices: ['chrome', 'firefox', 'edge', 'safari'],
-            description: 'Select browser for testing'
-        )
-        choice(
-            name: 'ENVIRONMENT',
-            choices: ['qa', 'staging', 'production'],
-            description: 'Select environment for testing'
-        )
-        booleanParam(
-            name: 'HEADLESS_MODE',
-            defaultValue: true,
-            description: 'Run tests in headless mode'
-        )
-        booleanParam(
-            name: 'PARALLEL_EXECUTION',
-            defaultValue: false,
-            description: 'Enable parallel test execution'
-        )
+        choice(name: 'TEST_SUITE', choices: ['smoke-tests', 'regression-tests'], description: 'Test suite')
+        choice(name: 'BROWSER_TYPE', choices: ['chrome', 'firefox', 'edge'], description: 'Browser')
+        choice(name: 'ENVIRONMENT', choices: ['qa', 'staging', 'production'], description: 'Environment')
+        booleanParam(name: 'HEADLESS_MODE', defaultValue: true, description: 'Headless mode')
     }
 
     stages {
         stage('Checkout') {
-            steps {
-                echo 'Checking out source code...'
-                checkout scm
-            }
+            steps { checkout scm }
         }
 
-        stage('Environment Setup') {
+        stage('Build & Test') {
             steps {
-                echo 'Setting up Selenium environment...'
-                script {
-                    // Verify workspace structure
-                    bat 'echo Current directory: %CD%'
-                    bat 'dir'
-                    
-                    // Check if java-selenium-automation directory exists
-                    bat 'if exist java-selenium-automation (echo java-selenium-automation directory found) else (echo ERROR: java-selenium-automation directory not found && exit 1)'
-                }
-            }
-        }
-
-        stage('Build') {
-            steps {
-                echo 'Building the Selenium project...'
                 dir('java-selenium-automation') {
                     script {
-                        // Verify we're in the correct directory with pom.xml
-                        bat 'echo Current build directory: %CD%'
-                        bat 'dir'
-                        bat 'if not exist pom.xml (echo ERROR: pom.xml not found && exit 1) else (echo pom.xml found)'
-                        
-                        // Build the project
-                        bat 'mvn -v'
-                        bat 'mvn clean compile'
+                        def suiteFile = params.TEST_SUITE == 'smoke-tests' ? 'selenium-smoke-tests.xml' : 'selenium-regression-tests.xml'
+                        bat "mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/suites/${suiteFile} -Dbrowser=${params.BROWSER_TYPE} -Denvironment=${params.ENVIRONMENT} -Dheadless=${params.HEADLESS_MODE}"
                     }
                 }
             }
         }
 
-        stage('Unit Tests') {
+        stage('Reports') {
             steps {
-                echo 'Running unit tests...'
                 dir('java-selenium-automation') {
                     script {
                         try {
-                            bat 'mvn test -Dtest=*UnitTest'
-                        } catch (Exception e) {
-                            echo "No unit tests found or unit tests failed: ${e.getMessage()}"
-                            // Continue with pipeline even if no unit tests exist
-                        }
-                    }
-                }
-            }
-        }
-
-        stage('Integration Tests') {
-            steps {
-                echo "Executing ${params.TEST_SUITE} on ${params.BROWSER_TYPE}..."
-                dir('java-selenium-automation') {
-                    script {
-                        // Verify we're in correct directory
-                        bat 'echo Integration test directory: %CD%'
-                        bat 'if not exist pom.xml (echo ERROR: pom.xml not found && exit 1)'
-                        
-                        def testSuite = params.TEST_SUITE
-                        def suiteMap = [
-                            'smoke-tests': 'src/test/resources/suites/selenium-smoke-tests.xml',
-                            'regression-tests': 'src/test/resources/suites/selenium-regression-tests.xml',
-                            'cross-browser-tests': 'src/test/resources/suites/selenium-smoke-tests.xml'
-                        ]
-                        def suiteFile = suiteMap.get(testSuite, 'src/test/resources/suites/selenium-smoke-tests.xml')
-
-                        // Check if suite file exists, if not use default test execution
-                        bat """
-                            if exist "${suiteFile}" (
-                                echo Running test suite: ${suiteFile}
-                                mvn test -Dsurefire.suiteXmlFiles=${suiteFile} -Dbrowser=${params.BROWSER_TYPE} -Denvironment=${params.ENVIRONMENT} -Dheadless=${params.HEADLESS_MODE} -Dparallel=${params.PARALLEL_EXECUTION}
-                            ) else (
-                                echo Suite file not found, running all tests
-                                mvn test -Dbrowser=${params.BROWSER_TYPE} -Denvironment=${params.ENVIRONMENT} -Dheadless=${params.HEADLESS_MODE}
-                            )
-                        """
-                    }
-                }
-            }
-            post {
-                always {
-                    dir('java-selenium-automation') {
-                        script {
-                            // Archive test results only if they exist
-                            if (fileExists('target/surefire-reports')) {
-                                echo 'Archiving surefire reports...'
-                                archiveArtifacts artifacts: 'target/surefire-reports/**/*', allowEmptyArchive: true
-                                junit testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true
-                            } else {
-                                echo 'No surefire-reports directory found'
-                            }
-                            
-                            if (fileExists('screenshots')) {
-                                echo 'Archiving screenshots...'
-                                archiveArtifacts artifacts: 'screenshots/**/*', allowEmptyArchive: true
-                            } else {
-                                echo 'No screenshots directory found'
-                            }
-                            
-                            if (fileExists('reports')) {
-                                echo 'Archiving reports...'
-                                archiveArtifacts artifacts: 'reports/**/*', allowEmptyArchive: true
-                            } else {
-                                echo 'No reports directory found'
-                            }
-                        }
-                    }
-                    
-                    // Clean up drivers only (not entire workspace)
-                    script {
-                        try {
-                            bat 'if exist drivers rmdir /s /q drivers'
-                        } catch (Exception e) {
-                            echo "Driver cleanup failed or no drivers directory: ${e.getMessage()}"
-                        }
-                    }
-                }
-                success {
-                    echo 'Integration tests executed successfully!'
-                }
-                failure {
-                    echo 'Integration tests failed. Check logs for details.'
-                }
-                unstable {
-                    echo 'Integration tests completed with some failures.'
-                }
-            }
-        }
-
-        stage('Cross-Browser Testing') {
-            when {
-                expression { params.TEST_SUITE == 'cross-browser-tests' }
-            }
-            parallel {
-                stage('Chrome Tests') {
-                    steps {
-                        dir('java-selenium-automation') {
-                            script {
-                                try {
-                                    bat 'mvn test -Dbrowser=chrome -Dsurefire.suiteXmlFiles=src/test/resources/suites/selenium-smoke-tests.xml'
-                                } catch (Exception e) {
-                                    echo "Chrome tests failed: ${e.getMessage()}"
-                                    bat 'mvn test -Dbrowser=chrome'
-                                }
-                            }
-                        }
-                    }
-                }
-                stage('Firefox Tests') {
-                    steps {
-                        dir('java-selenium-automation') {
-                            script {
-                                try {
-                                    bat 'mvn test -Dbrowser=firefox -Dsurefire.suiteXmlFiles=src/test/resources/suites/selenium-smoke-tests.xml'
-                                } catch (Exception e) {
-                                    echo "Firefox tests failed: ${e.getMessage()}"
-                                    bat 'mvn test -Dbrowser=firefox'
-                                }
-                            }
-                        }
-                    }
-                }
-                stage('Edge Tests') {
-                    steps {
-                        dir('java-selenium-automation') {
-                            script {
-                                try {
-                                    bat 'mvn test -Dbrowser=edge -Dsurefire.suiteXmlFiles=src/test/resources/suites/selenium-smoke-tests.xml'
-                                } catch (Exception e) {
-                                    echo "Edge tests failed: ${e.getMessage()}"
-                                    bat 'mvn test -Dbrowser=edge'
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        stage('Performance Tests') {
-            steps {
-                echo 'Running performance tests...'
-                dir('java-selenium-automation') {
-                    script {
-                        try {
-                            bat 'mvn test -Dtest=*PerformanceTest'
-                        } catch (Exception e) {
-                            echo "No performance tests found or performance tests failed: ${e.getMessage()}"
-                            // Continue pipeline even if no performance tests exist
-                        }
-                    }
-                }
-            }
-        }
-
-        stage('Generate Reports') {
-            steps {
-                echo 'Generating comprehensive test reports...'
-                dir('java-selenium-automation') {
-                    script {
-                        try {
-                            // Generate Surefire reports
-                            bat 'mvn surefire-report:report'
-
-                            // Archive ExtentReports if they exist
-                            if (fileExists('reports')) {
-                                archiveArtifacts artifacts: 'reports/**/*', allowEmptyArchive: true
-
-                                // Publish HTML reports
-                                publishHTML([
-                                    allowMissing: true,
-                                    alwaysLinkToLastBuild: true,
-                                    keepAll: true,
-                                    reportDir: 'reports',
-                                    reportFiles: '*.html',
-                                    reportName: 'Selenium Test Report',
-                                    reportTitles: 'Web Automation Test Results'
-                                ])
-                            }
-
-                            // Generate Allure reports if available
-                            try {
-                                bat 'mvn allure:report'
-                                if (fileExists('target/site/allure-maven-plugin')) {
-                                    publishHTML([
-                                        allowMissing: true,
-                                        alwaysLinkToLastBuild: true,
-                                        keepAll: true,
-                                        reportDir: 'target/site/allure-maven-plugin',
-                                        reportFiles: 'index.html',
-                                        reportName: 'Allure Report',
-                                        reportTitles: 'Detailed Test Analysis'
-                                    ])
-                                }
-                            } catch (Exception e) {
-                                echo "Allure reports not available: ${e.getMessage()}"
-                            }
-                        } catch (Exception e) {
-                            echo "Report generation failed: ${e.getMessage()}"
-                        }
-                    }
-                }
-            }
-        }
-
-        stage('Quality Gates') {
-            steps {
-                echo 'Checking quality gates...'
-                script {
-                    try {
-                        dir('java-selenium-automation') {
-                            if (fileExists('target/surefire-reports')) {
-                                // Check test results
-                                def testResultFiles = findFiles(glob: 'target/surefire-reports/TEST-*.xml')
-                                if (testResultFiles.length > 0) {
-                                    echo "Found ${testResultFiles.length} test result files"
-                                    echo 'Quality gate check completed'
-                                } else {
-                                    echo 'No test results found for quality gate check'
-                                }
-                            } else {
-                                echo 'No test results directory found'
-                            }
-                        }
-                    } catch (Exception e) {
-                        echo "Quality gate check failed: ${e.getMessage()}"
+                            archiveArtifacts artifacts: 'target/surefire-reports/**/*,reports/**/*', allowEmptyArchive: true
+                            junit testResults: 'target/surefire-reports/*.xml', allowEmptyResults: true
+                        } catch (Exception e) {}
                     }
                 }
             }
@@ -318,43 +45,22 @@ pipeline {
 
         stage('Notification') {
             steps {
-                echo 'Sending notifications...'
                 script {
                     try {
-                        emailext (
-                            subject: "Selenium Test Execution - ${currentBuild.currentResult}",
-                            body: """
-                                <h2>Web Automation Test Results</h2>
-                                <p><strong>Build:</strong> ${env.BUILD_NUMBER}</p>
-                                <p><strong>Status:</strong> ${currentBuild.currentResult}</p>
-                                <p><strong>Test Suite:</strong> ${params.TEST_SUITE}</p>
-                                <p><strong>Browser:</strong> ${params.BROWSER_TYPE}</p>
-                                <p><strong>Environment:</strong> ${params.ENVIRONMENT}</p>
-                                <p><strong>Build URL:</strong> <a href="${env.BUILD_URL}">View Build</a></p>
-                            """,
-                            mimeType: 'text/html',
-                            to: 'ashokchandravanshi1988@gmail.com'
+                        emailext(
+                            subject: "Selenium Test - ${currentBuild.currentResult}",
+                            body: "Build: ${env.BUILD_NUMBER} | Suite: ${params.TEST_SUITE} | Browser: ${params.BROWSER_TYPE}",
+                            to: "ashokchandravanshi1988@gmail.com"
                         )
-                    } catch (Exception e) {
-                        echo "Email notification failed: ${e.getMessage()}"
-                    }
+                    } catch (Exception e) {}
                 }
             }
         }
     }
 
     post {
-        always {
-            echo 'Pipeline completed.'
-        }
-        success {
-            echo 'Pipeline executed successfully!'
-        }
-        failure {
-            echo 'Pipeline failed. Please check the logs.'
-        }
-        unstable {
-            echo 'Pipeline completed with some issues.'
-        }
+        always { cleanWs() }
+        success { echo "Pipeline completed successfully!" }
+        failure { echo "Pipeline failed!" }
     }
 }

@@ -1,4 +1,7 @@
 selenium==4.18.1
 pytest==7.4.4
 pytest-html==4.1.1
-webdriver-manager==4.0.1`npytest-metadata==3.0.0`npytest-json-report==1.5.0`nallure-pytest==2.13.2`nPillow==10.0.0
+webdriver-manager==4.0.1
+pytest-metadata==3.1.1
+pytest-json-report==1.5.0
+allure-pytest==2.13.5

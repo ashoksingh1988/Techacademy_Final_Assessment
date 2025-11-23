@@ -103,7 +103,7 @@
                 <version>3.2.5</version>
                 <configuration>
                     <suiteXmlFiles>
-                        <suiteXmlFile>appium-android-framework/src/test/resources/suites/smoke-tests.xml</suiteXmlFile>
+                        <suiteXmlFile>testng.xml</suiteXmlFile>
                     </suiteXmlFiles>
                     <systemPropertyVariables>
                         <webdriver.chrome.silentOutput>true</webdriver.chrome.silentOutput>

@@ -42,20 +42,91 @@ def test_credentials():
 
 @pytest.fixture(scope="function")
 def driver():
-    """WebDriver fixture for tests"""
+    """WebDriver fixture for tests - OPTIMIZED for fast execution"""
     global driver_instance
-    
-    # Chrome options
+
+    # Chrome options with SPEED-OPTIMIZED configuration
     chrome_options = Options()
     chrome_options.add_argument("--start-maximized")
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
     chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
     chrome_options.add_experimental_option('useAutomationExtension', False)
-    
+
+    # SPEED OPTIMIZATION: Disable resource-intensive features
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--disable-software-rasterizer")
+    chrome_options.add_argument("--disable-background-timer-throttling")
+    chrome_options.add_argument("--disable-backgrounding-occluded-windows")
+    chrome_options.add_argument("--disable-renderer-backgrounding")
+    chrome_options.add_argument("--disable-field-trial-config")
+    chrome_options.add_argument("--disable-ipc-flooding-protection")
+
+    # ENHANCED FIX: COMPLETELY DISABLE PASSWORD MANAGER & POPUPS
+    chrome_options.add_experimental_option("prefs", {
+        # Password Manager Settings
+        "credentials_enable_service": False,
+        "profile.password_manager_enabled": False,
+        "profile.default_content_setting_values.notifications": 2,
+        "autofill.profile_enabled": False,
+        "autofill.credit_card_enabled": False,
+
+        # Additional Password & Security Settings
+        "password_manager_enabled": False,
+        "credentials_enable_autosignin": False,
+        "profile.password_manager_leak_detection": False,
+        "profile.default_content_settings.popups": 0,
+        "profile.managed_default_content_settings.popups": 0,
+
+        # SPEED: Disable resource-heavy features
+        "profile.default_content_setting_values.media_stream_mic": 2,
+        "profile.default_content_setting_values.media_stream_camera": 2,
+        "profile.default_content_setting_values.geolocation": 2,
+        "profile.default_content_setting_values.desktop_notification": 2,
+
+        # Privacy and Security - optimized
+        "safebrowsing.enabled": False,
+        "safebrowsing.disable_download_protection": True,
+        "profile.default_content_setting_values.automatic_downloads": 1,
+    })
+
+    # AGGRESSIVE POPUP & NOTIFICATION BLOCKING
+    chrome_options.add_argument("--disable-extensions")
+    chrome_options.add_argument("--disable-plugins")
+    chrome_options.add_argument("--disable-images")  # Faster loading
+    chrome_options.add_argument("--disable-javascript-harmony-shipping")
+    chrome_options.add_argument("--disable-background-timer-throttling")
+    chrome_options.add_argument("--disable-backgrounding-occluded-windows")
+    chrome_options.add_argument("--disable-renderer-backgrounding")
+    chrome_options.add_argument("--disable-features=TranslateUI")
+    chrome_options.add_argument("--disable-infobars")
+
+    # NEW: ADDITIONAL POPUP BLOCKING ARGUMENTS
+    chrome_options.add_argument("--disable-popup-blocking")
+    chrome_options.add_argument("--disable-notifications")
+    chrome_options.add_argument("--disable-save-password-bubble")
+    chrome_options.add_argument("--disable-password-generation")
+    chrome_options.add_argument("--disable-password-manager-reauthentication")
+    chrome_options.add_argument("--disable-sync")
+    chrome_options.add_argument("--disable-web-security")
+    chrome_options.add_argument("--disable-features=VizDisplayCompositor")
+    chrome_options.add_argument("--disable-features=PasswordImport")
+    chrome_options.add_argument("--disable-features=PasswordExport")
+
+    # NEW: MAXIMUM SPEED OPTIMIZATIONS
+    chrome_options.add_argument("--aggressive-cache-discard")
+    chrome_options.add_argument("--memory-pressure-off")
+    chrome_options.add_argument("--max_old_space_size=4096")
+    chrome_options.add_argument("--disable-background-networking")
+    chrome_options.add_argument("--disable-default-apps")
+    chrome_options.add_argument("--disable-component-extensions-with-background-pages")
+
     # Check for headless mode from environment
     headless = os.getenv('HEADLESS', 'false').lower() == 'true'
     if headless:
         chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--virtual-time-budget=5000")  # Speed up headless mode
     
     # Chrome binary path from environment
     chrome_binary = os.getenv('CHROME_BINARY')
@@ -76,9 +147,29 @@ def driver():
         
         service = Service(chromedriver_path)
         driver_instance = webdriver.Chrome(service=service, options=chrome_options)
-        driver_instance.implicitly_wait(10)
-        
-        print(f"WebDriver initialized successfully")
+
+        # Enhanced configuration: Reduced implicit wait for better explicit wait handling
+        driver_instance.implicitly_wait(5)  # Reduced from 10 to 5 seconds
+
+        # NEW: EXECUTE JAVASCRIPT TO DISABLE PASSWORD MANAGER AT RUNTIME
+        driver_instance.execute_script("""
+            // Disable password manager at runtime
+            Object.defineProperty(navigator, 'credentials', {
+                get: () => undefined
+            });
+            
+            // Block password manager UI
+            window.addEventListener('beforeunload', function(e) {
+                e.returnValue = '';
+            });
+            
+            // Override password manager methods
+            if (window.PasswordCredential) {
+                window.PasswordCredential = undefined;
+            }
+        """)
+
+        print(f"WebDriver initialized successfully with ENHANCED popup blocking")
         yield driver_instance
         
     except Exception as e:

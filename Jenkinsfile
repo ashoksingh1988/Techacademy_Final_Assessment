@@ -59,21 +59,11 @@ pipeline {
 
         stage('Setup Environment') {
             steps {
-                echo "Setting up master test environment..."
                 script {
                     try {
-                        def appiumStatus = bat(
-                            script: "timeout 3 curl -s ${APPIUM_SERVER}/status 2>nul || echo Appium not running",
-                            returnStdout: true
-                        ).trim()
-                        
-                        if (appiumStatus.contains('Appium not running')) {
-                            echo "Appium server is not running. Mobile tests will run in demo mode."
-                        } else {
-                            echo "Appium server is running: ${appiumStatus}"
-                        }
+                        bat(script: "jenkins-appium-start.bat", returnStatus: true)
                     } catch (Exception e) {
-                        echo "Environment setup completed with warnings: ${e.getMessage()}"
+                        echo "Appium start warning: ${e.getMessage()}"
                     }
                 }
             }
@@ -138,23 +128,16 @@ pipeline {
 
         stage('Consolidate Reports') {
             steps {
-                echo "Consolidating reports from all frameworks..."
                 script {
                     try {
                         bat """
-                            REM Create consolidated report directory
                             if not exist consolidated-reports mkdir consolidated-reports
-
-                            REM Copy individual framework reports
                             if exist java-selenium-automation\\target\\surefire-reports xcopy java-selenium-automation\\target\\surefire-reports consolidated-reports\\selenium\\ /E /I /Y 2>nul
                             if exist java-appium-automation\\target\\surefire-reports xcopy java-appium-automation\\target\\surefire-reports consolidated-reports\\appium\\ /E /I /Y 2>nul
                             if exist python-selenium-automation\\reports xcopy python-selenium-automation\\reports consolidated-reports\\python\\ /E /I /Y 2>nul
-
-                            REM Generate master index
-                            echo ^<html^>^<body^>^<h1^>Master Test Report^</h1^>^</body^>^</html^> > consolidated-reports\\index.html
                         """
                     } catch (Exception e) {
-                        echo "Report consolidation completed with warnings: ${e.getMessage()}"
+                        echo "Report consolidation: ${e.getMessage()}"
                     }
                 }
             }
@@ -162,21 +145,11 @@ pipeline {
 
         stage('Publish Results') {
             steps {
-                echo "Publishing consolidated test results..."
                 script {
                     try {
-                        publishHTML([
-                            allowMissing: false,
-                            alwaysLinkToLastBuild: true,
-                            keepAll: true,
-                            reportDir: 'consolidated-reports',
-                            reportFiles: 'index.html',
-                            reportName: 'Master Test Report'
-                        ])
-                        
                         archiveArtifacts artifacts: 'consolidated-reports/**/*', allowEmptyArchive: true
                     } catch (Exception e) {
-                        echo "Report publishing completed with warnings: ${e.getMessage()}"
+                        echo "Archiving: ${e.getMessage()}"
                     }
                 }
             }
@@ -184,28 +157,15 @@ pipeline {
 
         stage('Notification') {
             steps {
-                echo "Sending master pipeline notifications..."
                 script {
                     try {
                         emailext(
-                            subject: "TechAcademy Master Pipeline - ${currentBuild.currentResult}",
-                            body: """
-                                <h2>TechAcademy Master Pipeline Report</h2>
-                                <p><strong>Build:</strong> ${env.BUILD_NUMBER}</p>
-                                <p><strong>Status:</strong> ${currentBuild.currentResult}</p>
-                                <p><strong>Execution Mode:</strong> ${params.EXECUTION_MODE}</p>
-                                <p><strong>Java Selenium:</strong> ${params.RUN_JAVA_SELENIUM}</p>
-                                <p><strong>Java Appium:</strong> ${params.RUN_JAVA_APPIUM}</p>
-                                <p><strong>Python Selenium:</strong> ${params.RUN_PYTHON_SELENIUM}</p>
-                                <p><strong>Test Suite:</strong> ${params.TEST_SUITE}</p>
-                                <p><strong>Environment:</strong> ${params.ENVIRONMENT}</p>
-                                <p><strong>Consolidated Reports:</strong> <a href="${env.BUILD_URL}Master_Test_Report/">View Master Report</a></p>
-                            """,
-                            mimeType: 'text/html',
+                            subject: "Test Pipeline - ${currentBuild.currentResult}",
+                            body: "Build: ${env.BUILD_NUMBER} | Status: ${currentBuild.currentResult}",
                             to: 'ashokchandravanshi1988@gmail.com'
                         )
                     } catch (Exception e) {
-                        echo "Notification completed with warnings: ${e.getMessage()}"
+                        echo "Email notification skipped"
                     }
                 }
             }
@@ -214,27 +174,14 @@ pipeline {
 
     post {
         always {
-            echo "Cleaning up master workspace..."
             script {
                 try {
-                    bat """
-                        REM Clean up virtual environment
-                        if exist master-venv rmdir /s /q master-venv 2>nul
-
-                        REM Clean up temporary files  
-                        if exist master-reports rmdir /s /q master-reports 2>nul
-                    """
-                } catch (Exception e) {
-                    echo "Cleanup completed with warnings: ${e.getMessage()}"
-                }
+                    bat "call jenkins-appium-stop.bat 2>nul"
+                } catch (Exception e) {}
             }
             cleanWs()
         }
-        success {
-            echo "Master pipeline executed successfully!"
-        }
-        failure {
-            echo "Master pipeline failed. Check individual framework logs."
-        }
+        success { echo "Pipeline completed successfully!" }
+        failure { echo "Pipeline failed!" }
     }
 }
