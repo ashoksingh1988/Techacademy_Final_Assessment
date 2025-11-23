@@ -74,10 +74,18 @@ pipeline {
                     
                     if (params.MULTI_BROWSER) {
                         // Multi-browser parallel execution for demo
-                        def browsers = params.BROWSERS.split(',')*.trim().findAll { it }
-                        def parallelTasks = [:]
+                        def browserList = params.BROWSERS.split(',')
+                        def browsers = []
+                        for (int i = 0; i < browserList.size(); i++) {
+                            def b = browserList[i].trim()
+                            if (b) {
+                                browsers.add(b)
+                            }
+                        }
                         
-                        browsers.each { browser ->
+                        def parallelTasks = [:]
+                        for (int i = 0; i < browsers.size(); i++) {
+                            def browser = browsers[i]
                             parallelTasks["${browser}"] = {
                                 dir('python-selenium-automation') {
                                     echo "Running tests on ${browser}..."

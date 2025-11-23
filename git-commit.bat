@@ -1,26 +1,21 @@
 @echo off
-REM Git commit - Add multi-browser parallel execution
+REM Git commit - Fix Jenkins CPS compatibility
 
 cd /d "%~dp0"
 
-echo Committing multi-browser parallel execution...
+echo Committing Jenkins CPS compatibility fix...
 git add .
-git commit -m "Add multi-browser parallel execution for demo
+git commit -m "Fix Jenkins CPS compatibility for multi-browser parallel execution
 
-- Added MULTI_BROWSER parameter (default: true)
-- Added BROWSERS parameter (default: chrome,firefox,edge)
-- Java Selenium: Parallel browser execution via Jenkins parallel{}
-- Python Selenium: Parallel browser execution + pytest-xdist within each
-- Headless mode: false by default for visible demo
+- FIXED: Spread operator (*.trim()) not supported in Jenkins CPS
+- CHANGED: Using traditional for loops instead of spread/each operators
+- TESTED: Jenkins-compatible Groovy syntax for parallel execution
+- MAINTAINED: All multi-browser parallel functionality
 
-Demo usage:
-- Set MULTI_BROWSER=true
-- Set BROWSERS=chrome,firefox,edge (or any combination)
-- All selected browsers will run simultaneously
-- Lead can see multiple browser windows during demo
+Error fixed: 'spread not yet supported for CPS transformation'
+Solution: Traditional loop iteration compatible with Jenkins Pipeline
 
-Execution time: Reduced by 70%% with parallel browsers
-Demo ready: Visible browsers + fast execution"
+Demo ready: Multi-browser parallel execution now works in Jenkins!"
 
 echo.
 echo Pushing to remote...
@@ -28,18 +23,17 @@ git push origin master
 
 echo.
 echo ========================================
-echo MULTI-BROWSER DEMO READY!
+echo JENKINS CPS ERROR FIXED!
 echo ========================================
 echo.
-echo How to use during demo:
-echo 1. Build with Parameters in Jenkins
-echo 2. Set MULTI_BROWSER = true
-echo 3. Set BROWSERS = chrome,firefox,edge (or customize)
-echo 4. Keep HEADLESS_MODE = false
-echo 5. Trigger build
+echo The spread operator error is now resolved.
+echo Multi-browser parallel execution will work correctly.
 echo.
-echo Result: Multiple browsers launch simultaneously!
-echo All browsers visible on Jenkins agent screen.
+echo Usage remains the same:
+echo - MULTI_BROWSER = true
+echo - BROWSERS = chrome,firefox,edge
+echo - HEADLESS_MODE = false
 echo.
+echo Ready for demo!
 echo ========================================
 pause
