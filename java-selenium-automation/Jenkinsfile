@@ -39,11 +39,18 @@ pipeline {
                         
                         def parallelTasks = [:]
                         for (int i = 0; i < browsers.size(); i++) {
-                            def browser = browsers[i]
-                            parallelTasks["${browser}"] = {
-                                dir('java-selenium-automation') {
-                                    echo "Running tests on ${browser}..."
-                                    bat "mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/suites/${suiteFile} -Dbrowser=${browser} -Denvironment=${params.ENVIRONMENT} -Dheadless=${params.HEADLESS_MODE}"
+                            // CRITICAL: Create local copy to avoid closure variable capture issue
+                            def browserName = browsers[i]
+                            parallelTasks["${browserName}"] = {
+                                try {
+                                    dir('java-selenium-automation') {
+                                        echo "Running tests on ${browserName}..."
+                                        // Use separate build directory per browser to prevent file locking
+                                        bat "mvn clean test -Dmaven.test.failure.ignore=true -Dsurefire.suiteXmlFiles=src/test/resources/suites/${suiteFile} -Dbrowser=${browserName} -Denvironment=${params.ENVIRONMENT} -Dheadless=${params.HEADLESS_MODE} -Dbuild.directory=target-${browserName}"
+                                    }
+                                } catch (Exception e) {
+                                    echo "Tests failed on ${browserName}: ${e.getMessage()}"
+                                    throw e
                                 }
                             }
                         }

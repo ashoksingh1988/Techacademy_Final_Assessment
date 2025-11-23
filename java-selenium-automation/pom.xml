@@ -121,6 +121,10 @@
                     <threadCount>1</threadCount>
                     <forkCount>1</forkCount>
                     <reuseForks>false</reuseForks>
+                    <!-- Prevent file locking issues in parallel browser execution -->
+                    <useSystemClassLoader>false</useSystemClassLoader>
+                    <useManifestOnlyJar>false</useManifestOnlyJar>
+                    <trimStackTrace>false</trimStackTrace>
                 </configuration>
             </plugin>
         </plugins>

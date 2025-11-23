@@ -6,6 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="35cda0f9-c071-4104-a304-fcc462a55ca9" name="Changes" comment="Added Jenkinsfile with corrected pipeline configuration_for running build_14">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/git-commit.bat" beforeDir="false" afterPath="$PROJECT_DIR$/git-commit.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-selenium-automation/Jenkinsfile" beforeDir="false" afterPath="$PROJECT_DIR$/java-selenium-automation/Jenkinsfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-selenium-automation/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/java-selenium-automation/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-selenium-automation/src/main/java/com/selenium/core/DriverManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-selenium-automation/src/main/java/com/selenium/core/DriverManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python-selenium-automation/Jenkinsfile" beforeDir="false" afterPath="$PROJECT_DIR$/python-selenium-automation/Jenkinsfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

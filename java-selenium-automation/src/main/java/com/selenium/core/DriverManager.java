@@ -1,5 +1,6 @@
 package com.selenium.core;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -82,6 +83,8 @@ public class DriverManager {
      * Creates Chrome WebDriver with options
      */
     private static WebDriver createChromeDriver(boolean headless) {
+        WebDriverManager.chromedriver().clearDriverCache().setup();
+        
         ChromeOptions options = new ChromeOptions();
         
         if (headless) {
@@ -104,6 +107,8 @@ public class DriverManager {
      * Creates Firefox WebDriver with options
      */
     private static WebDriver createFirefoxDriver(boolean headless) {
+        WebDriverManager.firefoxdriver().clearDriverCache().setup();
+        
         FirefoxOptions options = new FirefoxOptions();
         
         if (headless) {
@@ -120,6 +125,8 @@ public class DriverManager {
      * Creates Edge WebDriver with options
      */
     private static WebDriver createEdgeDriver(boolean headless) {
+        WebDriverManager.edgedriver().clearDriverCache().setup();
+        
         EdgeOptions options = new EdgeOptions();
         
         if (headless) {

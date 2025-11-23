@@ -85,14 +85,20 @@ pipeline {
                         
                         def parallelTasks = [:]
                         for (int i = 0; i < browsers.size(); i++) {
-                            def browser = browsers[i]
-                            parallelTasks["${browser}"] = {
-                                dir('python-selenium-automation') {
-                                    echo "Running tests on ${browser}..."
-                                    bat """
-                                        call venv\\Scripts\\activate.bat
-                                        python -m pytest tests/ ${parallelFlag} --browser=${browser} --environment=${params.ENVIRONMENT} --headless=${params.HEADLESS_MODE} --html=reports/report_${browser}.html --self-contained-html -v
-                                    """
+                            // CRITICAL: Create local copy to avoid closure variable capture issue
+                            def browserName = browsers[i]
+                            parallelTasks["${browserName}"] = {
+                                try {
+                                    dir('python-selenium-automation') {
+                                        echo "Running tests on ${browserName}..."
+                                        bat """
+                                            call venv\\Scripts\\activate.bat
+                                            python -m pytest tests/ ${parallelFlag} --browser=${browserName} --environment=${params.ENVIRONMENT} --headless=${params.HEADLESS_MODE} --html=reports/report_${browserName}.html --self-contained-html -v
+                                        """
+                                    }
+                                } catch (Exception e) {
+                                    echo "Tests failed on ${browserName}: ${e.getMessage()}"
+                                    throw e
                                 }
                             }
                         }
