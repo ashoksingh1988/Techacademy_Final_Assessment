@@ -2,19 +2,19 @@ pipeline {
     agent any
 
     environment {
-        PYTHON_HOME = 'C:\\Users\\Asim\\AppData\\Local\\Programs\\Python\\Python313'
-        PATH = "C:\\Users\\Asim\\AppData\\Local\\Programs\\Python\\Python313;C:\\Users\\Asim\\AppData\\Local\\Programs\\Python\\Python313\\Scripts;${env.PATH}"
+        // Use system Python instead of hardcoded path
+        PYTHON_PATH = 'python'
     }
 
     parameters {
         choice(
             name: 'TEST_SUITE',
-            choices: ['smoke', 'regression', 'cross_browser', 'api'],
+            choices: ['smoke', 'regression', 'full'],
             description: 'Select test suite to execute'
         )
         choice(
             name: 'BROWSER_TYPE',
-            choices: ['chrome', 'firefox', 'edge', 'safari'],
+            choices: ['chrome', 'firefox', 'edge'],
             description: 'Single browser (used when MULTI_BROWSER=false)'
         )
         choice(
@@ -24,23 +24,23 @@ pipeline {
         )
         booleanParam(
             name: 'HEADLESS_MODE',
-            defaultValue: false,
-            description: 'Run tests in headless mode (false = visible browser for demo)'
+            defaultValue: true,
+            description: 'Run tests in headless mode (true = faster execution)'
         )
         booleanParam(
             name: 'PARALLEL_EXECUTION',
-            defaultValue: true,
+            defaultValue: false,
             description: 'Execute tests in parallel (pytest-xdist for faster execution)'
         )
         string(
             name: 'BROWSERS',
-            defaultValue: 'chrome,firefox,edge',
-            description: 'Comma-separated browsers for parallel execution (e.g., chrome,firefox,edge)'
+            defaultValue: 'chrome',
+            description: 'Comma-separated browsers for execution (e.g., chrome,firefox)'
         )
         booleanParam(
             name: 'MULTI_BROWSER',
-            defaultValue: true,
-            description: 'Run multiple browsers in parallel (for demo)'
+            defaultValue: false,
+            description: 'Run multiple browsers (for demo)'
         )
     }
 
@@ -57,10 +57,18 @@ pipeline {
                 script {
                     dir('python-selenium-automation') {
                         bat """
-                            "${PYTHON_HOME}\\python.exe" -m venv venv
-                            call venv\\Scripts\\activate.bat
+                            echo Setting up Python environment...
+                            echo Checking Python installation...
+                            python --version
+                            if errorlevel 1 (
+                                echo Python not found in PATH
+                                exit /b 1
+                            )
+                            echo Upgrading pip...
                             python -m pip install --upgrade pip --quiet
+                            echo Installing requirements...
                             pip install -r requirements.txt --quiet
+                            echo Environment setup completed
                         """
                     }
                 }
@@ -72,46 +80,12 @@ pipeline {
                 script {
                     def parallelFlag = params.PARALLEL_EXECUTION ? '-n auto' : ''
                     
-                    if (params.MULTI_BROWSER) {
-                        // Multi-browser parallel execution for demo
-                        def browserList = params.BROWSERS.split(',')
-                        def browsers = []
-                        for (int i = 0; i < browserList.size(); i++) {
-                            def b = browserList[i].trim()
-                            if (b) {
-                                browsers.add(b)
-                            }
-                        }
-                        
-                        def parallelTasks = [:]
-                        for (int i = 0; i < browsers.size(); i++) {
-                            // CRITICAL: Create local copy to avoid closure variable capture issue
-                            def browserName = browsers[i]
-                            parallelTasks["${browserName}"] = {
-                                try {
-                                    dir('python-selenium-automation') {
-                                        echo "Running tests on ${browserName}..."
-                                        bat """
-                                            call venv\\Scripts\\activate.bat
-                                            python -m pytest tests/ ${parallelFlag} --browser=${browserName} --environment=${params.ENVIRONMENT} --headless=${params.HEADLESS_MODE} --html=reports/report_${browserName}.html --self-contained-html -v
-                                        """
-                                    }
-                                } catch (Exception e) {
-                                    echo "Tests failed on ${browserName}: ${e.getMessage()}"
-                                    throw e
-                                }
-                            }
-                        }
-                        
-                        parallel parallelTasks
-                    } else {
-                        // Single browser execution
-                        dir('python-selenium-automation') {
-                            bat """
-                                call venv\\Scripts\\activate.bat
-                                python -m pytest tests/ ${parallelFlag} --browser=${params.BROWSER_TYPE} --environment=${params.ENVIRONMENT} --headless=${params.HEADLESS_MODE} --html=reports/report.html --self-contained-html -v
-                            """
-                        }
+                    dir('python-selenium-automation') {
+                        bat """
+                            echo Starting test execution...
+                            set HEADLESS=${params.HEADLESS_MODE}
+                            python -m pytest tests/ ${parallelFlag} -v --html=reports/report.html --self-contained-html
+                        """
                     }
                 }
             }
@@ -131,7 +105,9 @@ pipeline {
                                 reportName: 'Python Test Report'
                             ])
                             archiveArtifacts artifacts: 'reports/**/*', allowEmptyArchive: true
-                        } catch (Exception e) {}
+                        } catch (Exception e) {
+                            echo "Report publishing failed: ${e.getMessage()}"
+                        }
                     }
                 }
             }
@@ -143,10 +119,12 @@ pipeline {
                     try {
                         emailext(
                             subject: "Python Selenium - ${currentBuild.currentResult}",
-                            body: "Build: ${env.BUILD_NUMBER} | Browser: ${params.BROWSER_TYPE} | Headless: ${params.HEADLESS_MODE}",
+                            body: "Build: ${env.BUILD_NUMBER} | Status: ${currentBuild.currentResult}",
                             to: "ashokchandravanshi1988@gmail.com"
                         )
-                    } catch (Exception e) {}
+                    } catch (Exception e) {
+                        echo "Notification failed: ${e.getMessage()}"
+                    }
                 }
             }
         }
@@ -159,7 +137,9 @@ pipeline {
                     dir('python-selenium-automation') {
                         bat "if exist venv rmdir /s /q venv 2>nul"
                     }
-                } catch (Exception e) {}
+                } catch (Exception e) {
+                    echo "Cleanup failed: ${e.getMessage()}"
+                }
             }
             cleanWs()
         }

@@ -14,6 +14,10 @@ from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.firefox.service import Service as FirefoxService
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
+from selenium.webdriver.edge.service import Service as EdgeService
+from selenium.webdriver.edge.options import Options as EdgeOptions
 
 # Global driver instance
 driver_instance = None
@@ -41,11 +45,41 @@ def test_credentials():
     }
 
 @pytest.fixture(scope="function")
-def driver():
+def driver(request):
     """WebDriver fixture for tests - OPTIMIZED for fast execution"""
     global driver_instance
 
-    # Chrome options with SPEED-OPTIMIZED configuration
+    # Get browser type from environment or default to chrome
+    browser = os.getenv('BROWSER', 'chrome').lower()
+    headless = os.getenv('HEADLESS', 'true').lower() == 'true'
+    
+    try:
+        if browser == 'firefox':
+            driver_instance = create_firefox_driver(headless)
+        elif browser == 'edge':
+            driver_instance = create_edge_driver(headless)
+        else:
+            driver_instance = create_chrome_driver(headless)
+        
+        # Enhanced configuration: Reduced implicit wait for better explicit wait handling
+        driver_instance.implicitly_wait(5)  # Reduced from 10 to 5 seconds
+
+        print(f"WebDriver initialized successfully for {browser}")
+        yield driver_instance
+        
+    except Exception as e:
+        print(f"Error initializing WebDriver: {str(e)}")
+        raise
+    finally:
+        if driver_instance:
+            try:
+                driver_instance.quit()
+                print("WebDriver quit successfully")
+            except Exception as e:
+                print(f"Error quitting WebDriver: {str(e)}")
+
+def create_chrome_driver(headless):
+    """Create Chrome WebDriver with optimized options"""
     chrome_options = Options()
     chrome_options.add_argument("--start-maximized")
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
@@ -122,8 +156,6 @@ def driver():
     chrome_options.add_argument("--disable-default-apps")
     chrome_options.add_argument("--disable-component-extensions-with-background-pages")
 
-    # Check for headless mode from environment
-    headless = os.getenv('HEADLESS', 'false').lower() == 'true'
     if headless:
         chrome_options.add_argument("--headless")
         chrome_options.add_argument("--virtual-time-budget=5000")  # Speed up headless mode
@@ -133,55 +165,63 @@ def driver():
     if chrome_binary and os.path.exists(chrome_binary):
         chrome_options.binary_location = chrome_binary
     
-    try:
-        # Use system ChromeDriver or specify path
-        chromedriver_path = r"C:\Program Files\Google\Chrome\Application\chromedriver.exe"
-        if not os.path.exists(chromedriver_path):
-            # Fallback to webdriver-manager
-            from webdriver_manager.chrome import ChromeDriverManager
-            chromedriver_path = ChromeDriverManager().install()
-            # Fix the path if it's pointing to the wrong file
-            if 'THIRD_PARTY_NOTICES' in chromedriver_path:
-                base_dir = os.path.dirname(chromedriver_path)
-                chromedriver_path = os.path.join(base_dir, 'chromedriver.exe')
-        
-        service = Service(chromedriver_path)
-        driver_instance = webdriver.Chrome(service=service, options=chrome_options)
+    # Use system ChromeDriver or specify path
+    chromedriver_path = r"C:\Program Files\Google\Chrome\Application\chromedriver.exe"
+    if not os.path.exists(chromedriver_path):
+        # Fallback to webdriver-manager
+        from webdriver_manager.chrome import ChromeDriverManager
+        chromedriver_path = ChromeDriverManager().install()
+        # Fix the path if it's pointing to the wrong file
+        if 'THIRD_PARTY_NOTICES' in chromedriver_path:
+            base_dir = os.path.dirname(chromedriver_path)
+            chromedriver_path = os.path.join(base_dir, 'chromedriver.exe')
+    
+    service = Service(chromedriver_path)
+    return webdriver.Chrome(service=service, options=chrome_options)
 
-        # Enhanced configuration: Reduced implicit wait for better explicit wait handling
-        driver_instance.implicitly_wait(5)  # Reduced from 10 to 5 seconds
+def create_firefox_driver(headless):
+    """Create Firefox WebDriver with optimized options"""
+    firefox_options = FirefoxOptions()
+    
+    if headless:
+        firefox_options.add_argument("--headless")
+    
+    firefox_options.add_argument("--width=1920")
+    firefox_options.add_argument("--height=1080")
+    
+    # Firefox preferences for faster execution
+    firefox_options.set_preference("dom.max_script_run_time", 30)
+    firefox_options.set_preference("dom.max_chrome_script_run_time", 30)
+    firefox_options.set_preference("browser.download.folderList", 2)
+    firefox_options.set_preference("browser.download.manager.showWhenStarting", False)
+    firefox_options.set_preference("browser.helperApps.neverAsk.saveToDisk", "text/plain, application/octet-stream, application/pdf, text/csv, application/csv, text/html, application/xhtml+xml, application/xml, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    
+    # Use webdriver-manager for Firefox
+    from webdriver_manager.firefox import GeckoDriverManager
+    service = FirefoxService(GeckoDriverManager().install())
+    return webdriver.Firefox(service=service, options=firefox_options)
 
-        # NEW: EXECUTE JAVASCRIPT TO DISABLE PASSWORD MANAGER AT RUNTIME
-        driver_instance.execute_script("""
-            // Disable password manager at runtime
-            Object.defineProperty(navigator, 'credentials', {
-                get: () => undefined
-            });
-            
-            // Block password manager UI
-            window.addEventListener('beforeunload', function(e) {
-                e.returnValue = '';
-            });
-            
-            // Override password manager methods
-            if (window.PasswordCredential) {
-                window.PasswordCredential = undefined;
-            }
-        """)
-
-        print(f"WebDriver initialized successfully with ENHANCED popup blocking")
-        yield driver_instance
-        
-    except Exception as e:
-        print(f"Error initializing WebDriver: {str(e)}")
-        raise
-    finally:
-        if driver_instance:
-            try:
-                driver_instance.quit()
-                print("WebDriver quit successfully")
-            except Exception as e:
-                print(f"Error quitting WebDriver: {str(e)}")
+def create_edge_driver(headless):
+    """Create Edge WebDriver with optimized options"""
+    edge_options = EdgeOptions()
+    
+    if headless:
+        edge_options.add_argument("--headless")
+    
+    edge_options.add_argument("--no-sandbox")
+    edge_options.add_argument("--disable-dev-shm-usage")
+    edge_options.add_argument("--disable-gpu")
+    edge_options.add_argument("--window-size=1920,1080")
+    
+    # Edge-specific optimizations
+    edge_options.add_argument("--disable-background-timer-throttling")
+    edge_options.add_argument("--disable-backgrounding-occluded-windows")
+    edge_options.add_argument("--disable-renderer-backgrounding")
+    
+    # Use webdriver-manager for Edge
+    from webdriver_manager.microsoft import EdgeChromiumDriverManager
+    service = EdgeService(EdgeChromiumDriverManager().install())
+    return webdriver.Edge(service=service, options=edge_options)
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
 def pytest_runtest_makereport(item, call):
