@@ -2,8 +2,9 @@ pipeline {
     agent any
 
     environment {
-        // Use system Python instead of hardcoded path
-        PYTHON_PATH = 'python'
+        // Use full Python path for Windows Jenkins compatibility
+        PYTHON_HOME = 'C:\\\\Users\\\\Asim\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python313'
+        PATH = "${PYTHON_HOME};${PYTHON_HOME}\\\\Scripts;${env.PATH}"
     }
 
     parameters {
