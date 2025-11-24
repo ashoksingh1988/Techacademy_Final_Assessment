@@ -13,7 +13,7 @@ pipeline {
         choice(name: 'ENVIRONMENT', choices: ['qa', 'staging', 'production'], description: 'Environment')
         booleanParam(name: 'HEADLESS_MODE', defaultValue: false, description: 'Headless mode (false = visible browser for demo)')
         string(name: 'BROWSERS', defaultValue: 'chrome,firefox,edge', description: 'Comma-separated browsers for parallel execution (e.g., chrome,firefox,edge)')
-        booleanParam(name: 'MULTI_BROWSER', defaultValue: true, description: 'Run multiple browsers in parallel (for demo)')
+        booleanParam(name: 'MULTI_BROWSER', defaultValue: false, description: 'Run multiple browsers in parallel (for demo)')
     }
 
     stages {

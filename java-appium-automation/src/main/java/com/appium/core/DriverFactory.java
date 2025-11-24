@@ -78,11 +78,11 @@ public class DriverFactory {
         options.setCapability("disableHiddenApiPolicyCheck", true);
         options.setCapability("ignoreHiddenApiPolicyError", true);
         
-        // Timeout configurations
-        options.setNewCommandTimeout(Duration.ofSeconds(300));
-        options.setCapability("uiautomator2ServerInstallTimeout", 90000);
-        options.setCapability("uiautomator2ServerLaunchTimeout", 90000);
-        options.setCapability("androidInstallTimeout", 120000);
+        // OPTIMIZED TIMEOUT CONFIGURATIONS FOR FASTER EXECUTION
+        options.setNewCommandTimeout(Duration.ofSeconds(60)); // Reduced from 300
+        options.setCapability("uiautomator2ServerInstallTimeout", 30000); // Reduced from 90000
+        options.setCapability("uiautomator2ServerLaunchTimeout", 30000); // Reduced from 90000
+        options.setCapability("androidInstallTimeout", 60000); // Reduced from 120000
         
         // Stability settings - Your lead's recommendations
         options.setCapability("unicodeKeyboard", false);
@@ -99,8 +99,9 @@ public class DriverFactory {
     }
     
     private static void configureDriver(AndroidDriver driver) {
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        logger.debug("Driver configured with standard timeouts");
+        // REDUCED TIMEOUTS FOR FASTER EXECUTION
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5)); // Reduced from 10
+        logger.debug("Driver configured with optimized timeouts");
     }
     
     public static AndroidDriver getDriver() {

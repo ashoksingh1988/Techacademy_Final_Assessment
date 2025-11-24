@@ -100,6 +100,17 @@ public class DriverManager {
         options.addArguments("--disable-web-security");
         options.addArguments("--allow-running-insecure-content");
         
+        // OPTIMIZED OPTIONS FOR FASTER EXECUTION
+        options.addArguments("--disable-background-timer-throttling");
+        options.addArguments("--disable-backgrounding-occluded-windows");
+        options.addArguments("--disable-renderer-backgrounding");
+        options.addArguments("--disable-features=TranslateUI");
+        options.addArguments("--disable-ipc-flooding-protection");
+        options.addArguments("--disable-background-networking");
+        options.addArguments("--disable-default-apps");
+        options.addArguments("--disable-sync");
+        options.addArguments("--disable-plugins");
+        
         return new ChromeDriver(options);
     }
     
@@ -117,6 +128,10 @@ public class DriverManager {
         
         options.addArguments("--width=1920");
         options.addArguments("--height=1080");
+        
+        // OPTIMIZED OPTIONS FOR FASTER EXECUTION
+        options.addPreference("dom.max_script_run_time", 30);
+        options.addPreference("dom.max_chrome_script_run_time", 30);
         
         return new FirefoxDriver(options);
     }
@@ -138,6 +153,11 @@ public class DriverManager {
         options.addArguments("--disable-gpu");
         options.addArguments("--window-size=1920,1080");
         
+        // OPTIMIZED OPTIONS FOR FASTER EXECUTION
+        options.addArguments("--disable-background-timer-throttling");
+        options.addArguments("--disable-backgrounding-occluded-windows");
+        options.addArguments("--disable-renderer-backgrounding");
+        
         return new EdgeDriver(options);
     }
     
@@ -150,15 +170,16 @@ public class DriverManager {
     }
     
     /**
-     * Configures driver with standard timeouts and settings
+     * Configures driver with optimized timeouts and settings
      */
     private static void configureDriver(WebDriver driver) {
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
-        driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(30));
+        // REDUCED TIMEOUTS FOR FASTER EXECUTION
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5)); // Reduced from 10
+        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(15)); // Reduced from 30
+        driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(15)); // Reduced from 30
         driver.manage().window().maximize();
         
-        logger.debug("Driver configured with standard timeouts and window maximized");
+        logger.debug("Driver configured with optimized timeouts and window maximized");
     }
     
     /**
