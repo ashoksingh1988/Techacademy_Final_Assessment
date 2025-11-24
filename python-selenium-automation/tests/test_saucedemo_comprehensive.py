@@ -39,7 +39,7 @@ class TestSauceDemoComprehensive:
 
     def perform_login(self, driver, base_url, username, password):
         """Enhanced login method with popup handling - SPEED OPTIMIZED"""
-        wait = WebDriverWait(driver, 8)  # Reduced from 10 to 8 seconds
+        wait = WebDriverWait(driver, 5)  # Reduced from 8 to 5 seconds
         
         driver.get(base_url)
 
@@ -62,8 +62,8 @@ class TestSauceDemoComprehensive:
 
         login_button.click()
 
-        # SPEED: Reduced wait time from 1 second to 0.5
-        time.sleep(0.5)
+        # SPEED: Reduced wait time from 1 second to 0.3
+        time.sleep(0.3)
         self.dismiss_password_popup(driver)
 
     def test_verify_website_title(self, driver, base_url):
@@ -76,8 +76,8 @@ class TestSauceDemoComprehensive:
         """Test 2: Login with valid credentials - SPEED OPTIMIZED"""
         self.perform_login(driver, base_url, test_credentials["valid_username"], test_credentials["valid_password"])
 
-        # SPEED: Reduced wait time from 10 to 6 seconds
-        wait = WebDriverWait(driver, 6)
+        # SPEED: Reduced wait time from 6 to 4 seconds
+        wait = WebDriverWait(driver, 4)
         wait.until(EC.url_contains("inventory"))
         assert "inventory" in driver.current_url
         print("✅ Login with valid credentials successful")
@@ -86,15 +86,15 @@ class TestSauceDemoComprehensive:
         """Test 3: Login with invalid credentials - SPEED OPTIMIZED"""
         self.perform_login(driver, base_url, test_credentials["invalid_username"], test_credentials["invalid_password"])
 
-        # SPEED: Reduced wait time from 10 to 6 seconds
-        wait = WebDriverWait(driver, 6)
+        # SPEED: Reduced wait time from 6 to 4 seconds
+        wait = WebDriverWait(driver, 4)
         error_message = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[data-test='error']")))
         assert "Username and password do not match" in error_message.text
         print("✅ Login with invalid credentials failed as expected")
 
     def test_add_item_to_cart(self, driver, base_url, test_credentials):
         """Test 4: Add item to cart functionality - SPEED OPTIMIZED"""
-        wait = WebDriverWait(driver, 10)  # Reduced from 20 to 10 seconds
+        wait = WebDriverWait(driver, 8)  # Reduced from 10 to 8 seconds
         
         self.perform_login(driver, base_url, test_credentials["valid_username"], test_credentials["valid_password"])
         
@@ -107,15 +107,15 @@ class TestSauceDemoComprehensive:
             EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Add to cart')]"))
         )
 
-        # SPEED: Reduced scroll pause from 0.5 to 0.2 seconds
+        # SPEED: Reduced scroll pause from 0.5 to 0.1 seconds
         driver.execute_script("arguments[0].scrollIntoView(true);", add_to_cart_button)
-        time.sleep(0.2)
+        time.sleep(0.1)
 
         add_to_cart_button.click()
 
         # SPEED: Faster verification with reduced wait
         cart_verified = False
-        fast_wait = WebDriverWait(driver, 5)  # Faster verification wait
+        fast_wait = WebDriverWait(driver, 3)  # Faster verification wait
 
         # Approach 1: Check for cart badge (fastest)
         try:
@@ -149,30 +149,29 @@ class TestSauceDemoComprehensive:
         assert cart_verified, "Failed to verify item was added to cart"
 
     def test_remove_item_from_cart(self, driver, base_url, test_credentials):
-        """Test 5: Remove item from cart functionality - SPEED OPTIMIZED"""
-        wait = WebDriverWait(driver, 10)  # Reduced from 20 to 10 seconds
+        """Test 5: Remove item from cart functionality"""
+        wait = WebDriverWait(driver, 10)
         
         self.perform_login(driver, base_url, test_credentials["valid_username"], test_credentials["valid_password"])
         
         wait.until(EC.url_contains("inventory"))
         wait.until(EC.presence_of_element_located((By.CLASS_NAME, "inventory_list")))
 
-        # Add item to cart first - optimized
+        # Add item to cart first - use data-test attribute for reliability
         add_to_cart_button = wait.until(
-            EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Add to cart')]"))
+            EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-test^='add-to-cart']"))
         )
         driver.execute_script("arguments[0].scrollIntoView(true);", add_to_cart_button)
-        time.sleep(0.2)  # Reduced from 1 second
+        time.sleep(0.5)
         add_to_cart_button.click()
 
-        # SPEED: Faster remove button detection
-        fast_wait = WebDriverWait(driver, 5)
-        remove_button = fast_wait.until(
-            EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Remove')]"))
+        # Wait for button to change to Remove - use data-test attribute
+        remove_button = wait.until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-test^='remove']"))
         )
 
         driver.execute_script("arguments[0].scrollIntoView(true);", remove_button)
-        time.sleep(0.2)  # Reduced from 0.5 seconds
+        time.sleep(0.5)
 
         # Click remove button
         try:
@@ -180,12 +179,12 @@ class TestSauceDemoComprehensive:
         except:
             driver.execute_script("arguments[0].click();", remove_button)
 
-        # SPEED: Faster verification
+        # Verify removal
         removal_verified = False
 
         # Approach 1: Wait for button text to change back to "Add to cart"
         try:
-            fast_wait.until(
+            wait.until(
                 EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Add to cart')]"))
             )
             removal_verified = True
@@ -216,14 +215,14 @@ class TestSauceDemoComprehensive:
         assert removal_verified, "Failed to verify item was removed from cart"
 
     def test_logout_functionality(self, driver, base_url, test_credentials):
-        """Test 6: Logout functionality - SPEED OPTIMIZED"""
-        wait = WebDriverWait(driver, 10)  # Reduced from 20 to 10 seconds
+        """Test 6: Logout functionality"""
+        wait = WebDriverWait(driver, 10)
         
         self.perform_login(driver, base_url, test_credentials["valid_username"], test_credentials["valid_password"])
         
         wait.until(EC.url_contains("inventory"))
 
-        # ENHANCED MENU INTERACTION - optimized
+        # Open menu
         menu_button = wait.until(EC.element_to_be_clickable((By.ID, "react-burger-menu-btn")))
         driver.execute_script("arguments[0].scrollIntoView(true);", menu_button)
 
@@ -233,14 +232,13 @@ class TestSauceDemoComprehensive:
         except:
             driver.execute_script("arguments[0].click();", menu_button)
 
-        # SPEED: Reduced menu wait from 2 seconds to 1 second
-        time.sleep(1)
+        # Wait for menu animation
+        time.sleep(1.5)
 
-        # Fast logout detection
-        fast_wait = WebDriverWait(driver, 5)
+        # Click logout link
         logout_clicked = False
 
-        # Try most common selectors first (fastest approach)
+        # Try most common selectors
         logout_selectors = [
             (By.ID, "logout_sidebar_link"),
             (By.CSS_SELECTOR, "[data-test='logout-sidebar-link']"),
@@ -249,7 +247,7 @@ class TestSauceDemoComprehensive:
 
         for selector_type, selector_value in logout_selectors:
             try:
-                logout_link = fast_wait.until(EC.element_to_be_clickable((selector_type, selector_value)))
+                logout_link = wait.until(EC.element_to_be_clickable((selector_type, selector_value)))
                 driver.execute_script("arguments[0].click();", logout_link)
                 logout_clicked = True
                 print(f"✅ Logout clicked using {selector_type}")
@@ -259,6 +257,6 @@ class TestSauceDemoComprehensive:
 
         assert logout_clicked, "Failed to click logout link"
 
-        # SPEED: Faster login page verification
-        fast_wait.until(EC.visibility_of_element_located((By.ID, "login-button")))
+        # Wait for login page to appear
+        wait.until(EC.visibility_of_element_located((By.ID, "login-button")))
         print("✅ Logout functionality working correctly")

@@ -51,7 +51,7 @@ def driver(request):
 
     # Get browser type from environment or default to chrome
     browser = os.getenv('BROWSER', 'chrome').lower()
-    headless = os.getenv('HEADLESS', 'true').lower() == 'true'
+    headless = os.getenv('HEADLESS', 'false').lower() == 'true'
     
     try:
         if browser == 'firefox':
@@ -81,103 +81,52 @@ def driver(request):
 def create_chrome_driver(headless):
     """Create Chrome WebDriver with optimized options"""
     chrome_options = Options()
+    
+    # Basic options
     chrome_options.add_argument("--start-maximized")
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
-    chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    chrome_options.add_experimental_option("excludeSwitches", ["enable-automation", "enable-logging"])
     chrome_options.add_experimental_option('useAutomationExtension', False)
 
-    # SPEED OPTIMIZATION: Disable resource-intensive features
+    # Essential stability options
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument("--disable-software-rasterizer")
-    chrome_options.add_argument("--disable-background-timer-throttling")
-    chrome_options.add_argument("--disable-backgrounding-occluded-windows")
-    chrome_options.add_argument("--disable-renderer-backgrounding")
-    chrome_options.add_argument("--disable-field-trial-config")
-    chrome_options.add_argument("--disable-ipc-flooding-protection")
+    chrome_options.add_argument("--remote-debugging-port=0")  # Disable remote debugging
 
-    # ENHANCED FIX: COMPLETELY DISABLE PASSWORD MANAGER & POPUPS
+    # Password Manager & Popup Settings
     chrome_options.add_experimental_option("prefs", {
-        # Password Manager Settings
         "credentials_enable_service": False,
         "profile.password_manager_enabled": False,
         "profile.default_content_setting_values.notifications": 2,
         "autofill.profile_enabled": False,
-        "autofill.credit_card_enabled": False,
-
-        # Additional Password & Security Settings
-        "password_manager_enabled": False,
-        "credentials_enable_autosignin": False,
-        "profile.password_manager_leak_detection": False,
-        "profile.default_content_settings.popups": 0,
-        "profile.managed_default_content_settings.popups": 0,
-
-        # SPEED: Disable resource-heavy features
-        "profile.default_content_setting_values.media_stream_mic": 2,
-        "profile.default_content_setting_values.media_stream_camera": 2,
-        "profile.default_content_setting_values.geolocation": 2,
-        "profile.default_content_setting_values.desktop_notification": 2,
-
-        # Privacy and Security - optimized
-        "safebrowsing.enabled": False,
-        "safebrowsing.disable_download_protection": True,
-        "profile.default_content_setting_values.automatic_downloads": 1,
     })
 
-    # AGGRESSIVE POPUP & NOTIFICATION BLOCKING
-    chrome_options.add_argument("--disable-extensions")
-    chrome_options.add_argument("--disable-plugins")
-    chrome_options.add_argument("--disable-images")  # Faster loading
-    chrome_options.add_argument("--disable-javascript-harmony-shipping")
-    chrome_options.add_argument("--disable-background-timer-throttling")
-    chrome_options.add_argument("--disable-backgrounding-occluded-windows")
-    chrome_options.add_argument("--disable-renderer-backgrounding")
-    chrome_options.add_argument("--disable-features=TranslateUI")
+    # Notification and popup blocking
+    chrome_options.add_argument("--disable-notifications")
     chrome_options.add_argument("--disable-infobars")
 
-    # NEW: ADDITIONAL POPUP BLOCKING ARGUMENTS
-    chrome_options.add_argument("--disable-popup-blocking")
-    chrome_options.add_argument("--disable-notifications")
-    chrome_options.add_argument("--disable-save-password-bubble")
-    chrome_options.add_argument("--disable-password-generation")
-    chrome_options.add_argument("--disable-password-manager-reauthentication")
-    chrome_options.add_argument("--disable-sync")
-    chrome_options.add_argument("--disable-web-security")
-    chrome_options.add_argument("--disable-features=VizDisplayCompositor")
-    chrome_options.add_argument("--disable-features=PasswordImport")
-    chrome_options.add_argument("--disable-features=PasswordExport")
-
-    # NEW: MAXIMUM SPEED OPTIMIZATIONS
-    chrome_options.add_argument("--aggressive-cache-discard")
-    chrome_options.add_argument("--memory-pressure-off")
-    chrome_options.add_argument("--max_old_space_size=4096")
-    chrome_options.add_argument("--disable-background-networking")
-    chrome_options.add_argument("--disable-default-apps")
-    chrome_options.add_argument("--disable-component-extensions-with-background-pages")
-
     if headless:
-        chrome_options.add_argument("--headless")
-        chrome_options.add_argument("--virtual-time-budget=5000")  # Speed up headless mode
+        chrome_options.add_argument("--headless=new")  # Use new headless mode
+        chrome_options.add_argument("--window-size=1920,1080")
     
     # Chrome binary path from environment
     chrome_binary = os.getenv('CHROME_BINARY')
     if chrome_binary and os.path.exists(chrome_binary):
         chrome_options.binary_location = chrome_binary
     
-    # Use system ChromeDriver or specify path
-    chromedriver_path = r"C:\Program Files\Google\Chrome\Application\chromedriver.exe"
-    if not os.path.exists(chromedriver_path):
-        # Fallback to webdriver-manager
-        from webdriver_manager.chrome import ChromeDriverManager
-        chromedriver_path = ChromeDriverManager().install()
-        # Fix the path if it's pointing to the wrong file
-        if 'THIRD_PARTY_NOTICES' in chromedriver_path:
-            base_dir = os.path.dirname(chromedriver_path)
-            chromedriver_path = os.path.join(base_dir, 'chromedriver.exe')
+    # Use webdriver-manager to automatically download matching ChromeDriver
+    from webdriver_manager.chrome import ChromeDriverManager
     
-    service = Service(chromedriver_path)
-    return webdriver.Chrome(service=service, options=chrome_options)
+    try:
+        # Install ChromeDriver matching the installed Chrome version
+        service = Service(ChromeDriverManager().install())
+        return webdriver.Chrome(service=service, options=chrome_options)
+    except Exception as e:
+        print(f"Error creating Chrome driver with webdriver-manager: {str(e)}")
+        # Try alternative approach
+        service = Service()
+        return webdriver.Chrome(service=service, options=chrome_options)
 
 def create_firefox_driver(headless):
     """Create Firefox WebDriver with optimized options"""
