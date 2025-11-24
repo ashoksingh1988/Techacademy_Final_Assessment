@@ -60,15 +60,15 @@ pipeline {
                         bat """
                             echo Setting up Python environment...
                             echo Checking Python installation...
-                            python --version
+                            py --version
                             if errorlevel 1 (
                                 echo Python not found in PATH
                                 exit /b 1
                             )
                             echo Upgrading pip...
-                            python -m pip install --upgrade pip --quiet
+                            py -m pip install --upgrade pip --quiet
                             echo Installing requirements...
-                            pip install -r requirements.txt --quiet
+                            py -m pip install -r requirements.txt --quiet
                             echo Environment setup completed
                         """
                     }
@@ -85,7 +85,7 @@ pipeline {
                         bat """
                             echo Starting test execution...
                             set HEADLESS=${params.HEADLESS_MODE}
-                            python -m pytest tests/ ${parallelFlag} -v --html=reports/report.html --self-contained-html
+                            py -m pytest tests/ ${parallelFlag} -v --html=reports/report.html --self-contained-html
                         """
                     }
                 }
