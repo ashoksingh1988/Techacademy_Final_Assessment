@@ -24,8 +24,8 @@ pipeline {
         )
         booleanParam(
             name: 'HEADLESS_MODE',
-            defaultValue: true,
-            description: 'Run tests in headless mode (true = faster execution)'
+            defaultValue: false,
+            description: 'Run tests in headless mode (true = faster but invisible, false = visible browser for demo)'
         )
         booleanParam(
             name: 'PARALLEL_EXECUTION',

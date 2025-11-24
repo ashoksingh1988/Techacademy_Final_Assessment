@@ -113,7 +113,8 @@ pipeline {
                                 [$class: 'StringParameterValue', name: 'TEST_SUITE', value: seleniumSuite],
                                 [$class: 'StringParameterValue', name: 'BROWSER_TYPE', value: 'chrome'],
                                 [$class: 'StringParameterValue', name: 'ENVIRONMENT', value: params.ENVIRONMENT],
-                                [$class: 'BooleanParameterValue', name: 'HEADLESS_MODE', value: true] // Headless for faster execution
+                                [$class: 'BooleanParameterValue', name: 'HEADLESS_MODE', value: false], // Visible browser for demo
+                                [$class: 'BooleanParameterValue', name: 'MULTI_BROWSER', value: false] // Chrome only, no parallel execution
                             ]
                         ])
                     }
@@ -125,7 +126,7 @@ pipeline {
                                 [$class: 'StringParameterValue', name: 'TEST_SUITE', value: params.TEST_SUITE],
                                 [$class: 'StringParameterValue', name: 'BROWSER_TYPE', value: 'chrome'],
                                 [$class: 'StringParameterValue', name: 'ENVIRONMENT', value: params.ENVIRONMENT],
-                                [$class: 'BooleanParameterValue', name: 'HEADLESS_MODE', value: true], // Headless for faster execution
+                                [$class: 'BooleanParameterValue', name: 'HEADLESS_MODE', value: false], // Visible browser for demo
                                 [$class: 'BooleanParameterValue', name: 'MULTI_BROWSER', value: false],
                                 [$class: 'BooleanParameterValue', name: 'PARALLEL_EXECUTION', value: false]
                             ]

@@ -11,9 +11,9 @@ pipeline {
         choice(name: 'TEST_SUITE', choices: ['smoke-tests', 'regression-tests'], description: 'Test suite')
         choice(name: 'BROWSER_TYPE', choices: ['chrome', 'firefox', 'edge'], description: 'Single browser (used when MULTI_BROWSER=false)')
         choice(name: 'ENVIRONMENT', choices: ['qa', 'staging', 'production'], description: 'Environment')
-        booleanParam(name: 'HEADLESS_MODE', defaultValue: false, description: 'Headless mode (false = visible browser for demo)')
-        string(name: 'BROWSERS', defaultValue: 'chrome,firefox,edge', description: 'Comma-separated browsers for parallel execution (e.g., chrome,firefox,edge)')
-        booleanParam(name: 'MULTI_BROWSER', defaultValue: false, description: 'Run multiple browsers in parallel (for demo)')
+        booleanParam(name: 'HEADLESS_MODE', defaultValue: false, description: 'Headless mode (true = faster but invisible, false = visible browser for demo)')
+        booleanParam(name: 'MULTI_BROWSER', defaultValue: false, description: 'Run multiple browsers in parallel (enable for demo, but may cause delays)')
+        string(name: 'BROWSERS', defaultValue: 'chrome,firefox,edge', description: 'Comma-separated browsers for parallel execution (only used when MULTI_BROWSER=true)')
     }
 
     stages {
