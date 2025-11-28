@@ -1,6 +1,15 @@
 pipeline {
     agent any
 
+    triggers {
+        // Poll GitHub every 2 minutes for changes: H/2 * * * *
+        // This will auto-trigger build when code is pushed to Git
+        pollSCM('H/2 * * * *')
+        
+        // Alternative: GitHub webhook trigger (requires GitHub webhook setup)
+        // For webhook: Configure in Jenkins job settings -> Build Triggers -> GitHub hook trigger
+    }
+
     environment {
         // Use full Python path for Windows Jenkins compatibility
         PYTHON_HOME = 'C:\\Users\\Asim\\AppData\\Local\\Programs\\Python\\Python313'

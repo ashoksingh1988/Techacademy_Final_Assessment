@@ -1,6 +1,12 @@
 pipeline {
     agent any
 
+    triggers {
+        // Poll GitHub every 5 minutes for changes
+        // Auto-triggers build when code is pushed to master branch
+        pollSCM('H/5 * * * *')
+    }
+
     environment {
         MAVEN_HOME = 'C:\\\\Program Files\\\\Maven\\\\ApacheMaven\\\\apache-maven-3.9.11'
         JAVA_HOME = 'C:\\\\\\\\Program Files\\\\\\\\Common Files\\\\\\\\Oracle\\\\\\\\Java\\\\\\\\javapath'
