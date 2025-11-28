@@ -1,10 +1,10 @@
-﻿# SauceDemo Automation Framework
+# SauceDemo Automation Framework
 
 Comprehensive test automation suite featuring **4 frameworks** covering web and mobile automation using Java, Python, Selenium, Playwright, and Appium.
 
 ---
 
-## ≡ƒôï Project Overview
+## Project Overview
 
 This project demonstrates enterprise-level test automation capabilities across multiple technologies and platforms. It includes complete automation frameworks for both web and mobile applications, following industry best practices and design patterns.
 
@@ -12,7 +12,7 @@ This project demonstrates enterprise-level test automation capabilities across m
 
 ---
 
-## ≡ƒÄ» Frameworks Included
+## Frameworks Included
 
 | Framework | Technology | Platform | Purpose |
 |-----------|------------|----------|---------|
@@ -23,37 +23,37 @@ This project demonstrates enterprise-level test automation capabilities across m
 
 ---
 
-## Γ£¿ Key Features
+## Key Features
 
-### **Architecture & Design**
-Γ£à **Page Object Model (POM)** - Maintainable and scalable architecture  
-Γ£à **Data-Driven Testing** - TestNG XML, pytest fixtures, JSON configs  
-Γ£à **Modular Framework** - Reusable components and utilities  
-Γ£à **Parallel Execution** - Run tests faster with parallel capabilities  
+### Architecture & Design
+- **Page Object Model (POM)** - Maintainable and scalable architecture  
+- **Data-Driven Testing** - TestNG XML, pytest fixtures, JSON configs  
+- **Modular Framework** - Reusable components and utilities  
+- **Parallel Execution** - Run tests faster with parallel capabilities  
 
-### **Reporting & Logging**
-Γ£à **HTML Reports** - ExtentReports (Java), pytest-html (Python)  
-Γ£à **Screenshots** - Automatic capture on pass/fail  
-Γ£à **Detailed Logs** - Comprehensive logging for debugging  
-Γ£à **Test Metrics** - Pass/fail counts, success rates, execution time  
+### Reporting & Logging
+- **HTML Reports** - ExtentReports (Java), pytest-html (Python)  
+- **Screenshots** - Automatic capture on pass/fail  
+- **Detailed Logs** - Comprehensive logging for debugging  
+- **Test Metrics** - Pass/fail counts, success rates, execution time  
 
-### **CI/CD Integration**
-Γ£à **Jenkins Pipeline** - Jenkinsfile included for CI/CD  
-Γ£à **Git Integration** - Version control ready  
-Γ£à **Docker Support** - Containerized test execution  
-Γ£à **Cross-Platform** - Windows, Linux, macOS compatible  
+### CI/CD Integration
+- **Jenkins Pipeline** - Jenkinsfile included for CI/CD  
+- **Git Integration** - Version control ready  
+- **Docker Support** - Containerized test execution  
+- **Cross-Platform** - Windows, Linux, macOS compatible  
 
-### **Best Practices**
-Γ£à **Clean Code** - Well-structured, readable, maintainable  
-Γ£à **No Redundancy** - DRY principles followed  
-Γ£à **Error Handling** - Robust exception management  
-Γ£à **Wait Strategies** - Smart waiting mechanisms  
+### Best Practices
+- **Clean Code** - Well-structured, readable, maintainable  
+- **No Redundancy** - DRY principles followed  
+- **Error Handling** - Robust exception management  
+- **Wait Strategies** - Smart waiting mechanisms  
 
 ---
 
-## ≡ƒÜÇ Quick Start
+## Quick Start
 
-### **Prerequisites**
+### Prerequisites
 
 **For Java Frameworks:**
 - Java JDK 11+
@@ -68,7 +68,7 @@ This project demonstrates enterprise-level test automation capabilities across m
 - Android SDK
 - ADB (Android Debug Bridge)
 
-### **Installation**
+### Installation
 
 ```bash
 # Clone repository
@@ -85,9 +85,9 @@ py -m pip install -r requirements.txt
 py -m playwright install chromium
 ```
 
-### **Running Tests**
+### Running Tests
 
-#### **From Project Root (Easiest)**
+#### From Project Root (Easiest)
 
 ```bash
 # Java Selenium (Web)
@@ -103,13 +103,13 @@ run-python-selenium.bat
 run-python-playwright.bat
 ```
 
-#### **Framework-Specific Execution**
+#### Framework-Specific Execution
 
 See [`FRAMEWORK_EXECUTION_GUIDE.md`](FRAMEWORK_EXECUTION_GUIDE.md) for detailed instructions.
 
 ---
 
-## ≡ƒôè Framework Comparison
+## Framework Comparison
 
 | Feature | Java Selenium | Java Appium | Python Selenium | Python Playwright |
 |---------|---------------|-------------|-----------------|-------------------|
@@ -118,61 +118,61 @@ See [`FRAMEWORK_EXECUTION_GUIDE.md`](FRAMEWORK_EXECUTION_GUIDE.md) for detailed 
 | **Platform** | Web | Mobile (Android) | Web | Web |
 | **Reports** | ExtentReports | ExtentReports | pytest-html | pytest-html |
 | **Parallel** | TestNG parallel | TestNG parallel | pytest-xdist | pytest-xdist |
-| **Speed** | Standard | Device-dependent | Standard | ΓÜí Fast |
-| **Auto-wait** | Manual | Manual | Manual | Γ£à Built-in |
+| **Speed** | Standard | Device-dependent | Standard | Fast |
+| **Auto-wait** | Manual | Manual | Manual | Built-in |
 | **Browsers** | Chrome, Firefox, Edge | N/A | Chrome, Firefox, Edge | Chromium, Firefox, WebKit |
 
 ---
 
-## ≡ƒôü Project Structure
+## Project Structure
 
 ```
 SauceDemoAutomation/
-Γöé
-Γö£ΓöÇΓöÇ java-selenium-automation/         # Java Selenium framework
-Γöé   Γö£ΓöÇΓöÇ src/main/java/com/selenium/
-Γöé   Γöé   Γö£ΓöÇΓöÇ core/                     # BaseTest, DriverManager
-Γöé   Γöé   Γö£ΓöÇΓöÇ pages/                    # Page Objects
-Γöé   Γöé   ΓööΓöÇΓöÇ utils/                    # Utilities
-Γöé   Γö£ΓöÇΓöÇ src/test/java/com/selenium/tests/
-Γöé   Γöé   ΓööΓöÇΓöÇ SauceDemoTests.java
-Γöé   ΓööΓöÇΓöÇ reports/                      # Test reports
-Γöé
-Γö£ΓöÇΓöÇ java-appium-automation/           # Java Appium framework
-Γöé   Γö£ΓöÇΓöÇ src/main/java/com/appium/
-Γöé   Γöé   Γö£ΓöÇΓöÇ core/                     # BaseTest, DriverFactory
-Γöé   Γöé   Γö£ΓöÇΓöÇ pages/                    # Mobile Page Objects
-Γöé   Γöé   ΓööΓöÇΓöÇ utils/                    # Utilities
-Γöé   Γö£ΓöÇΓöÇ src/test/java/com/appium/tests/
-Γöé   Γöé   Γö£ΓöÇΓöÇ CalculatorTests.java
-Γöé   Γöé   Γö£ΓöÇΓöÇ ColorNoteTests.java
-Γöé   Γöé   ΓööΓöÇΓöÇ GoogleDocsTests.java
-Γöé   ΓööΓöÇΓöÇ reports/                      # Test reports
-Γöé
-Γö£ΓöÇΓöÇ python-selenium-automation/       # Python Selenium framework
-Γöé   Γö£ΓöÇΓöÇ pages/                        # Page Objects
-Γöé   Γö£ΓöÇΓöÇ tests/                        # Test files
-Γöé   Γö£ΓöÇΓöÇ conftest.py                   # Pytest fixtures
-Γöé   ΓööΓöÇΓöÇ reports/                      # Test reports
-Γöé
-Γö£ΓöÇΓöÇ python-playwright-automation/     # Python Playwright framework
-Γöé   Γö£ΓöÇΓöÇ pages/                        # Page Objects
-Γöé   Γö£ΓöÇΓöÇ tests/                        # Test files
-Γöé   Γö£ΓöÇΓöÇ conftest.py                   # Pytest fixtures
-Γöé   ΓööΓöÇΓöÇ reports/                      # Test reports
-Γöé
-Γö£ΓöÇΓöÇ Jenkinsfile                       # CI/CD pipeline
-Γö£ΓöÇΓöÇ FRAMEWORK_EXECUTION_GUIDE.md      # Detailed execution guide
-Γö£ΓöÇΓöÇ JAVA_SELENIUM_FLOW.md             # Java Selenium flow diagram
-Γö£ΓöÇΓöÇ JAVA_APPIUM_FLOW.md               # Java Appium flow diagram
-Γö£ΓöÇΓöÇ PYTHON_SELENIUM_FLOW.md           # Python Selenium flow diagram
-Γö£ΓöÇΓöÇ PYTHON_PLAYWRIGHT_FLOW.md         # Python Playwright flow diagram
-ΓööΓöÇΓöÇ README.md                         # This file
+|
++-- java-selenium-automation/         # Java Selenium framework
+|   +-- src/main/java/com/selenium/
+|   |   +-- core/                     # BaseTest, DriverManager
+|   |   +-- pages/                    # Page Objects
+|   |   +-- utils/                    # Utilities
+|   +-- src/test/java/com/selenium/tests/
+|   |   +-- SauceDemoTests.java
+|   +-- reports/                      # Test reports
+|
++-- java-appium-automation/           # Java Appium framework
+|   +-- src/main/java/com/appium/
+|   |   +-- core/                     # BaseTest, DriverFactory
+|   |   +-- pages/                    # Mobile Page Objects
+|   |   +-- utils/                    # Utilities
+|   +-- src/test/java/com/appium/tests/
+|   |   +-- CalculatorTests.java
+|   |   +-- ColorNoteTests.java
+|   |   +-- GoogleDocsTests.java
+|   +-- reports/                      # Test reports
+|
++-- python-selenium-automation/       # Python Selenium framework
+|   +-- pages/                        # Page Objects
+|   +-- tests/                        # Test files
+|   +-- conftest.py                   # Pytest fixtures
+|   +-- reports/                      # Test reports
+|
++-- python-playwright-automation/     # Python Playwright framework
+|   +-- pages/                        # Page Objects
+|   +-- tests/                        # Test files
+|   +-- conftest.py                   # Pytest fixtures
+|   +-- reports/                      # Test reports
+|
++-- Jenkinsfile                       # CI/CD pipeline
++-- FRAMEWORK_EXECUTION_GUIDE.md      # Detailed execution guide
++-- JAVA_SELENIUM_FLOW.md             # Java Selenium flow diagram
++-- JAVA_APPIUM_FLOW.md               # Java Appium flow diagram
++-- PYTHON_SELENIUM_FLOW.md           # Python Selenium flow diagram
++-- PYTHON_PLAYWRIGHT_FLOW.md         # Python Playwright flow diagram
++-- README.md                         # This file
 ```
 
 ---
 
-## ≡ƒôû Documentation
+## Documentation
 
 | Document | Description |
 |----------|-------------|
@@ -184,11 +184,11 @@ SauceDemoAutomation/
 
 ---
 
-## ≡ƒÄô Framework Architectures
+## Framework Architectures
 
-### **Java Selenium - Web Automation**
+### Java Selenium - Web Automation
 ```
-Maven ΓåÆ TestNG ΓåÆ BaseTest ΓåÆ DriverManager ΓåÆ Page Objects ΓåÆ Tests ΓåÆ ExtentReports
+Maven -> TestNG -> BaseTest -> DriverManager -> Page Objects -> Tests -> ExtentReports
 ```
 
 **Key Components:**
@@ -197,13 +197,13 @@ Maven ΓåÆ TestNG ΓåÆ BaseTest ΓåÆ DriverManager ΓåÆ Page Objects Γ�
 - **Page Objects** - LoginPage, InventoryPage
 - **ReportManager.java** - HTML report generation
 
-[≡ƒôä View detailed flow](JAVA_SELENIUM_FLOW.md)
+[View detailed flow](JAVA_SELENIUM_FLOW.md)
 
 ---
 
-### **Java Appium - Mobile Automation**
+### Java Appium - Mobile Automation
 ```
-Maven ΓåÆ TestNG ΓåÆ BaseTest ΓåÆ Appium Server ΓåÆ DriverFactory ΓåÆ Mobile Apps ΓåÆ Tests ΓåÆ ExtentReports
+Maven -> TestNG -> BaseTest -> Appium Server -> DriverFactory -> Mobile Apps -> Tests -> ExtentReports
 ```
 
 **Key Components:**
@@ -218,13 +218,13 @@ Maven ΓåÆ TestNG ΓåÆ BaseTest ΓåÆ Appium Server ΓåÆ DriverFactory Γ
 - Files by Google (com.google.android.apps.nbu.files)
 - Google Docs (com.google.android.apps.docs.editors.docs)
 
-[≡ƒôä View detailed flow](JAVA_APPIUM_FLOW.md)
+[View detailed flow](JAVA_APPIUM_FLOW.md)
 
 ---
 
-### **Python Selenium - Web Automation**
+### Python Selenium - Web Automation
 ```
-Pytest ΓåÆ conftest.py ΓåÆ Fixtures ΓåÆ WebDriver ΓåÆ Page Objects ΓåÆ Tests ΓåÆ pytest-html
+Pytest -> conftest.py -> Fixtures -> WebDriver -> Page Objects -> Tests -> pytest-html
 ```
 
 **Key Components:**
@@ -239,13 +239,13 @@ Pytest ΓåÆ conftest.py ΓåÆ Fixtures ΓåÆ WebDriver ΓåÆ Page Objects �
 - Simple assert statements
 - Screenshots on pass/fail
 
-[≡ƒôä View detailed flow](PYTHON_SELENIUM_FLOW.md)
+[View detailed flow](PYTHON_SELENIUM_FLOW.md)
 
 ---
 
-### **Python Playwright - Modern Web Automation**
+### Python Playwright - Modern Web Automation
 ```
-Pytest ΓåÆ conftest.py ΓåÆ Playwright ΓåÆ Browser Context ΓåÆ Page Objects ΓåÆ Tests ΓåÆ pytest-html
+Pytest -> conftest.py -> Playwright -> Browser Context -> Page Objects -> Tests -> pytest-html
 ```
 
 **Key Components:**
@@ -255,19 +255,19 @@ Pytest ΓåÆ conftest.py ΓåÆ Playwright ΓåÆ Browser Context ΓåÆ Page O
 - **page fixture** - Page object for interactions
 
 **Key Features:**
-- ΓÜí **Auto-waiting** - No explicit waits needed
-- ≡ƒÜÇ **Fast** - Browser reused between tests
-- ≡ƒöä **Multi-browser** - Chromium, Firefox, WebKit
-- ≡ƒô╕ **Full-page screenshots** - Capture entire page
-- ≡ƒÄ» **Modern API** - Clean and intuitive
+- **Auto-waiting** - No explicit waits needed
+- **Fast** - Browser reused between tests
+- **Multi-browser** - Chromium, Firefox, WebKit
+- **Full-page screenshots** - Capture entire page
+- **Modern API** - Clean and intuitive
 
-[≡ƒôä View detailed flow](PYTHON_PLAYWRIGHT_FLOW.md)
+[View detailed flow](PYTHON_PLAYWRIGHT_FLOW.md)
 
 ---
 
-## ≡ƒº¬ Test Coverage
+## Test Coverage
 
-### **Web Tests (Java Selenium & Python Selenium/Playwright)**
+### Web Tests (Java Selenium & Python Selenium/Playwright)
 
 | Test Case | Description |
 |-----------|-------------|
@@ -281,7 +281,7 @@ Pytest ΓåÆ conftest.py ΓåÆ Playwright ΓåÆ Browser Context ΓåÆ Page O
 | Product Count | Verify correct number of products |
 | Logout | Successfully logout from application |
 
-### **Mobile Tests (Java Appium)**
+### Mobile Tests (Java Appium)
 
 | App | Test Cases |
 |-----|------------|
@@ -292,9 +292,9 @@ Pytest ΓåÆ conftest.py ΓåÆ Playwright ΓåÆ Browser Context ΓåÆ Page O
 
 ---
 
-## ≡ƒôè Test Reports
+## Test Reports
 
-### **Report Locations**
+### Report Locations
 
 ```
 java-selenium-automation/reports/Selenium_Web_Automation_Report_<timestamp>.html
@@ -303,20 +303,20 @@ python-selenium-automation/reports/report.html
 python-playwright-automation/reports/report.html
 ```
 
-### **Report Features**
+### Report Features
 
-Γ£à **Test Results** - Pass/fail status for each test  
-Γ£à **Execution Time** - Duration of each test  
-Γ£à **Screenshots** - Visual evidence of test execution  
-Γ£à **Logs** - Detailed step-by-step logs  
-Γ£à **Environment Info** - Browser, OS, versions  
-Γ£à **Statistics** - Total tests, pass rate, etc.  
+- **Test Results** - Pass/fail status for each test  
+- **Execution Time** - Duration of each test  
+- **Screenshots** - Visual evidence of test execution  
+- **Logs** - Detailed step-by-step logs  
+- **Environment Info** - Browser, OS, versions  
+- **Statistics** - Total tests, pass rate, etc.  
 
 ---
 
-## ≡ƒöº Configuration
+## Configuration
 
-### **Java Frameworks**
+### Java Frameworks
 
 **Maven POM:**
 - Dependencies: Selenium, Appium, TestNG, ExtentReports
@@ -329,7 +329,7 @@ python-playwright-automation/reports/report.html
 **Properties:**
 - application.properties: timeouts, URLs, settings
 
-### **Python Frameworks**
+### Python Frameworks
 
 **requirements.txt:**
 - selenium, pytest, pytest-html, webdriver-manager
@@ -346,7 +346,7 @@ python-playwright-automation/reports/report.html
 
 ---
 
-## ≡ƒîÉ Browser Support
+## Browser Support
 
 | Framework | Browsers |
 |-----------|----------|
@@ -358,7 +358,7 @@ python-playwright-automation/reports/report.html
 
 ---
 
-## ≡ƒô▒ Mobile Support
+## Mobile Support
 
 | Framework | Platform | Requirements |
 |-----------|----------|--------------|
@@ -370,9 +370,9 @@ python-playwright-automation/reports/report.html
 
 ---
 
-## ≡ƒöä CI/CD Integration
+## CI/CD Integration
 
-### **Jenkins**
+### Jenkins
 
 ```bash
 # Jenkinsfile included
@@ -390,7 +390,7 @@ python-playwright-automation/reports/report.html
 
 ---
 
-## ≡ƒÄ» Design Patterns
+## Design Patterns
 
 | Pattern | Usage |
 |---------|-------|
@@ -401,21 +401,21 @@ python-playwright-automation/reports/report.html
 
 ---
 
-## ≡ƒ¢í∩╕Å Best Practices Implemented
+## Best Practices Implemented
 
-### **Code Quality**
+### Code Quality
 - Clean, readable code
 - Meaningful naming conventions
 - DRY principle (Don't Repeat Yourself)
 - SOLID principles
 
-### **Test Design**
+### Test Design
 - Independent tests (no dependencies)
 - Deterministic (consistent results)
 - Fast execution
 - Meaningful assertions
 
-### **Maintainability**
+### Maintainability
 - Page Object separation
 - Centralized configuration
 - Reusable utilities
@@ -423,9 +423,9 @@ python-playwright-automation/reports/report.html
 
 ---
 
-## ≡ƒöì Troubleshooting
+## Troubleshooting
 
-### **Common Issues**
+### Common Issues
 
 **Issue:** Browser/Driver not found  
 **Solution:** WebDriverManager handles this automatically. Ensure internet connection.
@@ -441,7 +441,7 @@ python-playwright-automation/reports/report.html
 
 ---
 
-## ≡ƒôê Future Enhancements
+## Future Enhancements
 
 - [ ] API testing framework
 - [ ] Performance testing integration
@@ -452,7 +452,7 @@ python-playwright-automation/reports/report.html
 
 ---
 
-## ≡ƒæÑ Contributing
+## Contributing
 
 This is a demonstration project. For improvements or suggestions:
 1. Review code structure
@@ -462,13 +462,13 @@ This is a demonstration project. For improvements or suggestions:
 
 ---
 
-## ≡ƒôä License
+## License
 
 This project is for educational and demonstration purposes.
 
 ---
 
-## ≡ƒÖÅ Acknowledgments
+## Acknowledgments
 
 - **Selenium** - Web automation
 - **Appium** - Mobile automation
@@ -480,13 +480,13 @@ This project is for educational and demonstration purposes.
 
 ---
 
-## ≡ƒô₧ Contact
+## Contact
 
 For questions or demo walkthrough, please reach out to the project maintainer.
 
 ---
 
-**Project Status:** Γ£à Production Ready  
+**Project Status:** Production Ready  
 **Last Updated:** 2025-11-28  
 **Version:** 2.0  
 **Frameworks:** 4 (Java Selenium, Java Appium, Python Selenium, Python Playwright)  
