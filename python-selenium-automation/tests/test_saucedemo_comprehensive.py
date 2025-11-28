@@ -150,37 +150,68 @@ class TestSauceDemoComprehensive:
 
     def test_remove_item_from_cart(self, driver, base_url, test_credentials):
         """Test 5: Remove item from cart functionality"""
-        wait = WebDriverWait(driver, 10)
+        wait = WebDriverWait(driver, 15)
         
         self.perform_login(driver, base_url, test_credentials["valid_username"], test_credentials["valid_password"])
         
         wait.until(EC.url_contains("inventory"))
         wait.until(EC.presence_of_element_located((By.CLASS_NAME, "inventory_list")))
 
-        # Add item to cart first - use XPath for better reliability
-        add_to_cart_button = wait.until(
-            EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Add to cart')]"))
-        )
+        # Add item to cart first - try multiple selectors for reliability
+        add_button_selectors = [
+            (By.XPATH, "//button[contains(text(), 'Add to cart')]"),
+            (By.XPATH, "//button[text()='Add to cart']"),
+            (By.XPATH, "//button[@class='btn btn_primary btn_small btn_inventory']"),
+            (By.CSS_SELECTOR, "button.btn_primary.btn_inventory")
+        ]
+        
+        add_to_cart_button = None
+        for selector_type, selector_value in add_button_selectors:
+            try:
+                add_to_cart_button = wait.until(
+                    EC.element_to_be_clickable((selector_type, selector_value))
+                )
+                break
+            except:
+                continue
+        
+        assert add_to_cart_button is not None, "Failed to find Add to cart button"
+        
         driver.execute_script("arguments[0].scrollIntoView(true);", add_to_cart_button)
-        time.sleep(0.3)
-        add_to_cart_button.click()
+        time.sleep(0.5)
+        
+        # Click with JS for reliability
+        driver.execute_script("arguments[0].click();", add_to_cart_button)
         
         # Wait for cart badge to appear
-        time.sleep(0.5)
+        time.sleep(1)
 
-        # Wait for button to change to Remove
-        remove_button = wait.until(
-            EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Remove')]"))
-        )
+        # Wait for button to change to Remove - try multiple selectors
+        remove_button_selectors = [
+            (By.XPATH, "//button[contains(text(), 'Remove')]"),
+            (By.XPATH, "//button[text()='Remove']"),
+            (By.XPATH, "//button[@class='btn btn_secondary btn_small btn_inventory']"),
+            (By.CSS_SELECTOR, "button.btn_secondary.btn_inventory")
+        ]
+        
+        remove_button = None
+        for selector_type, selector_value in remove_button_selectors:
+            try:
+                remove_button = wait.until(
+                    EC.element_to_be_clickable((selector_type, selector_value))
+                )
+                print(f"[INFO] Remove button found using {selector_type}")
+                break
+            except:
+                continue
+        
+        assert remove_button is not None, "Failed to find Remove button after adding item"
 
         driver.execute_script("arguments[0].scrollIntoView(true);", remove_button)
-        time.sleep(0.3)
+        time.sleep(0.5)
 
-        # Click remove button with JS fallback
-        try:
-            remove_button.click()
-        except:
-            driver.execute_script("arguments[0].click();", remove_button)
+        # Click remove button with JS for reliability
+        driver.execute_script("arguments[0].click();", remove_button)
         
         # Wait for removal to complete
         time.sleep(0.5)

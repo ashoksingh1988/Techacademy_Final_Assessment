@@ -1,0 +1,14 @@
+DEMO TRIGGER FILE - Safe to modify for testing Jenkins auto-trigger
+
+This file exists solely for demonstration purposes.
+Modify the timestamp below and commit to trigger Jenkins build automatically.
+
+Last Demo Trigger: 2025-11-29 02:45:00
+Demo Count: 1
+
+Instructions:
+1. Edit this file (change timestamp or demo count)
+2. Run: demo-commit.bat
+3. Jenkins will auto-detect and trigger build within 5 minutes
+
+This file has ZERO impact on actual test code or framework functionality.
