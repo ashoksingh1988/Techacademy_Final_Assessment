@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     triggers {
-        // Poll SCM - checks for Git changes and auto-triggers build
-        // This works with "GitHub hook trigger for GITScm polling" in Jenkins
-        pollSCM('') // Empty string means: trigger only when GitHub webhook notifies Jenkins
+        // Poll SCM every 5 minutes to check for changes
+        // Jenkins will check GitHub and auto-trigger if new commits detected
+        pollSCM('H/5 * * * *') // Checks every 5 minutes
     }
 
     environment {
