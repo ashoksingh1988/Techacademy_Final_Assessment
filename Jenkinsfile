@@ -2,12 +2,10 @@ pipeline {
     agent any
 
     triggers {
-        // GitHub webhook trigger - automatically runs when code is pushed
-        githubPush()
+        // Poll SCM - checks for Git changes and auto-triggers build
+        // This works with "GitHub hook trigger for GITScm polling" in Jenkins
+        pollSCM('') // Empty string means: trigger only when GitHub webhook notifies Jenkins
     }
-
-    // Poll SCM disabled - use manual triggers or webhook for better control
-    // To re-enable: triggers { pollSCM('H/5 * * * *') }
 
     environment {
         MAVEN_HOME = 'C:\\\\Program Files\\\\Maven\\\\ApacheMaven\\\\apache-maven-3.9.11'
