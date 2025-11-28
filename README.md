@@ -1,4 +1,4 @@
-# ðŸŽ¯ SauceDemo Automation Framework
+﻿# ðŸŽ¯ SauceDemo Automation Framework
 
 Comprehensive test automation suite featuring **4 frameworks** covering web and mobile automation using Java, Python, Selenium, Playwright, and Appium.
 
