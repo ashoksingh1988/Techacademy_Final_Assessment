@@ -186,10 +186,10 @@ pipeline {
                     try {
                         bat """
                             if not exist consolidated-reports mkdir consolidated-reports
-                            if exist java-selenium-automation\target\surefire-reports xcopy java-selenium-automation\target\surefire-reports consolidated-reports\selenium\ /E /I /Y 2>nul
-                            if exist java-appium-automation\target\surefire-reports xcopy java-appium-automation\target\surefire-reports consolidated-reports\appium\ /E /I /Y 2>nul
-                            if exist python-selenium-automation\reports xcopy python-selenium-automation\reports consolidated-reports\python-selenium\ /E /I /Y 2>nul
-                            if exist python-playwright-automation\reports xcopy python-playwright-automation\reports consolidated-reports\python-playwright\ /E /I /Y 2>nul
+                            if exist java-selenium-automation\\target\\surefire-reports xcopy java-selenium-automation\\target\\surefire-reports consolidated-reports\\selenium\\ /E /I /Y 2>nul
+                            if exist java-appium-automation\\target\\surefire-reports xcopy java-appium-automation\\target\\surefire-reports consolidated-reports\\appium\\ /E /I /Y 2>nul
+                            if exist python-selenium-automation\\reports xcopy python-selenium-automation\\reports consolidated-reports\\python-selenium\\ /E /I /Y 2>nul
+                            if exist python-playwright-automation\\reports xcopy python-playwright-automation\\reports consolidated-reports\\python-playwright\\ /E /I /Y 2>nul
                         """
                     } catch (Exception e) {
                         echo "Report consolidation: ${e.getMessage()}"
