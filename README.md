@@ -491,3 +491,5 @@ For questions or demo walkthrough, please reach out to the project maintainer.
 **Version:** 2.0  
 **Frameworks:** 4 (Java Selenium, Java Appium, Python Selenium, Python Playwright)  
 **Total Test Cases:** 25+
+#   T e s t   a u t o - t r i g g e r  
+ 
