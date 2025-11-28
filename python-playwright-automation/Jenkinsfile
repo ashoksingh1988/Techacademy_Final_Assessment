@@ -1,0 +1,150 @@
+pipeline {
+    agent any
+
+    environment {
+        // Use full Python path for Windows Jenkins compatibility
+        PYTHON_HOME = 'C:\\Users\\Asim\\AppData\\Local\\Programs\\Python\\Python313'
+        PATH = "C:\\Users\\Asim\\AppData\\Local\\Programs\\Python\\Python313;C:\\Users\\Asim\\AppData\\Local\\Programs\\Python\\Python313\\Scripts;C:\\Windows\\System32;${PATH}"
+    }
+
+    parameters {
+        choice(
+            name: 'TEST_SUITE',
+            choices: ['smoke', 'regression', 'full'],
+            description: 'Select test suite to execute'
+        )
+        choice(
+            name: 'BROWSER_TYPE',
+            choices: ['chromium', 'firefox', 'webkit'],
+            description: 'Browser to use (chromium=Chrome/Edge, webkit=Safari engine)'
+        )
+        choice(
+            name: 'ENVIRONMENT',
+            choices: ['qa', 'staging', 'production'],
+            description: 'Select environment for testing'
+        )
+        booleanParam(
+            name: 'HEADLESS_MODE',
+            defaultValue: false,
+            description: 'Run tests in headless mode (true = faster but invisible, false = visible browser for demo)'
+        )
+        booleanParam(
+            name: 'PARALLEL_EXECUTION',
+            defaultValue: false,
+            description: 'Execute tests in parallel (pytest-xdist for faster execution)'
+        )
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo "Checking out Python Playwright automation code..."
+                checkout scm
+            }
+        }
+
+        stage('Environment Setup') {
+            steps {
+                script {
+                    dir('python-playwright-automation') {
+                        bat """
+                            echo Setting up Python Playwright environment...
+                            echo Checking Python installation...
+                            py --version
+                            if errorlevel 1 (
+                                echo Python not found in PATH
+                                exit /b 1
+                            )
+                            echo Upgrading pip...
+                            py -m pip install --upgrade pip --quiet
+                            echo Installing requirements...
+                            py -m pip install -r requirements.txt --quiet
+                            echo Installing Playwright browsers...
+                            py -m playwright install ${params.BROWSER_TYPE}
+                            echo Environment setup completed
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('Test Execution') {
+            steps {
+                script {
+                    def parallelFlag = params.PARALLEL_EXECUTION ? '-n auto' : ''
+                    def markerFlag = ''
+                    
+                    if (params.TEST_SUITE == 'smoke') {
+                        markerFlag = '-m smoke'
+                    } else if (params.TEST_SUITE == 'regression') {
+                        markerFlag = '-m regression'
+                    }
+                    
+                    dir('python-playwright-automation') {
+                        bat """
+                            echo Starting Playwright test execution...
+                            set BROWSER=${params.BROWSER_TYPE}
+                            set HEADLESS=${params.HEADLESS_MODE}
+                            py -m pytest tests/ ${markerFlag} ${parallelFlag} -v --html=reports/report.html --self-contained-html
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('Reports') {
+            steps {
+                dir('python-playwright-automation') {
+                    script {
+                        try {
+                            publishHTML([
+                                allowMissing: false,
+                                alwaysLinkToLastBuild: true,
+                                keepAll: true,
+                                reportDir: 'reports',
+                                reportFiles: 'report.html',
+                                reportName: 'Playwright Test Report'
+                            ])
+                            archiveArtifacts artifacts: 'reports/**/*', allowEmptyArchive: true
+                        } catch (Exception e) {
+                            echo "Report publishing failed: ${e.getMessage()}"
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Notification') {
+            steps {
+                script {
+                    try {
+                        emailext(
+                            subject: "Python Playwright - ${currentBuild.currentResult}",
+                            body: "Build: ${env.BUILD_NUMBER} | Status: ${currentBuild.currentResult}",
+                            to: "ashokchandravanshi1988@gmail.com"
+                        )
+                    } catch (Exception e) {
+                        echo "Notification failed: ${e.getMessage()}"
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            script {
+                try {
+                    dir('python-playwright-automation') {
+                        bat "if exist venv rmdir /s /q venv 2>nul"
+                    }
+                } catch (Exception e) {
+                    echo "Cleanup failed: ${e.getMessage()}"
+                }
+            }
+            cleanWs()
+        }
+        success { echo "Playwright pipeline completed successfully!" }
+        failure { echo "Playwright pipeline failed!" }
+    }
+}

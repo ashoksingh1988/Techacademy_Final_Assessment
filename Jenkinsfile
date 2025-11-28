@@ -32,6 +32,11 @@ pipeline {
             defaultValue: true,
             description: "Execute Python Selenium Framework"
         )
+        booleanParam(
+            name: "RUN_PYTHON_PLAYWRIGHT",
+            defaultValue: true,
+            description: "Execute Python Playwright Framework"
+        )
         choice(
             name: "TEST_SUITE",
             choices: ["smoke", "regression", "full"],
@@ -52,6 +57,7 @@ pipeline {
                 echo "Java Selenium: ${params.RUN_JAVA_SELENIUM}"
                 echo "Java Appium: ${params.RUN_JAVA_APPIUM}"
                 echo "Python Selenium: ${params.RUN_PYTHON_SELENIUM}"
+                echo "Python Playwright: ${params.RUN_PYTHON_PLAYWRIGHT}"
                 echo "Test Suite: ${params.TEST_SUITE}"
                 echo "Environment: ${params.ENVIRONMENT}"
             }
@@ -132,6 +138,19 @@ pipeline {
                             ]
                         ])
                     }
+                    
+                    if (params.RUN_PYTHON_PLAYWRIGHT) {
+                        jobs.add([
+                            job: 'python-playwright-pipeline',
+                            parameters: [
+                                [$class: 'StringParameterValue', name: 'TEST_SUITE', value: params.TEST_SUITE],
+                                [$class: 'StringParameterValue', name: 'BROWSER_TYPE', value: 'chromium'],
+                                [$class: 'StringParameterValue', name: 'ENVIRONMENT', value: params.ENVIRONMENT],
+                                [$class: 'BooleanParameterValue', name: 'HEADLESS_MODE', value: false], // Visible browser for demo
+                                [$class: 'BooleanParameterValue', name: 'PARALLEL_EXECUTION', value: false]
+                            ]
+                        ])
+                    }
 
                     if (params.EXECUTION_MODE == "parallel" && jobs.size() > 1) {
                         parallel jobs.collectEntries { jobConfig ->
@@ -154,9 +173,10 @@ pipeline {
                     try {
                         bat """
                             if not exist consolidated-reports mkdir consolidated-reports
-                            if exist java-selenium-automation\\target\\surefire-reports xcopy java-selenium-automation\\target\\surefire-reports consolidated-reports\\selenium\\ /E /I /Y 2>nul
-                            if exist java-appium-automation\\target\\surefire-reports xcopy java-appium-automation\\target\\surefire-reports consolidated-reports\\appium\\ /E /I /Y 2>nul
-                            if exist python-selenium-automation\\reports xcopy python-selenium-automation\\reports consolidated-reports\\python\\ /E /I /Y 2>nul
+                            if exist java-selenium-automation\target\surefire-reports xcopy java-selenium-automation\target\surefire-reports consolidated-reports\selenium\ /E /I /Y 2>nul
+                            if exist java-appium-automation\target\surefire-reports xcopy java-appium-automation\target\surefire-reports consolidated-reports\appium\ /E /I /Y 2>nul
+                            if exist python-selenium-automation\reports xcopy python-selenium-automation\reports consolidated-reports\python-selenium\ /E /I /Y 2>nul
+                            if exist python-playwright-automation\reports xcopy python-playwright-automation\reports consolidated-reports\python-playwright\ /E /I /Y 2>nul
                         """
                     } catch (Exception e) {
                         echo "Report consolidation: ${e.getMessage()}"
