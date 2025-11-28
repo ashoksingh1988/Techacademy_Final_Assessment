@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    triggers {
+        // GitHub webhook trigger - automatically runs when code is pushed
+        githubPush()
+    }
+
     // Poll SCM disabled - use manual triggers or webhook for better control
     // To re-enable: triggers { pollSCM('H/5 * * * *') }
 
@@ -28,7 +33,7 @@ pipeline {
         booleanParam(
             name: "RUN_JAVA_APPIUM",
             defaultValue: false,
-            description: "Execute Java Appium Framework (requires device connected)"
+            description: "Execute Java Appium Framework (DISABLED by default - enable only after successful master pipeline)"
         )
         booleanParam(
             name: "RUN_PYTHON_SELENIUM",
@@ -37,8 +42,8 @@ pipeline {
         )
         booleanParam(
             name: "RUN_PYTHON_PLAYWRIGHT",
-            defaultValue: true,
-            description: "Execute Python Playwright Framework"
+            defaultValue: false,
+            description: "Execute Python Playwright Framework (DISABLED - focus on Selenium first)"
         )
         choice(
             name: "TEST_SUITE",
