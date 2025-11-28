@@ -166,7 +166,36 @@ mvn test -Ddevice.name=PZPVSC95GMKNGUBQ -Dplatform.version=11
 
 ---
 
-## 🔄 Jenkins CI/CD
+## 🔄 Jenkins CI/CD - Automated Build Triggering
+
+### 🎯 Auto-Trigger Configuration (SCM Polling)
+
+The framework is configured with **automated Jenkins build triggering** using Git SCM Polling:
+
+**How It Works:**
+```
+Developer Pushes Code to GitHub
+        ↓
+Jenkins Polls GitHub Every 5 Minutes
+        ↓
+Detects New Commits Automatically
+        ↓
+Auto-Triggers: techacademy-master-pipeline
+        ↓
+Executes All Enabled Frameworks
+```
+
+**Configuration Details:**
+- ✅ **Polling Schedule**: Every 5 minutes (`H/5 * * * *`)
+- ✅ **Trigger**: Defined in `Jenkinsfile` using `pollSCM()`
+- ✅ **Auto-Executes**: Java Selenium, Python Selenium, Python Playwright, Java Appium
+- ✅ **No Manual Intervention**: Fully automated on Git push
+
+**Jenkins Settings Required:**
+1. Navigate to: `Jenkins → techacademy-master-pipeline → Configure`
+2. Under **Build Triggers**: Check **"Poll SCM"**
+3. Schedule field should show: `H/5 * * * *` (auto-populated from Jenkinsfile)
+4. Click **Save**
 
 ### Master Pipeline Configuration
 
@@ -174,11 +203,43 @@ The framework includes a **master orchestrator pipeline** that coordinates all t
 
 **Pipeline Parameters:**
 - ✅ **EXECUTION_MODE**: `parallel` | `sequential` | `selective`
-- ✅ **RUN_JAVA_SELENIUM**: Execute web tests
-- ✅ **RUN_JAVA_APPIUM**: Execute mobile tests  
-- ✅ **RUN_PYTHON_SELENIUM**: Execute Python tests
+- ✅ **RUN_JAVA_SELENIUM**: Execute web tests (Enabled by default)
+- ✅ **RUN_JAVA_APPIUM**: Execute mobile tests (Enabled by default)
+- ✅ **RUN_PYTHON_SELENIUM**: Execute Python tests (Enabled by default)
+- ✅ **RUN_PYTHON_PLAYWRIGHT**: Execute Playwright tests (Enabled by default)
 - ✅ **TEST_SUITE**: `smoke` | `regression` | `full`
 - ✅ **ENVIRONMENT**: `qa` | `staging` | `production`
+- ✅ **HEADLESS_MODE**: `true` | `false` (false = visible browser for demos)
+
+**Email Notifications:**
+- 📧 **Recipient**: ashokchandravanshi1988@gmail.com
+- 📊 **Contains**: Build status, duration, framework execution details
+- 🔗 **Includes**: Direct link to Jenkins build + build logs
+- ⚙️ **Setup Required**: Configure SMTP in Jenkins (Manage Jenkins → Configure System → E-mail Notification)
+
+### 🎬 Demo Mode - Quick Trigger
+
+For live demonstrations without modifying actual code:
+
+**Method 1: Automated Demo Script**
+```bash
+demo-commit.bat
+```
+- Auto-updates timestamp in `demo-trigger.txt`
+- Commits and pushes to GitHub
+- Jenkins auto-detects within 5 minutes
+- Triggers full pipeline execution
+
+**Method 2: Manual Demo Trigger**
+1. Edit `demo-trigger.txt` (change Demo Count number)
+2. Run `git-commit.bat` to push changes
+3. Wait 2-5 minutes for Jenkins to detect and trigger
+
+**Why Use Demo Mode:**
+- ✅ **Zero risk** to actual test code
+- ✅ **Safe for multiple demos**
+- ✅ **Only modifies** dummy file
+- ✅ **Perfect for presentations** to stakeholders
 
 ### 🎯 Demo Mode Configuration
 
@@ -315,6 +376,83 @@ BROWSER_TYPE = os.getenv('BROWSER_TYPE', 'chrome')
 ---
 
 ## 🐛 Troubleshooting
+
+### 📧 Email Notification Setup (SMTP Configuration)
+
+**Issue**: Email notifications failing with "Connection error sending email"
+
+**Solution**: Configure Jenkins SMTP settings (one-time setup)
+
+**Step-by-Step Configuration:**
+
+1. **Go to Jenkins Dashboard**
+   - Navigate to: `Manage Jenkins → Configure System`
+
+2. **Scroll to "E-mail Notification" Section**
+
+3. **Configure SMTP Server** (for Gmail):
+   ```
+   SMTP server: smtp.gmail.com
+   Default user e-mail suffix: @gmail.com
+   ✓ Use SMTP Authentication
+       User Name: ashokchandravanshi1988@gmail.com
+       Password: [Your App-Specific Password]
+   ✓ Use SSL
+   SMTP Port: 465
+   ```
+
+4. **Gmail App Password Setup** (Required for security):
+   - Go to: https://myaccount.google.com/apppasswords
+   - Sign in to your Google account
+   - Click "Select app" → Choose "Mail"
+   - Click "Select device" → Choose "Other (Custom name)" → Enter "Jenkins"
+   - Click "Generate"
+   - Copy the 16-character password (example: `abcd efgh ijkl mnop`)
+   - Paste this password in Jenkins SMTP Password field
+
+5. **Extended E-mail Notification** (for HTML emails):
+   - Scroll to "Extended E-mail Notification" section
+   - SMTP server: `smtp.gmail.com`
+   - SMTP Port: `465`
+   - Click "Advanced"
+   - ✓ Use SMTP Authentication
+   - User Name: `ashokchandravanshi1988@gmail.com`
+   - Password: [Same App-Specific Password]
+   - ✓ Use SSL
+   - Default Content Type: `text/html`
+
+6. **Test Email Configuration**:
+   - Check "✓ Test configuration by sending test e-mail"
+   - Test e-mail recipient: `ashokchandravanshi1988@gmail.com`
+   - Click "Test configuration"
+   - Should see: "Email was successfully sent"
+
+7. **Click Save**
+
+**Alternative SMTP Providers:**
+
+**Outlook/Hotmail:**
+```
+SMTP server: smtp-mail.outlook.com
+SMTP Port: 587
+Use TLS (not SSL)
+```
+
+**Office 365:**
+```
+SMTP server: smtp.office365.com
+SMTP Port: 587
+Use TLS
+```
+
+**Note**: After configuration, Jenkins will send HTML-formatted emails with:
+- ✅ Build status and number
+- ✅ Execution duration
+- ✅ Framework execution summary
+- ✅ Direct link to Jenkins build
+- ✅ Attached build logs
+
+---
 
 ### Python PATH Issues in Jenkins
 **Issue**: `'python' is not recognized as an internal or external command`

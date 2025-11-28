@@ -30,8 +30,8 @@ pipeline {
         )
         booleanParam(
             name: "RUN_JAVA_APPIUM",
-            defaultValue: false,
-            description: "Execute Java Appium Framework (DISABLED by default - enable only after successful master pipeline)"
+            defaultValue: true,
+            description: "Execute Java Appium Framework"
         )
         booleanParam(
             name: "RUN_PYTHON_SELENIUM",
@@ -214,13 +214,36 @@ pipeline {
             steps {
                 script {
                     try {
+                        echo "Sending email notification to: ashokchandravanshi1988@gmail.com"
                         emailext(
-                            subject: "Test Pipeline - ${currentBuild.currentResult}",
-                            body: "Build: ${env.BUILD_NUMBER} | Status: ${currentBuild.currentResult}",
-                            to: 'ashokchandravanshi1988@gmail.com'
+                            subject: "Jenkins Build ${currentBuild.currentResult}: techacademy-master-pipeline #${env.BUILD_NUMBER}",
+                            body: """<html>
+                                <body>
+                                    <h2>TechAcademy Master Pipeline - Build Report</h2>
+                                    <p><strong>Build Number:</strong> ${env.BUILD_NUMBER}</p>
+                                    <p><strong>Status:</strong> ${currentBuild.currentResult}</p>
+                                    <p><strong>Duration:</strong> ${currentBuild.durationString}</p>
+                                    <p><strong>Build URL:</strong> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+                                    <hr>
+                                    <h3>Frameworks Executed:</h3>
+                                    <ul>
+                                        <li>Java Selenium: ${params.RUN_JAVA_SELENIUM ? 'Enabled' : 'Disabled'}</li>
+                                        <li>Java Appium: ${params.RUN_JAVA_APPIUM ? 'Enabled' : 'Disabled'}</li>
+                                        <li>Python Selenium: ${params.RUN_PYTHON_SELENIUM ? 'Enabled' : 'Disabled'}</li>
+                                        <li>Python Playwright: ${params.RUN_PYTHON_PLAYWRIGHT ? 'Enabled' : 'Disabled'}</li>
+                                    </ul>
+                                    <p>Check Jenkins for detailed reports and logs.</p>
+                                </body>
+                            </html>""",
+                            to: 'ashokchandravanshi1988@gmail.com',
+                            mimeType: 'text/html',
+                            attachLog: true
                         )
+                        echo "Email sent successfully"
                     } catch (Exception e) {
-                        echo "Email notification skipped"
+                        echo "WARNING: Email notification failed - ${e.getMessage()}"
+                        echo "NOTE: Configure SMTP settings in Jenkins for email notifications"
+                        echo "Go to: Manage Jenkins → Configure System → E-mail Notification"
                     }
                 }
             }
