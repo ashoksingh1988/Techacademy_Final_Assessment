@@ -52,9 +52,15 @@ def browser(playwright_instance, browser_type_name, headless_mode):
     }
     
     browser_type = browser_types.get(browser_type_name, playwright_instance.chromium)
+    
+    # Launch args for maximized window
+    launch_args = []
+    if browser_type_name == 'chromium':
+        launch_args = ['--start-maximized', '--disable-blink-features=AutomationControlled']
+    
     browser = browser_type.launch(
         headless=headless_mode,
-        args=['--start-maximized'] if browser_type_name == 'chromium' else []
+        args=launch_args
     )
     yield browser
     browser.close()
@@ -63,8 +69,9 @@ def browser(playwright_instance, browser_type_name, headless_mode):
 @pytest.fixture(scope="function")
 def context(browser):
     """Create a new browser context for each test"""
+    # Use no_viewport for maximized window behavior
     context = browser.new_context(
-        viewport={'width': 1920, 'height': 1080},
+        no_viewport=True,
         ignore_https_errors=True
     )
     yield context
@@ -84,6 +91,15 @@ def pytest_runtest_makereport(item, call):
     """Hook to capture test results and take screenshots"""
     outcome = yield
     report = outcome.get_result()
+    
+    # Track pass/fail for summary
+    if report.when == "call":
+        if report.passed:
+            item.report_passed = True
+            item.report_failed = False
+        elif report.failed:
+            item.report_passed = False
+            item.report_failed = True
     
     if report.when == "call":
         # Get the page fixture if it exists
@@ -119,6 +135,10 @@ def pytest_configure(config):
     reports_dir = Path("reports")
     reports_dir.mkdir(exist_ok=True)
     
+    # Suppress GIL warning for greenlet
+    import warnings
+    warnings.filterwarnings('ignore', message='.*GIL.*greenlet.*', category=RuntimeWarning)
+    
     print("\n" + "="*70)
     print("PLAYWRIGHT AUTOMATION FRAMEWORK")
     print("="*70)
@@ -135,7 +155,17 @@ def pytest_sessionstart(session):
 
 def pytest_sessionfinish(session, exitstatus):
     """Called after test session finishes"""
+    # Calculate pass/fail counts
+    passed = sum(1 for item in session.items if hasattr(item, 'report_passed') and item.report_passed)
+    failed = sum(1 for item in session.items if hasattr(item, 'report_failed') and item.report_failed)
+    total = len(session.items)
+    
     print("\n" + "="*70)
-    print("TEST SESSION FINISHED")
+    print("TEST EXECUTION SUMMARY")
+    print("="*70)
+    print(f"Total Tests: {total}")
+    print(f"Passed: {passed} ✓")
+    print(f"Failed: {failed} ✗")
+    print(f"Success Rate: {(passed/total*100) if total > 0 else 0:.1f}%")
     print(f"Exit Status: {exitstatus}")
     print("="*70)
