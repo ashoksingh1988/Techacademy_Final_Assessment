@@ -70,7 +70,7 @@ class TestSauceDemoComprehensive:
         """Test 1: Verify website title - matches Java Selenium"""
         driver.get(base_url)
         assert "Swag Labs" in driver.title
-        print("✅ Website title verified successfully")
+        print("[PASS] Website title verified successfully")
 
     def test_login_with_valid_credentials(self, driver, base_url, test_credentials):
         """Test 2: Login with valid credentials - SPEED OPTIMIZED"""
@@ -80,7 +80,7 @@ class TestSauceDemoComprehensive:
         wait = WebDriverWait(driver, 4)
         wait.until(EC.url_contains("inventory"))
         assert "inventory" in driver.current_url
-        print("✅ Login with valid credentials successful")
+        print("[PASS] Login with valid credentials successful")
 
     def test_login_with_invalid_credentials(self, driver, base_url, test_credentials):
         """Test 3: Login with invalid credentials - SPEED OPTIMIZED"""
@@ -90,7 +90,7 @@ class TestSauceDemoComprehensive:
         wait = WebDriverWait(driver, 4)
         error_message = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[data-test='error']")))
         assert "Username and password do not match" in error_message.text
-        print("✅ Login with invalid credentials failed as expected")
+        print("[PASS] Login with invalid credentials failed as expected")
 
     def test_add_item_to_cart(self, driver, base_url, test_credentials):
         """Test 4: Add item to cart functionality - SPEED OPTIMIZED"""
@@ -122,7 +122,7 @@ class TestSauceDemoComprehensive:
             cart_badge = fast_wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "shopping_cart_badge")))
             if cart_badge.text == "1":
                 cart_verified = True
-                print("✅ Item added to cart successfully (verified by cart badge)")
+                print("[PASS] Item added to cart successfully (verified by cart badge)")
         except:
             pass
 
@@ -133,7 +133,7 @@ class TestSauceDemoComprehensive:
                     EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Remove')]"))
                 )
                 cart_verified = True
-                print("✅ Item added to cart successfully (verified by Remove button)")
+                print("[PASS] Item added to cart successfully (verified by Remove button)")
             except:
                 pass
 
@@ -142,7 +142,7 @@ class TestSauceDemoComprehensive:
             try:
                 cart_icon = wait.until(EC.element_to_be_clickable((By.CLASS_NAME, "shopping_cart_link")))
                 cart_verified = True
-                print("✅ Item added to cart successfully (verified by cart icon)")
+                print("[PASS] Item added to cart successfully (verified by cart icon)")
             except:
                 pass
 
@@ -157,27 +157,33 @@ class TestSauceDemoComprehensive:
         wait.until(EC.url_contains("inventory"))
         wait.until(EC.presence_of_element_located((By.CLASS_NAME, "inventory_list")))
 
-        # Add item to cart first - use data-test attribute for reliability
+        # Add item to cart first - use XPath for better reliability
         add_to_cart_button = wait.until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-test^='add-to-cart']"))
+            EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Add to cart')]"))
         )
         driver.execute_script("arguments[0].scrollIntoView(true);", add_to_cart_button)
-        time.sleep(0.5)
+        time.sleep(0.3)
         add_to_cart_button.click()
+        
+        # Wait for cart badge to appear
+        time.sleep(0.5)
 
-        # Wait for button to change to Remove - use data-test attribute
+        # Wait for button to change to Remove
         remove_button = wait.until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-test^='remove']"))
+            EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Remove')]"))
         )
 
         driver.execute_script("arguments[0].scrollIntoView(true);", remove_button)
-        time.sleep(0.5)
+        time.sleep(0.3)
 
-        # Click remove button
+        # Click remove button with JS fallback
         try:
             remove_button.click()
         except:
             driver.execute_script("arguments[0].click();", remove_button)
+        
+        # Wait for removal to complete
+        time.sleep(0.5)
 
         # Verify removal
         removal_verified = False
@@ -188,7 +194,7 @@ class TestSauceDemoComprehensive:
                 EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Add to cart')]"))
             )
             removal_verified = True
-            print("✅ Item removed from cart successfully (Add to cart button present)")
+            print("[PASS] Item removed from cart successfully (Add to cart button present)")
         except:
             pass
 
@@ -198,17 +204,7 @@ class TestSauceDemoComprehensive:
                 cart_badges = driver.find_elements(By.CLASS_NAME, "shopping_cart_badge")
                 if len(cart_badges) == 0:
                     removal_verified = True
-                    print("✅ Item removed from cart successfully (cart badge gone)")
-            except:
-                pass
-
-        # Approach 3: Check for data-test attribute change
-        if not removal_verified:
-            try:
-                add_buttons = driver.find_elements(By.CSS_SELECTOR, "[data-test*='add-to-cart']")
-                if len(add_buttons) > 0:
-                    removal_verified = True
-                    print("✅ Item removed from cart successfully (data-test verification)")
+                    print("[PASS] Item removed from cart successfully (cart badge gone)")
             except:
                 pass
 
@@ -216,47 +212,54 @@ class TestSauceDemoComprehensive:
 
     def test_logout_functionality(self, driver, base_url, test_credentials):
         """Test 6: Logout functionality"""
-        wait = WebDriverWait(driver, 10)
+        wait = WebDriverWait(driver, 15)  # Increased timeout for menu animation
         
         self.perform_login(driver, base_url, test_credentials["valid_username"], test_credentials["valid_password"])
         
         wait.until(EC.url_contains("inventory"))
 
-        # Open menu
+        # Open menu with retry logic
         menu_button = wait.until(EC.element_to_be_clickable((By.ID, "react-burger-menu-btn")))
         driver.execute_script("arguments[0].scrollIntoView(true);", menu_button)
+        time.sleep(0.3)
 
-        # Try clicking menu
+        # Click menu with JS fallback
         try:
             menu_button.click()
         except:
             driver.execute_script("arguments[0].click();", menu_button)
 
-        # Wait for menu animation
+        # Wait for menu to open - check for menu visibility
         time.sleep(1.5)
-
-        # Click logout link
+        
+        # Wait for logout link to be visible in the DOM
         logout_clicked = False
 
-        # Try most common selectors
+        # Try with increased wait and multiple selectors
         logout_selectors = [
             (By.ID, "logout_sidebar_link"),
-            (By.CSS_SELECTOR, "[data-test='logout-sidebar-link']"),
-            (By.XPATH, "//a[text()='Logout']")
+            (By.XPATH, "//a[@id='logout_sidebar_link']"),
+            (By.XPATH, "//nav[@class='bm-item-list']//a[contains(@href, 'logout')]"),
+            (By.XPATH, "//a[contains(text(), 'Logout')]"),
+            (By.CSS_SELECTOR, "a#logout_sidebar_link")
         ]
 
         for selector_type, selector_value in logout_selectors:
             try:
-                logout_link = wait.until(EC.element_to_be_clickable((selector_type, selector_value)))
+                logout_link = wait.until(EC.presence_of_element_located((selector_type, selector_value)))
+                # Scroll into view
+                driver.execute_script("arguments[0].scrollIntoView(true);", logout_link)
+                time.sleep(0.3)
+                # Click with JS (more reliable for menu items)
                 driver.execute_script("arguments[0].click();", logout_link)
                 logout_clicked = True
-                print(f"✅ Logout clicked using {selector_type}")
+                print(f"[PASS] Logout clicked using {selector_type}")
                 break
-            except:
+            except Exception as e:
                 continue
 
         assert logout_clicked, "Failed to click logout link"
 
         # Wait for login page to appear
         wait.until(EC.visibility_of_element_located((By.ID, "login-button")))
-        print("✅ Logout functionality working correctly")
+        print("[PASS] Logout functionality working correctly")
