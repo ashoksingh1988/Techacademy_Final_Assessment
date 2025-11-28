@@ -1,11 +1,8 @@
 pipeline {
     agent any
 
-    triggers {
-        // Poll GitHub every 5 minutes for changes
-        // Auto-triggers build when code is pushed to master branch
-        pollSCM('H/5 * * * *')
-    }
+    // Poll SCM disabled - use manual triggers or webhook for better control
+    // To re-enable: triggers { pollSCM('H/5 * * * *') }
 
     environment {
         MAVEN_HOME = 'C:\\\\Program Files\\\\Maven\\\\ApacheMaven\\\\apache-maven-3.9.11'
