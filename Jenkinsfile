@@ -40,8 +40,8 @@ pipeline {
         )
         booleanParam(
             name: "RUN_PYTHON_PLAYWRIGHT",
-            defaultValue: false,
-            description: "Execute Python Playwright Framework (DISABLED - focus on Selenium first)"
+            defaultValue: true,
+            description: "Execute Python Playwright Framework"
         )
         choice(
             name: "TEST_SUITE",
