@@ -20,8 +20,8 @@ pipeline {
     parameters {
         choice(
             name: "EXECUTION_MODE",
-            choices: ["parallel", "sequential", "selective"],
-            description: "How to execute the frameworks"
+            choices: ["sequential", "parallel", "selective"],
+            description: "How to execute the frameworks (default: sequential for auto-triggers)"
         )
         booleanParam(
             name: "RUN_JAVA_SELENIUM",
@@ -30,8 +30,8 @@ pipeline {
         )
         booleanParam(
             name: "RUN_JAVA_APPIUM",
-            defaultValue: true,
-            description: "Execute Java Appium Framework"
+            defaultValue: false,
+            description: "Execute Java Appium Framework (requires device connected)"
         )
         booleanParam(
             name: "RUN_PYTHON_SELENIUM",
@@ -46,12 +46,17 @@ pipeline {
         choice(
             name: "TEST_SUITE",
             choices: ["smoke", "regression", "full"],
-            description: "Test suite to execute across frameworks"
+            description: "Test suite to execute across frameworks (default: smoke for quick validation)"
         )
         choice(
             name: "ENVIRONMENT",
             choices: ["qa", "staging", "production"],
             description: "Target environment for testing"
+        )
+        booleanParam(
+            name: "HEADLESS_MODE",
+            defaultValue: true,
+            description: "Run tests in headless mode (true = faster CI/CD, false = visible browser for demo)"
         )
     }
 
@@ -59,6 +64,7 @@ pipeline {
         stage('Initialize') {
             steps {
                 echo "Starting TechAcademy Master Pipeline..."
+                echo "Triggered by: ${currentBuild.getBuildCauses()[0].shortDescription}"
                 echo "Execution Mode: ${params.EXECUTION_MODE}"
                 echo "Java Selenium: ${params.RUN_JAVA_SELENIUM}"
                 echo "Java Appium: ${params.RUN_JAVA_APPIUM}"
@@ -66,6 +72,7 @@ pipeline {
                 echo "Python Playwright: ${params.RUN_PYTHON_PLAYWRIGHT}"
                 echo "Test Suite: ${params.TEST_SUITE}"
                 echo "Environment: ${params.ENVIRONMENT}"
+                echo "Headless Mode: ${params.HEADLESS_MODE}"
             }
         }
 
@@ -125,8 +132,8 @@ pipeline {
                                 [$class: 'StringParameterValue', name: 'TEST_SUITE', value: seleniumSuite],
                                 [$class: 'StringParameterValue', name: 'BROWSER_TYPE', value: 'chrome'],
                                 [$class: 'StringParameterValue', name: 'ENVIRONMENT', value: params.ENVIRONMENT],
-                                [$class: 'BooleanParameterValue', name: 'HEADLESS_MODE', value: false], // Visible browser for demo
-                                [$class: 'BooleanParameterValue', name: 'MULTI_BROWSER', value: false] // Chrome only, no parallel execution
+                                [$class: 'BooleanParameterValue', name: 'HEADLESS_MODE', value: params.HEADLESS_MODE],
+                                [$class: 'BooleanParameterValue', name: 'MULTI_BROWSER', value: false]
                             ]
                         ])
                     }
@@ -138,7 +145,7 @@ pipeline {
                                 [$class: 'StringParameterValue', name: 'TEST_SUITE', value: params.TEST_SUITE],
                                 [$class: 'StringParameterValue', name: 'BROWSER_TYPE', value: 'chrome'],
                                 [$class: 'StringParameterValue', name: 'ENVIRONMENT', value: params.ENVIRONMENT],
-                                [$class: 'BooleanParameterValue', name: 'HEADLESS_MODE', value: false], // Visible browser for demo
+                                [$class: 'BooleanParameterValue', name: 'HEADLESS_MODE', value: params.HEADLESS_MODE],
                                 [$class: 'BooleanParameterValue', name: 'MULTI_BROWSER', value: false],
                                 [$class: 'BooleanParameterValue', name: 'PARALLEL_EXECUTION', value: false]
                             ]
@@ -152,7 +159,7 @@ pipeline {
                                 [$class: 'StringParameterValue', name: 'TEST_SUITE', value: params.TEST_SUITE],
                                 [$class: 'StringParameterValue', name: 'BROWSER_TYPE', value: 'chromium'],
                                 [$class: 'StringParameterValue', name: 'ENVIRONMENT', value: params.ENVIRONMENT],
-                                [$class: 'BooleanParameterValue', name: 'HEADLESS_MODE', value: false], // Visible browser for demo
+                                [$class: 'BooleanParameterValue', name: 'HEADLESS_MODE', value: params.HEADLESS_MODE],
                                 [$class: 'BooleanParameterValue', name: 'PARALLEL_EXECUTION', value: false]
                             ]
                         ])
