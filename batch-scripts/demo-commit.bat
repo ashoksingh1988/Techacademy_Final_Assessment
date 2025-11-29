@@ -1,7 +1,7 @@
 @echo off
 REM Demo commit script - Safely triggers Jenkins auto-build for demonstration
 
-cd /d "%~dp0"
+cd /d "%~dp0.."
 
 echo ========================================
 echo DEMO: AUTO-TRIGGER JENKINS BUILD
