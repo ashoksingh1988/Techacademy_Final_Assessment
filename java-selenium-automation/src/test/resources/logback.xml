@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- Console Appender with reduced verbosity -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Suppress excessive DEBUG logs from third-party libraries -->
+    
+    <!-- WebDriverManager - Only show INFO and above -->
+    <logger name="io.github.bonigarcia.wdm" level="INFO"/>
+    
+    <!-- Apache HTTP Client - Only show WARN and above (suppresses all HTTP wire logs) -->
+    <logger name="org.apache.hc" level="WARN"/>
+    <logger name="org.apache.hc.client5" level="WARN"/>
+    <logger name="org.apache.hc.client5.http.wire" level="WARN"/>
+    <logger name="org.apache.hc.client5.http.headers" level="WARN"/>
+    
+    <!-- Selenium WebDriver - Only show INFO -->
+    <logger name="org.openqa.selenium" level="INFO"/>
+    
+    <!-- TestNG - Only show INFO -->
+    <logger name="org.testng" level="INFO"/>
+    
+    <!-- Our application loggers - Keep at INFO level -->
+    <logger name="com.selenium" level="INFO"/>
+    
+    <!-- Root logger set to INFO (default for everything else) -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>
