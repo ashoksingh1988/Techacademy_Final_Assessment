@@ -114,6 +114,10 @@ pipeline {
                 dir('java-appium-automation') {
                     script {
                         try {
+                            // Find the latest HTML report
+                            def reportFiles = findFiles(glob: 'reports/*.html')
+                            def latestReport = reportFiles.size() > 0 ? reportFiles[-1].path : null
+                            
                             emailext(
                                 subject: "Java Appium Mobile Test - ${currentBuild.currentResult}",
                                 body: """<html>
@@ -127,13 +131,14 @@ pipeline {
                                         <p><strong>Test Suite:</strong> ${params.TEST_SUITE}</p>
                                         <p><strong>Device UDID:</strong> ${params.DEVICE_UDID}</p>
                                         <hr>
-                                        <p><strong>Attachments:</strong> See attached build.log</p>
+                                        <p><strong>Attachments:</strong> See attached report.html and build.log</p>
                                         <p>Test reports are archived in Jenkins artifacts.</p>
                                     </body>
                                 </html>""",
                                 to: "ashokchandravanshi1988@gmail.com",
                                 mimeType: 'text/html',
                                 attachLog: true,
+                                attachmentsPattern: latestReport ?: '',
                                 replyTo: 'ashokchandravanshi1988@gmail.com'
                             )
                         } catch (Exception e) {

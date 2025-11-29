@@ -232,9 +232,10 @@ pipeline {
                                         <li>Python Playwright: ${params.RUN_PYTHON_PLAYWRIGHT ? 'Enabled' : 'Disabled'}</li>
                                     </ul>
                                     <hr>
-                                    <p><strong>Consolidated Reports:</strong> See attached build.log</p>
+                                    <p><strong>Attachments:</strong> See attached build.log</p>
+                                    <p><strong>HTML Reports:</strong> Individual framework HTML reports are sent in separate emails.</p>
                                     <p>All framework reports are archived in Jenkins artifacts.</p>
-                                    <p>Check Jenkins for detailed HTML reports and logs.</p>
+                                    <p>Check Jenkins for detailed consolidated reports and logs.</p>
                                 </body>
                             </html>""",
                             to: 'ashokchandravanshi1988@gmail.com',
