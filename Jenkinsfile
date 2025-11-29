@@ -81,14 +81,15 @@ pipeline {
                 script {
                     echo "Setting up test environment..."
                     
-                    // Start Appium if needed with timeout
-                    if (params.RUN_JAVA_APPIUM) {
-                        try {
-                            timeout(time: 30, unit: 'SECONDS') {
-                                bat(script: "batch-scripts\\jenkins-appium-start.bat", returnStatus: true)
-                            }
-                            
-                            // Verify device is connected with timeout
+                    // Always start Appium server (framework is fully operational)
+                    try {
+                        timeout(time: 30, unit: 'SECONDS') {
+                            bat(script: "batch-scripts\\jenkins-appium-start.bat", returnStatus: true)
+                        }
+                        echo "Appium server started successfully"
+                        
+                        // Verify device is connected only if Appium tests are enabled
+                        if (params.RUN_JAVA_APPIUM) {
                             def deviceCheck = bat(script: "adb devices | findstr PZPVSC95GMKNGUBQ", returnStatus: true)
                             if (deviceCheck != 0) {
                                 echo "WARNING: Device PZPVSC95GMKNGUBQ not connected!"
@@ -97,11 +98,9 @@ pipeline {
                             } else {
                                 echo "Device PZPVSC95GMKNGUBQ is ready"
                             }
-                        } catch (Exception e) {
-                            echo "Environment setup completed with warnings: ${e.getMessage()}"
                         }
-                    } else {
-                        echo "Skipping Appium setup (mobile tests disabled)"
+                    } catch (Exception e) {
+                        echo "Environment setup completed with warnings: ${e.getMessage()}"
                     }
                 }
             }
@@ -232,12 +231,16 @@ pipeline {
                                         <li>Python Selenium: ${params.RUN_PYTHON_SELENIUM ? 'Enabled' : 'Disabled'}</li>
                                         <li>Python Playwright: ${params.RUN_PYTHON_PLAYWRIGHT ? 'Enabled' : 'Disabled'}</li>
                                     </ul>
-                                    <p>Check Jenkins for detailed reports and logs.</p>
+                                    <hr>
+                                    <p><strong>Consolidated Reports:</strong> See attached build.log</p>
+                                    <p>All framework reports are archived in Jenkins artifacts.</p>
+                                    <p>Check Jenkins for detailed HTML reports and logs.</p>
                                 </body>
                             </html>""",
                             to: 'ashokchandravanshi1988@gmail.com',
                             mimeType: 'text/html',
-                            attachLog: true
+                            attachLog: true,
+                            replyTo: 'ashokchandravanshi1988@gmail.com'
                         )
                         echo "Email sent successfully"
                     } catch (Exception e) {

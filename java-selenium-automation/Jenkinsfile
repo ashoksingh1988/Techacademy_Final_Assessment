@@ -81,14 +81,37 @@ pipeline {
 
         stage('Notification') {
             steps {
-                script {
-                    try {
-                        emailext(
-                            subject: "Selenium Test - ${currentBuild.currentResult}",
-                            body: "Build: ${env.BUILD_NUMBER} | Suite: ${params.TEST_SUITE} | Browser: ${params.BROWSER_TYPE}",
-                            to: "ashokchandravanshi1988@gmail.com"
-                        )
-                    } catch (Exception e) {}
+                dir('java-selenium-automation') {
+                    script {
+                        try {
+                            emailext(
+                                subject: "Java Selenium Web Test - ${currentBuild.currentResult}",
+                                body: """<html>
+                                    <body>
+                                        <h2>Java Selenium Web Test Report</h2>
+                                        <p><strong>Build Number:</strong> ${env.BUILD_NUMBER}</p>
+                                        <p><strong>Status:</strong> ${currentBuild.currentResult}</p>
+                                        <p><strong>Duration:</strong> ${currentBuild.durationString}</p>
+                                        <p><strong>Build URL:</strong> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+                                        <hr>
+                                        <p><strong>Test Suite:</strong> ${params.TEST_SUITE}</p>
+                                        <p><strong>Browser:</strong> ${params.BROWSER_TYPE}</p>
+                                        <p><strong>Environment:</strong> ${params.ENVIRONMENT}</p>
+                                        <p><strong>Headless Mode:</strong> ${params.HEADLESS_MODE}</p>
+                                        <hr>
+                                        <p><strong>Attachments:</strong> See attached build.log</p>
+                                        <p>Test reports are archived in Jenkins artifacts.</p>
+                                    </body>
+                                </html>""",
+                                to: "ashokchandravanshi1988@gmail.com",
+                                mimeType: 'text/html',
+                                attachLog: true,
+                                replyTo: 'ashokchandravanshi1988@gmail.com'
+                            )
+                        } catch (Exception e) {
+                            echo "Notification failed: ${e.getMessage()}"
+                        }
+                    }
                 }
             }
         }

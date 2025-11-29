@@ -121,15 +121,31 @@ pipeline {
 
         stage('Notification') {
             steps {
-                script {
-                    try {
-                        emailext(
-                            subject: "Python Playwright - ${currentBuild.currentResult}",
-                            body: "Build: ${env.BUILD_NUMBER} | Status: ${currentBuild.currentResult}",
-                            to: "ashokchandravanshi1988@gmail.com"
-                        )
-                    } catch (Exception e) {
-                        echo "Notification failed: ${e.getMessage()}"
+                dir('python-playwright-automation') {
+                    script {
+                        try {
+                            emailext(
+                                subject: "Python Playwright - ${currentBuild.currentResult}",
+                                body: """<html>
+                                    <body>
+                                        <h2>Python Playwright Test Report</h2>
+                                        <p><strong>Build Number:</strong> ${env.BUILD_NUMBER}</p>
+                                        <p><strong>Status:</strong> ${currentBuild.currentResult}</p>
+                                        <p><strong>Duration:</strong> ${currentBuild.durationString}</p>
+                                        <p><strong>Build URL:</strong> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+                                        <hr>
+                                        <p><strong>HTML Report:</strong> See attached report.html</p>
+                                        <p>Full test results are available in Jenkins artifacts.</p>
+                                    </body>
+                                </html>""",
+                                to: "ashokchandravanshi1988@gmail.com",
+                                mimeType: 'text/html',
+                                attachLog: true,
+                                attachmentsPattern: 'reports/report.html'
+                            )
+                        } catch (Exception e) {
+                            echo "Notification failed: ${e.getMessage()}"
+                        }
                     }
                 }
             }
