@@ -9,16 +9,16 @@ echo ========================================
 echo.
 
 REM Update timestamp in demo-trigger.txt automatically
-powershell -Command "(Get-Content demo-trigger.txt) -replace 'Last Demo Trigger:.*', 'Last Demo Trigger: %date% %time%' | Set-Content demo-trigger.txt"
+powershell -Command "(Get-Content batch-scripts\demo-trigger.txt) -replace 'Last Demo Trigger:.*', 'Last Demo Trigger: %date% %time%' | Set-Content batch-scripts\demo-trigger.txt"
 
 REM Increment demo count
-powershell -Command "$content = Get-Content demo-trigger.txt; $content -replace 'Demo Count: (\d+)', { 'Demo Count: ' + ([int]$matches[1] + 1) } | Set-Content demo-trigger.txt"
+powershell -Command "$content = Get-Content batch-scripts\demo-trigger.txt; $content -replace 'Demo Count: (\d+)', { 'Demo Count: ' + ([int]$matches[1] + 1) } | Set-Content batch-scripts\demo-trigger.txt"
 
 echo Modified demo-trigger.txt with new timestamp...
 echo.
 
 echo Adding changes to Git...
-git add demo-trigger.txt
+git add batch-scripts/demo-trigger.txt
 
 echo Committing demo change...
 git commit -m "Demo: Trigger Jenkins auto-build - timestamp update"

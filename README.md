@@ -48,11 +48,39 @@ SauceDemoAutomation/
 │   ├── tests/                          # Test cases
 │   └── conftest.py                     # Pytest fixtures
 │
+├── 🎭 python-playwright-automation/    # Python Playwright automation
+│   ├── pages/                          # Page objects
+│   ├── tests/                          # Test cases
+│   └── conftest.py                     # Pytest fixtures
+│
+├── 📚 framework-docs/                  # Framework documentation
+│   ├── FRAMEWORK_EXECUTION_GUIDE.md    # Complete execution guide
+│   ├── JAVA_APPIUM_FLOW.md             # Java Appium workflow
+│   ├── JAVA_SELENIUM_FLOW.md           # Java Selenium workflow
+│   ├── PYTHON_PLAYWRIGHT_FLOW.md       # Python Playwright workflow
+│   └── PYTHON_SELENIUM_FLOW.md         # Python Selenium workflow
+│
+├── 🔧 batch-scripts/                   # All batch files & utilities
+│   ├── run-java-appium.bat             # Execute Java Appium
+│   ├── run-python-selenium.bat         # Execute Python Selenium
+│   ├── run-python-playwright.bat       # Execute Python Playwright
+│   ├── jenkins-appium-start.bat        # Start Appium for Jenkins
+│   ├── jenkins-appium-stop.bat         # Stop Appium
+│   ├── git-commit.bat                  # Git commit & push
+│   ├── demo-commit.bat                 # Demo trigger script
+│   └── demo-trigger.txt                # Demo trigger file
+│
 └── 🔧 CI/CD Configuration
     ├── Jenkinsfile                     # Master pipeline orchestrator
     ├── */Jenkinsfile                   # Framework-specific pipelines
     └── .github/workflows/              # GitHub Actions
 ```
+
+### 📁 Folder Organization:
+
+- **`framework-docs/`** - All framework documentation and execution flow guides
+- **`batch-scripts/`** - All batch files, Git utilities, and demo scripts
+- **Framework folders** - Self-contained automation frameworks with their own Jenkinsfiles
 
 ---
 
@@ -116,7 +144,7 @@ pip install -r requirements.txt
 cd java-appium-automation
 mvn clean install
 # Start Appium server
-jenkins-appium-start.bat
+batch-scripts\jenkins-appium-start.bat
 ```
 
 ---

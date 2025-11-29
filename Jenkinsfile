@@ -85,7 +85,7 @@ pipeline {
                     if (params.RUN_JAVA_APPIUM) {
                         try {
                             timeout(time: 30, unit: 'SECONDS') {
-                                bat(script: "jenkins-appium-start.bat", returnStatus: true)
+                                bat(script: "batch-scripts\\jenkins-appium-start.bat", returnStatus: true)
                             }
                             
                             // Verify device is connected with timeout
@@ -254,7 +254,7 @@ pipeline {
         always {
             script {
                 try {
-                    bat "call jenkins-appium-stop.bat 2>nul"
+                    bat "call batch-scripts\\jenkins-appium-stop.bat 2>nul"
                 } catch (Exception e) {}
             }
             cleanWs()

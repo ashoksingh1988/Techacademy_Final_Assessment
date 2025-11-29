@@ -6,6 +6,22 @@
   <component name="ChangeListManager">
     <list default="true" id="35cda0f9-c071-4104-a304-fcc462a55ca9" name="Changes" comment="Added Jenkinsfile with corrected pipeline configuration_for running build_14">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FRAMEWORK_EXECUTION_GUIDE.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/JAVA_APPIUM_FLOW.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/JAVA_SELENIUM_FLOW.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jenkinsfile" beforeDir="false" afterPath="$PROJECT_DIR$/Jenkinsfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PYTHON_PLAYWRIGHT_FLOW.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PYTHON_SELENIUM_FLOW.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo-commit.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo-trigger.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/git-commit.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jenkins-appium-start.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jenkins-appium-stop.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/run-java-appium.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/run-python-playwright.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/run-python-selenium.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/run-testng.bat" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
