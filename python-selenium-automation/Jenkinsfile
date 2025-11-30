@@ -140,7 +140,9 @@ pipeline {
                                 </html>""",
                                 to: "ashokchandravanshi1988@gmail.com",
                                 mimeType: 'text/html',
+                                from: 'ashokchandravanshi1988@gmail.com',
                                 attachLog: true,
+                                compressLog: true,
                                 attachmentsPattern: 'reports/report.html',
                                 replyTo: 'ashokchandravanshi1988@gmail.com'
                             )

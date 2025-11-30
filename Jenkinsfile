@@ -183,13 +183,25 @@ pipeline {
             steps {
                 script {
                     try {
-                        bat """
-                            if not exist consolidated-reports mkdir consolidated-reports
-                            if exist java-selenium-automation\\target\\surefire-reports xcopy java-selenium-automation\\target\\surefire-reports consolidated-reports\\selenium\\ /E /I /Y 2>nul
-                            if exist java-appium-automation\\target\\surefire-reports xcopy java-appium-automation\\target\\surefire-reports consolidated-reports\\appium\\ /E /I /Y 2>nul
-                            if exist python-selenium-automation\\reports xcopy python-selenium-automation\\reports consolidated-reports\\python-selenium\\ /E /I /Y 2>nul
-                            if exist python-playwright-automation\\reports xcopy python-playwright-automation\\reports consolidated-reports\\python-playwright\\ /E /I /Y 2>nul
-                        """
+                        // Create destination folders
+                        bat "if not exist consolidated-reports mkdir consolidated-reports"
+                        
+                        // Copy HTML reports from child jobs (requires Copy Artifact plugin)
+                        if (params.RUN_JAVA_SELENIUM) {
+                            copyArtifacts(projectName: 'java-selenium-pipeline', selector: lastSuccessful(), filter: 'reports/*.html', target: 'consolidated-reports/selenium', optional: true)
+                        }
+                        if (params.RUN_JAVA_APPIUM) {
+                            copyArtifacts(projectName: 'java-appium-pipeline', selector: lastSuccessful(), filter: 'reports/*.html', target: 'consolidated-reports/appium', optional: true)
+                        }
+                        if (params.RUN_PYTHON_SELENIUM) {
+                            copyArtifacts(projectName: 'python-selenium-pipeline', selector: lastSuccessful(), filter: 'reports/report.html', target: 'consolidated-reports/python-selenium', optional: true)
+                        }
+                        if (params.RUN_PYTHON_PLAYWRIGHT) {
+                            copyArtifacts(projectName: 'python-playwright-pipeline', selector: lastSuccessful(), filter: 'reports/report.html', target: 'consolidated-reports/python-playwright', optional: true)
+                        }
+                        
+                        // Archive consolidated reports
+                        archiveArtifacts artifacts: 'consolidated-reports/**/*', allowEmptyArchive: true
                     } catch (Exception e) {
                         echo "Report consolidation: ${e.getMessage()}"
                     }
@@ -232,15 +244,24 @@ pipeline {
                                         <li>Python Playwright: ${params.RUN_PYTHON_PLAYWRIGHT ? 'Enabled' : 'Disabled'}</li>
                                     </ul>
                                     <hr>
-                                    <p><strong>Attachments:</strong> See attached build.log</p>
-                                    <p><strong>HTML Reports:</strong> Individual framework HTML reports are sent in separate emails.</p>
-                                    <p>All framework reports are archived in Jenkins artifacts.</p>
-                                    <p>Check Jenkins for detailed consolidated reports and logs.</p>
+                                    <p><strong>Attachments:</strong> Consolidated HTML reports and build.log attached.</p>
+                                    <p><strong>HTML Reports:</strong> Individual framework reports included as attachments.</p>
+                                    <p>All reports are archived in Jenkins artifacts.</p>
+                                    <hr>
+                                    <h3>Quick Links to HTML Reports</h3>
+                                    <ul>
+                                        <li><a href="http://localhost:8080/job/java-selenium-pipeline/lastSuccessfulBuild/">Java Selenium - Last Successful Build</a></li>
+                                        <li><a href="http://localhost:8080/job/java-appium-pipeline/lastSuccessfulBuild/">Java Appium - Last Successful Build</a></li>
+                                        <li><a href="http://localhost:8080/job/python-selenium-pipeline/lastSuccessfulBuild/artifact/reports/report.html">Python Selenium - HTML Report</a></li>
+                                        <li><a href="http://localhost:8080/job/python-playwright-pipeline/lastSuccessfulBuild/artifact/reports/report.html">Python Playwright - HTML Report</a></li>
+                                    </ul>
                                 </body>
                             </html>""",
                             to: 'ashokchandravanshi1988@gmail.com',
                             mimeType: 'text/html',
+                            from: 'ashokchandravanshi1988@gmail.com',
                             attachLog: true,
+                            attachmentsPattern: 'consolidated-reports/**/*.html',
                             replyTo: 'ashokchandravanshi1988@gmail.com'
                         )
                         echo "Email sent successfully"
