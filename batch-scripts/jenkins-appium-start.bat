@@ -11,7 +11,7 @@ if %errorlevel% equ 0 (
 
 REM Start Appium in background
 echo Starting Appium server...
-start "AppiumServer" /MIN appium --allow-insecure chromedriver_autodownload
+start "AppiumServer" /MIN C:\Users\Asim\AppData\Roaming\npm\appium.cmd --allow-insecure chromedriver_autodownload
 
 REM Wait for Appium to be ready (max 10 seconds)
 for /L %%i in (1,1,10) do (
