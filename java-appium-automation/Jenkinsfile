@@ -101,10 +101,12 @@ pipeline {
 
         stage('Generate Reports') {
             steps {
-                script {
-                    try {
-                        archiveArtifacts artifacts: 'target/surefire-reports/**/*,reports/**/*', allowEmptyArchive: true
-                    } catch (Exception e) {}
+                dir('java-appium-automation') {
+                    script {
+                        try {
+                            archiveArtifacts artifacts: 'target/surefire-reports/**/*,reports/**/*', allowEmptyArchive: true
+                        } catch (Exception e) {}
+                    }
                 }
             }
         }

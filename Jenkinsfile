@@ -183,21 +183,50 @@ pipeline {
             steps {
                 script {
                     try {
-                        // Create destination folders
-                        bat "if not exist consolidated-reports mkdir consolidated-reports"
+                        // Clean up old consolidated reports to avoid accumulation
+                        bat "if exist consolidated-reports rmdir /s /q consolidated-reports"
+                        bat "mkdir consolidated-reports"
                         
-                        // Copy HTML reports from child jobs (requires Copy Artifact plugin)
+                        // Copy ONLY the latest HTML reports from child jobs (requires Copy Artifact plugin)
                         if (params.RUN_JAVA_SELENIUM) {
-                            copyArtifacts(projectName: 'java-selenium-pipeline', selector: lastSuccessful(), filter: 'reports/*.html', target: 'consolidated-reports/selenium', optional: true)
+                            copyArtifacts(
+                                projectName: 'java-selenium-pipeline', 
+                                selector: lastSuccessful(), 
+                                filter: 'reports/*.html', 
+                                target: 'consolidated-reports/selenium',
+                                flatten: false,
+                                optional: true
+                            )
                         }
                         if (params.RUN_JAVA_APPIUM) {
-                            copyArtifacts(projectName: 'java-appium-pipeline', selector: lastSuccessful(), filter: 'reports/*.html', target: 'consolidated-reports/appium', optional: true)
+                            copyArtifacts(
+                                projectName: 'java-appium-pipeline', 
+                                selector: lastSuccessful(), 
+                                filter: 'reports/*.html', 
+                                target: 'consolidated-reports/appium',
+                                flatten: false,
+                                optional: true
+                            )
                         }
                         if (params.RUN_PYTHON_SELENIUM) {
-                            copyArtifacts(projectName: 'python-selenium-pipeline', selector: lastSuccessful(), filter: 'reports/report.html', target: 'consolidated-reports/python-selenium', optional: true)
+                            copyArtifacts(
+                                projectName: 'python-selenium-pipeline', 
+                                selector: lastSuccessful(), 
+                                filter: 'reports/report.html', 
+                                target: 'consolidated-reports/python-selenium',
+                                flatten: false,
+                                optional: true
+                            )
                         }
                         if (params.RUN_PYTHON_PLAYWRIGHT) {
-                            copyArtifacts(projectName: 'python-playwright-pipeline', selector: lastSuccessful(), filter: 'reports/report.html', target: 'consolidated-reports/python-playwright', optional: true)
+                            copyArtifacts(
+                                projectName: 'python-playwright-pipeline', 
+                                selector: lastSuccessful(), 
+                                filter: 'reports/report.html', 
+                                target: 'consolidated-reports/python-playwright',
+                                flatten: false,
+                                optional: true
+                            )
                         }
                         
                         // Archive consolidated reports
