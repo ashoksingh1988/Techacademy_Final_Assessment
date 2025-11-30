@@ -2,6 +2,9 @@
 setlocal enabledelayedexpansion
 REM Jenkins Appium & Device Setup - Non-blocking
 
+REM Set Node.js path for Jenkins compatibility
+set PATH=C:\Program Files\nodejs;%PATH%
+
 REM Check if Appium already running
 curl -s --max-time 1 http://127.0.0.1:4723/status >nul 2>&1
 if %errorlevel% equ 0 (
@@ -9,9 +12,9 @@ if %errorlevel% equ 0 (
     goto :verify_device
 )
 
-REM Start Appium in background
+REM Start Appium in background with full path to Node.exe and Appium main script
 echo Starting Appium server...
-start "AppiumServer" /MIN C:\Users\Asim\AppData\Roaming\npm\appium.cmd --allow-insecure chromedriver_autodownload
+start "AppiumServer" /MIN "C:\Program Files\nodejs\node.exe" "C:\Users\Asim\AppData\Roaming\npm\node_modules\appium\build\lib\main.js" --allow-insecure chromedriver_autodownload
 
 REM Wait for Appium to be ready (max 10 seconds)
 for /L %%i in (1,1,10) do (
