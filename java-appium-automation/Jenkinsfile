@@ -38,7 +38,7 @@ pipeline {
                     echo "Setting up Appium and verifying device..."
                     try {
                         timeout(time: 20, unit: 'SECONDS') {
-                            bat(script: "cd .. && jenkins-appium-start.bat", returnStatus: true)
+                            bat(script: "cd batch-scripts && jenkins-appium-start.bat", returnStatus: true)
                         }
                     } catch (Exception e) {
                         echo "WARNING: Environment setup issue - ${e.getMessage()}"
