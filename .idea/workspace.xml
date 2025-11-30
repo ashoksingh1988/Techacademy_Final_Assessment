@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35cda0f9-c071-4104-a304-fcc462a55ca9" name="Changes" comment="Added Jenkinsfile with corrected pipeline configuration_for running build_14">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/batch-scripts/jenkins-appium-start.bat" beforeDir="false" afterPath="$PROJECT_DIR$/batch-scripts/jenkins-appium-start.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-appium-automation/src/main/java/com/appium/core/DriverFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-appium-automation/src/main/java/com/appium/core/DriverFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/batch-scripts/start-appium-service.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/batch-scripts/start-appium-service.ps1" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

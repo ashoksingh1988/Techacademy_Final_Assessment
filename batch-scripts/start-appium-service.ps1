@@ -20,7 +20,7 @@ function Start-AppiumService {
     
     $job = Start-Job -ScriptBlock {
         param($nodePath, $appiumMainScript)
-        & $nodePath $appiumMainScript --allow-insecure chromedriver_autodownload
+        & $nodePath $appiumMainScript
     } -ArgumentList $nodePath, $appiumMainScript
     
     Write-Host "Appium job started with ID: $($job.Id)" -ForegroundColor Green
