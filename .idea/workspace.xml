@@ -6,22 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="35cda0f9-c071-4104-a304-fcc462a55ca9" name="Changes" comment="Added Jenkinsfile with corrected pipeline configuration_for running build_14">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FRAMEWORK_EXECUTION_GUIDE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/JAVA_APPIUM_FLOW.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/JAVA_SELENIUM_FLOW.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Jenkinsfile" beforeDir="false" afterPath="$PROJECT_DIR$/Jenkinsfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PYTHON_PLAYWRIGHT_FLOW.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PYTHON_SELENIUM_FLOW.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo-commit.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo-trigger.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/git-commit.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jenkins-appium-start.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jenkins-appium-stop.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/run-java-appium.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/run-python-playwright.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/run-python-selenium.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/run-testng.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/batch-scripts/jenkins-appium-start.bat" beforeDir="false" afterPath="$PROJECT_DIR$/batch-scripts/jenkins-appium-start.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/java-appium-automation/src/main/java/com/appium/core/DriverFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-appium-automation/src/main/java/com/appium/core/DriverFactory.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +46,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Batch.demo-commit.executor": "Run",
     "Batch.git-commit.executor": "Run",
     "Batch.run-testng.executor": "Run",
     "Batch.run-tests.executor": "Run",
@@ -110,24 +97,24 @@
       <command value="mvn test -DsuiteXmlFile=testng.xml " />
     </option>
   </component>
-  <component name="RunManager" selected="Batch.git-commit">
+  <component name="RunManager" selected="Batch.demo-commit">
+    <configuration name="demo-commit" type="BatchConfigurationType" factoryName="Batch" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\Asim\IdeaProjects\SauceDemoAutomation\batch-scripts" />
+      <option name="PARENT_ENVS" value="true" />
+      <module name="" />
+      <option name="SCRIPT_NAME" value="demo-commit.bat" />
+      <option name="PARAMETERS" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="git-commit" type="BatchConfigurationType" factoryName="Batch" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="PARENT_ENVS" value="true" />
       <module name="" />
       <option name="SCRIPT_NAME" value="git-commit.bat" />
-      <option name="PARAMETERS" value="" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="run-tests" type="BatchConfigurationType" factoryName="Batch" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="WORKING_DIRECTORY" value="./java-appium-automation/scripts" />
-      <option name="PARENT_ENVS" value="true" />
-      <module name="" />
-      <option name="SCRIPT_NAME" value="run-tests.bat" />
       <option name="PARAMETERS" value="" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -167,19 +154,19 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Batch.demo-commit" />
       <item itemvalue="Batch.git-commit" />
-      <item itemvalue="Batch.run-tests" />
       <item itemvalue="Batch.run_tests" />
       <item itemvalue="Batch.setup-appium" />
       <item itemvalue="Batch.setup-environment" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Batch.demo-commit" />
         <item itemvalue="Batch.git-commit" />
         <item itemvalue="Batch.run_tests" />
         <item itemvalue="Batch.setup-environment" />
         <item itemvalue="Batch.setup-appium" />
-        <item itemvalue="Batch.run-tests" />
       </list>
     </recent_temporary>
   </component>

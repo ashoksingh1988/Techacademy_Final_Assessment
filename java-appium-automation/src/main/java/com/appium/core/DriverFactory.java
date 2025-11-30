@@ -124,6 +124,13 @@ public class DriverFactory {
         
         if (driver != null) {
             try {
+                // Terminate the app to ensure it closes on the device
+                String currentPackage = getCurrentAppPackage(driver);
+                if (currentPackage != null && !currentPackage.isEmpty()) {
+                    logger.info("Terminating app: {}", currentPackage);
+                    driver.terminateApp(currentPackage);
+                }
+                
                 driver.quit();
                 logger.info("Driver quit successfully for thread: {}", threadName);
             } catch (Exception e) {
@@ -143,6 +150,12 @@ public class DriverFactory {
         activeDrivers.values().parallelStream().forEach(driver -> {
             try {
                 if (driver != null) {
+                    // Terminate the app before quitting driver
+                    String currentPackage = getCurrentAppPackage(driver);
+                    if (currentPackage != null && !currentPackage.isEmpty()) {
+                        logger.info("Terminating app: {}", currentPackage);
+                        driver.terminateApp(currentPackage);
+                    }
                     driver.quit();
                 }
             } catch (Exception e) {
@@ -161,5 +174,18 @@ public class DriverFactory {
     
     private static String getAppiumServerUrl() {
         return ConfigurationManager.getInstance().getProperty("appium.server.url", DEFAULT_APPIUM_URL);
+    }
+    
+    /**
+     * Safely gets the current app package from driver capabilities
+     */
+    private static String getCurrentAppPackage(AndroidDriver driver) {
+        try {
+            Object appPackage = driver.getCapabilities().getCapability("appPackage");
+            return appPackage != null ? appPackage.toString() : null;
+        } catch (Exception e) {
+            logger.warn("Unable to get current app package: {}", e.getMessage());
+            return null;
+        }
     }
 }
