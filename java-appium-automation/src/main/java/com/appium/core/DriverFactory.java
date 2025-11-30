@@ -128,7 +128,20 @@ public class DriverFactory {
                 String currentPackage = getCurrentAppPackage(driver);
                 if (currentPackage != null && !currentPackage.isEmpty()) {
                     logger.info("Terminating app: {}", currentPackage);
-                    driver.terminateApp(currentPackage);
+                    try {
+                        driver.terminateApp(currentPackage);
+                    } catch (Exception e) {
+                        logger.warn("Failed to terminate app normally, trying force stop: {}", e.getMessage());
+                        // Try to force close the app using ADB command
+                        executeAdbCommand("adb shell am force-stop " + currentPackage);
+                    }
+                }
+                
+                // Close all apps to ensure clean state
+                try {
+                    driver.closeApp();
+                } catch (Exception e) {
+                    logger.warn("Failed to close app normally: {}", e.getMessage());
                 }
                 
                 driver.quit();
@@ -154,8 +167,22 @@ public class DriverFactory {
                     String currentPackage = getCurrentAppPackage(driver);
                     if (currentPackage != null && !currentPackage.isEmpty()) {
                         logger.info("Terminating app: {}", currentPackage);
-                        driver.terminateApp(currentPackage);
+                        try {
+                            driver.terminateApp(currentPackage);
+                        } catch (Exception e) {
+                            logger.warn("Failed to terminate app normally, trying force stop: {}", e.getMessage());
+                            // Try to force close the app using ADB command
+                            executeAdbCommand("adb shell am force-stop " + currentPackage);
+                        }
                     }
+                    
+                    // Close all apps to ensure clean state
+                    try {
+                        driver.closeApp();
+                    } catch (Exception e) {
+                        logger.warn("Failed to close app normally: {}", e.getMessage());
+                    }
+                    
                     driver.quit();
                 }
             } catch (Exception e) {
@@ -186,6 +213,24 @@ public class DriverFactory {
         } catch (Exception e) {
             logger.warn("Unable to get current app package: {}", e.getMessage());
             return null;
+        }
+    }
+    
+    /**
+     * Executes an ADB command
+     */
+    private static void executeAdbCommand(String command) {
+        try {
+            logger.info("Executing ADB command: {}", command);
+            Process process = Runtime.getRuntime().exec(command);
+            int exitCode = process.waitFor();
+            if (exitCode == 0) {
+                logger.info("ADB command executed successfully");
+            } else {
+                logger.warn("ADB command failed with exit code: {}", exitCode);
+            }
+        } catch (Exception e) {
+            logger.warn("Failed to execute ADB command: {}", e.getMessage());
         }
     }
 }

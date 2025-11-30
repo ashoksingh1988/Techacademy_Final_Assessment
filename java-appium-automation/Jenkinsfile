@@ -104,7 +104,7 @@ pipeline {
                 dir('java-appium-automation') {
                     script {
                         try {
-                            archiveArtifacts artifacts: 'target/surefire-reports/**/*,reports/**/*', allowEmptyArchive: true
+                            archiveArtifacts artifacts: 'target/surefire-reports/**/*,reports/**/*,reports/screenshots/**/*', allowEmptyArchive: true
                         } catch (Exception e) {}
                     }
                 }
@@ -115,37 +115,55 @@ pipeline {
             steps {
                 dir('java-appium-automation') {
                     script {
-                        try {
-                            // Find the latest HTML report
-                            def reportFiles = findFiles(glob: 'reports/*.html')
-                            def latestReport = reportFiles.size() > 0 ? reportFiles[-1].path : null
-                            
-                            emailext(
-                                subject: "Java Appium Mobile Test - ${currentBuild.currentResult}",
-                                body: """<html>
-                                    <body>
-                                        <h2>Java Appium Mobile Test Report</h2>
-                                        <p><strong>Build Number:</strong> ${env.BUILD_NUMBER}</p>
-                                        <p><strong>Status:</strong> ${currentBuild.currentResult}</p>
-                                        <p><strong>Duration:</strong> ${currentBuild.durationString}</p>
-                                        <p><strong>Build URL:</strong> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
-                                        <hr>
-                                        <p><strong>Test Suite:</strong> ${params.TEST_SUITE}</p>
-                                        <p><strong>Device UDID:</strong> ${params.DEVICE_UDID}</p>
-                                        <hr>
-                                        <p><strong>Attachments:</strong> See attached report.html and build.log</p>
-                                        <p>Test reports are archived in Jenkins artifacts.</p>
-                                    </body>
-                                </html>""",
-                                to: "ashokchandravanshi1988@gmail.com",
-                                mimeType: 'text/html',
-                                from: 'ashokchandravanshi1988@gmail.com',
-                                attachLog: true,
-                                attachmentsPattern: latestReport ?: '',
-                                replyTo: 'ashokchandravanshi1988@gmail.com'
-                            )
-                        } catch (Exception e) {
-                            echo "Notification failed: ${e.getMessage()}"
+                        // Check if this build was triggered by the master pipeline
+                        def triggeredByMaster = false
+                        def causes = currentBuild.getBuildCauses()
+                        for (def cause : causes) {
+                            if (cause._class == "org.jenkinsci.plugins.workflow.support.steps.build.BuildUpstreamCause" ||
+                                (cause._class == "hudson.model.Cause$UpstreamCause" && 
+                                 cause.shortDescription.contains("techacademy-master-pipeline"))) {
+                                triggeredByMaster = true
+                                break
+                            }
+                        }
+                        
+                        // Only send individual email if NOT triggered by master pipeline
+                        if (!triggeredByMaster) {
+                            try {
+                                // Find the latest HTML report
+                                def reportFiles = findFiles(glob: 'reports/*.html')
+                                def latestReport = reportFiles.size() > 0 ? reportFiles[-1].path : null
+                                
+                                emailext(
+                                    subject: "Java Appium Mobile Test - ${currentBuild.currentResult} - Build #${env.BUILD_NUMBER}",
+                                    body: """<html>
+                                        <body>
+                                            <h2>Java Appium Mobile Test Report</h2>
+                                            <p><strong>Build Number:</strong> ${env.BUILD_NUMBER}</p>
+                                            <p><strong>Status:</strong> ${currentBuild.currentResult}</p>
+                                            <p><strong>Duration:</strong> ${currentBuild.durationString}</p>
+                                            <p><strong>Build URL:</strong> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+                                            <hr>
+                                            <p><strong>Test Suite:</strong> ${params.TEST_SUITE}</p>
+                                            <p><strong>Device UDID:</strong> ${params.DEVICE_UDID}</p>
+                                            <hr>
+                                            <p><strong>Attachments:</strong> See attached report.html, build.log, and screenshots</p>
+                                            <p>Test reports and screenshots are archived in Jenkins artifacts.</p>
+                                            <p><strong>Screenshots:</strong> Failure screenshots are included in reports/screenshots/failure/ directory</p>
+                                        </body>
+                                    </html>""",
+                                    to: "ashokchandravanshi1988@gmail.com",
+                                    mimeType: 'text/html',
+                                    from: 'ashokchandravanshi1988@gmail.com',
+                                    attachLog: true,
+                                    attachmentsPattern: (latestReport ?: '') + ',reports/screenshots/**/*.png',
+                                    replyTo: 'ashokchandravanshi1988@gmail.com'
+                                )
+                            } catch (Exception e) {
+                                echo "Notification failed: ${e.getMessage()}"
+                            }
+                        } else {
+                            echo "Skipping individual notification as this build was triggered by master pipeline"
                         }
                     }
                 }

@@ -105,7 +105,7 @@ pipeline {
                                 reportFiles: 'report.html',
                                 reportName: 'Python Test Report'
                             ])
-                            archiveArtifacts artifacts: 'reports/**/*', allowEmptyArchive: true
+                            archiveArtifacts artifacts: 'reports/**/*,reports/screenshots/**/*.png', allowEmptyArchive: true
                         } catch (Exception e) {
                             echo "Report publishing failed: ${e.getMessage()}"
                         }
@@ -118,36 +118,54 @@ pipeline {
             steps {
                 dir('python-selenium-automation') {
                     script {
-                        try {
-                            emailext(
-                                subject: "Python Selenium - ${currentBuild.currentResult}",
-                                body: """<html>
-                                    <body>
-                                        <h2>Python Selenium Test Report</h2>
-                                        <p><strong>Build Number:</strong> ${env.BUILD_NUMBER}</p>
-                                        <p><strong>Status:</strong> ${currentBuild.currentResult}</p>
-                                        <p><strong>Duration:</strong> ${currentBuild.durationString}</p>
-                                        <p><strong>Build URL:</strong> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
-                                        <hr>
-                                        <p><strong>Test Suite:</strong> ${params.TEST_SUITE}</p>
-                                        <p><strong>Browser:</strong> ${params.BROWSER_TYPE}</p>
-                                        <p><strong>Environment:</strong> ${params.ENVIRONMENT}</p>
-                                        <p><strong>Headless Mode:</strong> ${params.HEADLESS_MODE}</p>
-                                        <hr>
-                                        <p><strong>HTML Report:</strong> See attached report.html</p>
-                                        <p>Full test results are available in Jenkins artifacts.</p>
-                                    </body>
-                                </html>""",
-                                to: "ashokchandravanshi1988@gmail.com",
-                                mimeType: 'text/html',
-                                from: 'ashokchandravanshi1988@gmail.com',
-                                attachLog: true,
-                                compressLog: true,
-                                attachmentsPattern: 'reports/report.html',
-                                replyTo: 'ashokchandravanshi1988@gmail.com'
-                            )
-                        } catch (Exception e) {
-                            echo "Notification failed: ${e.getMessage()}"
+                        // Check if this build was triggered by the master pipeline
+                        def triggeredByMaster = false
+                        def causes = currentBuild.getBuildCauses()
+                        for (def cause : causes) {
+                            if (cause._class == "org.jenkinsci.plugins.workflow.support.steps.build.BuildUpstreamCause" ||
+                                (cause._class == "hudson.model.Cause$UpstreamCause" && 
+                                 cause.shortDescription.contains("techacademy-master-pipeline"))) {
+                                triggeredByMaster = true
+                                break
+                            }
+                        }
+                        
+                        // Only send individual email if NOT triggered by master pipeline
+                        if (!triggeredByMaster) {
+                            try {
+                                emailext(
+                                    subject: "Python Selenium - ${currentBuild.currentResult} - Build #${env.BUILD_NUMBER}",
+                                    body: """<html>
+                                        <body>
+                                            <h2>Python Selenium Test Report</h2>
+                                            <p><strong>Build Number:</strong> ${env.BUILD_NUMBER}</p>
+                                            <p><strong>Status:</strong> ${currentBuild.currentResult}</p>
+                                            <p><strong>Duration:</strong> ${currentBuild.durationString}</p>
+                                            <p><strong>Build URL:</strong> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+                                            <hr>
+                                            <p><strong>Test Suite:</strong> ${params.TEST_SUITE}</p>
+                                            <p><strong>Browser:</strong> ${params.BROWSER_TYPE}</p>
+                                            <p><strong>Environment:</strong> ${params.ENVIRONMENT}</p>
+                                            <p><strong>Headless Mode:</strong> ${params.HEADLESS_MODE}</p>
+                                            <hr>
+                                            <p><strong>HTML Report:</strong> See attached report.html</p>
+                                            <p>Full test results and screenshots are available in Jenkins artifacts.</p>
+                                            <p><strong>Screenshots:</strong> Failure screenshots are included in reports/screenshots/failure/ directory</p>
+                                        </body>
+                                    </html>""",
+                                    to: "ashokchandravanshi1988@gmail.com",
+                                    mimeType: 'text/html',
+                                    from: 'ashokchandravanshi1988@gmail.com',
+                                    attachLog: true,
+                                    compressLog: true,
+                                    attachmentsPattern: 'reports/report.html,reports/screenshots/**/*.png',
+                                    replyTo: 'ashokchandravanshi1988@gmail.com'
+                                )
+                            } catch (Exception e) {
+                                echo "Notification failed: ${e.getMessage()}"
+                            }
+                        } else {
+                            echo "Skipping individual notification as this build was triggered by master pipeline"
                         }
                     }
                 }
